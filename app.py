@@ -3,7 +3,7 @@ import streamlit as st
 dictt={}
 st.set_page_config(page_title="Daily Production Stats")
 
-date=st.text_inputs("date: ")
+date=st.text_input("date: ")
 st.session_state.inputs=1
 def add_input():
     st.session_state.inputs=st.session_state.inputs+1
