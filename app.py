@@ -41,7 +41,7 @@ if st.button("Submit"):
         obj.update_daily_production_table(df)
         df2=obj.fetch_daily_production_table()
     else:
-        continue
+        pass
     colss=st.columns(2)
     colss[0].write(df)
     colss[1].write(df2)
