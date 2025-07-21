@@ -2,7 +2,7 @@ import streamlit as st
 
 dictt={}
 st.set_page_config(page_title="Daily Production Stats", page_icon=":robot:")
-# st.header("Daily Production Stats")
+st.header("Production Stats")
 date=st.text_input("date: ")
 st.session_state.inputs=1
 def add_inputs():
