@@ -6,7 +6,7 @@ st.header("Production Stats")
 date=st.text_input("date: ")
 st.session_state.inputs=1
 def add_inputs():
-    st.session_state.inputs=+=1
+    st.session_state.inputs+=1
 
 press=st.button("Click here if you want to put more options: ", on_click=add_inputs)
 for i in range(st.session_state.inputs):
