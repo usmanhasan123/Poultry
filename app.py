@@ -7,10 +7,11 @@ date=st.text_input("date: ")
 st.session_state.inputs=1
 def add_inputs():
     st.session_state.inputs+=1
-
+i=0
 press=st.button("Click here if you want to put more options: ", on_click=add_inputs())
 if press:
-    st.write(st.session_state.inputs)
+    st.write(i)
+    i=i+1
     # cols=st.columns(6)
     # no_of_patty_gone=cols[0].text_input("no of patty gone: ", key=f"patty_{i}")
     # egg_type=cols[1].text_input("egg type: ", key=f"type_{i}")
