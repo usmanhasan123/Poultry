@@ -16,8 +16,9 @@ class production_class:
         'Trusted_Connection=yes;'
         )
         return conn
-        
-    def insert_in_daily_report(self, conn): # need to replace if date is repeated
+
+    def insert_in_daily_report(self): # need to replace if date is repeated
+        conn=self.create_connection()
         inputs['date']=inputs['date'].strftime("%Y-%m-%d")
         input_keys=[]
         for i in self.inputs:
@@ -39,7 +40,8 @@ class production_class:
         cursor.commit()
 
     @staticmethod
-    def fetch_daily_report(conn):
+    def fetch_daily_report():
+        conn=production_class.create_connection()
         query="select * from daily_report"
         cursor=conn.cursor()
         cursor.execute(query)
@@ -49,7 +51,8 @@ class production_class:
         df=pd.DataFrame.from_records(data, columns=columns)
         return df
     
-    def update_daily_production_table(self, conn, df):
+    def update_daily_production_table(self, df):
+        conn=self.create_connection()
         date_to_update=self.inputs['date']
         df['remaining_balance'] = df['remaining_balance_big_eggs'] + df['remaining_balance_small_eggs']
         df1=df[df['date']==date_to_update]
@@ -70,7 +73,8 @@ class production_class:
         cursor.commit()
 
     @staticmethod
-    def fetch_daily_production_table(conn):
+    def fetch_daily_production_table():
+        conn=self.create_connection()
         query="select * from daily_production"
         cursor=conn.cursor()
         cursor.execute(query)
