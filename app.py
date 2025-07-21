@@ -2,11 +2,7 @@ import os
 os.chdir('./')
 import streamlit as st
 import datetime
-from get_and_upload_daily_production.production_class import create_connection
-from get_and_upload_daily_production.production_class import insert_in_daily_report
-from get_and_upload_daily_production.production_class import fetch_daily_report
-from get_and_upload_daily_production.production_class import update_daily_production_table
-from get_and_upload_daily_production.production_class import fetch_daily_production_table
+from get_and_upload_daily_production import production_class
 
 input_dict={}
 st.set_page_config(page_title="Daily Production Stats", page_icon=":robot:")
