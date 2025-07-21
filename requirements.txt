@@ -3,3 +3,4 @@ datetime
 pyodbc
 mysql-connector-python
 urllib3
+sqlalchemy
