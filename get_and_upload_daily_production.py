@@ -7,6 +7,10 @@ import pyodbc
 class production_class:
     def __init__(self, inputs):
         self.inputs=inputs
+        d1=self.inputs['date'].split('(')[1]
+        d1=d1.split(')')[0]
+        d1=d1.replace(', ', '-')
+        self.inputs['date']=pd.to_datetime(d1).strftime('%Y-%m-%d')
     @staticmethod
     def create_connection():
         conn = pyodbc.connect(
@@ -16,10 +20,9 @@ class production_class:
         'Trusted_Connection=yes;'
         )
         return conn
-
     def insert_in_daily_report(self): # need to replace if date is repeated
         conn=self.create_connection()
-        inputs['date']=inputs['date'].strftime("%Y-%m-%d")
+        # self.inputs['date']=self.inputs['date'].strftime("%Y-%m-%d")
         input_keys=[]
         for i in self.inputs:
             if type(self.inputs[i])==dict:
@@ -74,7 +77,7 @@ class production_class:
 
     @staticmethod
     def fetch_daily_production_table():
-        conn=self.create_connection()
+        conn=production_class.create_connection()
         query="select * from daily_production"
         cursor=conn.cursor()
         cursor.execute(query)

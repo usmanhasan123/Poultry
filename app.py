@@ -34,6 +34,18 @@ for i in range(st.session_state.inputs):
     input_dict[f"{i+1}st party"]={"no_of_patty_gone": no_of_patty_gone, "egg_type": egg_type, "rate":rate, "cut":cut, "open_or_closed": open_or_closed, "party":party}
 
 if st.button("Submit"):
-    st.write(input_dict)
+    if len(input_dict)>0:
+        obj=production_class(input_dict)
+        obj.insert_in_daily_report()
+        df=obj.fetch_daily_report()
+        obj.update_daily_production_table(df)
+        df2=obj.fetch_daily_production_table()
+    else:
+        continue
+    colss=st.columns(2)
+    colss[0].write(df)
+    colss[1].write(df2)
+
+    
 
     
