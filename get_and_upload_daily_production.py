@@ -13,12 +13,13 @@ class production_class:
         self.inputs['date']=pd.to_datetime(d1).strftime('%Y-%m-%d')
     @staticmethod
     def create_connection():
-        conn = pyodbc.connect(
-        'DRIVER={ODBC Driver 17 for SQL Server};'
-        'SERVER=DESKTOP-GCHR40U;'
-        'DATABASE=poultry_db;'
-        'Trusted_Connection=yes;'
-        )
+        # conn = pyodbc.connect(
+        # 'DRIVER={ODBC Driver 17 for SQL Server};'
+        # 'SERVER=DESKTOP-GCHR40U;'
+        # 'DATABASE=poultry_db;'
+        # 'Trusted_Connection=yes;'
+        # )
+        conn=mysql.connector.connect(host='127.0.0.1', port=3307, user='user', password='Oxygen123$', database='poultry_db')
         return conn
     def insert_in_daily_report(self): # need to replace if date is repeated
         conn=self.create_connection()
@@ -37,10 +38,10 @@ class production_class:
                     a.append(self.inputs[j])
             recs.append(tuple(a))
     
-        query="insert into daily_report (patty_gone, type, rate, cut, open_or_closed, party, date, remaining_balance_big_eggs, remaining_balance_small_eggs) values (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+        query="insert into daily_report (patty_gone, type, rate, cut, open_or_closed, party, date, remaining_balance_big_eggs, remaining_balance_small_eggs) values (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
         cursor=conn.cursor()
         cursor.executemany(query, recs)
-        cursor.commit()
+        conn.commit()
 
     @staticmethod
     def fetch_daily_report():
@@ -73,7 +74,7 @@ class production_class:
     
         cursor=conn.cursor()
         cursor.executemany(query, recs)
-        cursor.commit()
+        conn.commit()
 
     @staticmethod
     def fetch_daily_production_table():
