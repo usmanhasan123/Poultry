@@ -2,3 +2,4 @@ streamlit
 datetime
 pyodbc
 mysql-connector-python
+urllib
