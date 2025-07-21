@@ -18,6 +18,7 @@ class production_class:
         return conn
         
     def insert_in_daily_report(self, conn): # need to replace if date is repeated
+        inputs['date']=inputs['date'].strftime("%Y-%m-%d")
         input_keys=[]
         for i in self.inputs:
             if type(self.inputs[i])==dict:
