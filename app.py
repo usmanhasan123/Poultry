@@ -1,3 +1,5 @@
+import os
+os.chdir('./')
 import streamlit as st
 import datetime
 from get_and_upload_daily_production.production_class import create_connection
