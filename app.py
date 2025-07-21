@@ -3,7 +3,7 @@ import streamlit as st
 dictt={}
 st.set_page_config(page_title="Daily Production Stats", page_icon=":robot:")
 st.header("Production Stats")
-date=st.text_input("date: ")
+date=st.text_input("date: ", key="date_input")
 
 if 'inputs' not in st.session_state:
     st.session_state.inputs=1
