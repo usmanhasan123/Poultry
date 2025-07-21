@@ -22,7 +22,7 @@ class production_class:
         # 'Trusted_Connection=yes;'
         # )
         password=password=quote_plus('Oxygen123$')
-        conn=mysql.connector.connect(host='127.0.0.1', port=3307, user='user', password='Oxygen123$', database='poultry_db')
+        conn=mysql.connector.connect(host='127.0.0.1', port=3307, user='user', password=password, database='poultry_db')
         return conn
     def insert_in_daily_report(self): # need to replace if date is repeated
         conn=self.create_connection()
