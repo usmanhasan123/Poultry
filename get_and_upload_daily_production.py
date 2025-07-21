@@ -53,12 +53,13 @@ class production_class:
     def fetch_daily_report():
         conn=production_class.create_connection()
         query="select * from daily_report"
-        cursor=conn.cursor()
-        cursor.execute(query)
+        df=pd.read_sql(text(query), conn)
+        # cursor=conn.cursor()
+        # cursor.execute(query)
     
-        data = cursor.fetchall()
-        columns = [i[0] for i in cursor.description]
-        df=pd.DataFrame.from_records(data, columns=columns)
+        # data = cursor.fetchall()
+        # columns = [i[0] for i in cursor.description]
+        # df=pd.DataFrame.from_records(data, columns=columns)
         return df
     
     def update_daily_production_table(self, df):
@@ -86,10 +87,11 @@ class production_class:
     def fetch_daily_production_table():
         conn=production_class.create_connection()
         query="select * from daily_production"
-        cursor=conn.cursor()
-        cursor.execute(query)
+        df=pd.read_sql(text(query), conn)
+        # cursor=conn.cursor()
+        # cursor.execute(query)
     
-        data = cursor.fetchall()
-        columns = [i[0] for i in cursor.description]
-        df=pd.DataFrame.from_records(data, columns=columns)
+        # data = cursor.fetchall()
+        # columns = [i[0] for i in cursor.description]
+        # df=pd.DataFrame.from_records(data, columns=columns)
         return df
