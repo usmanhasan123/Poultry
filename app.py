@@ -1,9 +1,10 @@
 import streamlit as st
+import datetime
 
 dictt={}
 st.set_page_config(page_title="Daily Production Stats", page_icon=":robot:")
 st.header("Production Stats")
-date=st.text_input("date: ", key="date_input")
+date=st.date_input("date: ",default= datetime.date.today, key="date_input")
 
 if 'inputs' not in st.session_state:
     st.session_state.inputs=1
