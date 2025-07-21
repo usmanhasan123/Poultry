@@ -24,7 +24,7 @@ class production_class:
         # )
         password=password=quote_plus('Oxygen123$')
         # conn=mysql.connector.connect(host='127.0.0.1', port=3307, user='user', password=password, database='poultry_db')
-        conn = create_engine(f"mysql+mysqlconnector://user:{password}@127.0.0.1:3307/poultry_db")
+        conn = create_engine(f"mysql+mysqlconnector://user:{password}@localhost:3307/poultry_db")
 
         return conn
     def insert_in_daily_report(self): # need to replace if date is repeated
