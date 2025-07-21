@@ -5,8 +5,8 @@ input_dict={}
 st.set_page_config(page_title="Daily Production Stats", page_icon=":robot:")
 st.header("Production Stats")
 date=st.date_input("date: ",value= datetime.date.today(), key="date_input")
-remaining_balance_big_eggs=st.number_input("Remaining balance for large eggs: ", key=rem_large_key)
-remaining_balance_small_eggs=st.number_input("Remaining balance for small eggs: ", key=rem_small_key)
+remaining_balance_big_eggs=st.number_input("Remaining balance for large eggs: ", key='rem_large_key')
+remaining_balance_small_eggs=st.number_input("Remaining balance for small eggs: ", key='rem_small_key')
 input_dict['date']=date
 input_dict['remaining_balance_big_eggs']=remaining_balance_big_eggs
 input_dict['remaining_balance_small_eggs']=remaining_balance_small_eggs
