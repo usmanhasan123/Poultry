@@ -8,8 +8,8 @@ st.session_state.inputs=1
 def add_inputs():
     st.session_state.inputs=st.session_state.inputs+1
 
-press=st.button("Click here if you want to put more options: ", on_click=add_inputs)
 while True:
+    press=st.button("Click here if you want to put more options: ", on_click=add_inputs)
     if press:
         cols=st.columns(6)
         no_of_patty_gone=cols[0].text_input("no of patty gone: ", key=f"patty_{st.session_state.inputs}")
