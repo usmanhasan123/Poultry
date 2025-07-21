@@ -8,7 +8,7 @@ st.session_state.inputs=1
 def add_inputs():
     st.session_state.inputs+=1
 i=0
-press=st.button("Click here if you want to put more options: ", on_click=add_inputs())
+press=st.button("Click here if you want to put more options: ")
 if press:
     st.write(i)
     i=i+1
