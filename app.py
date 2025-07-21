@@ -46,6 +46,13 @@ if st.button("Submit"):
     colss[0].write(df)
     colss[1].write(df2)
 
+if st.button('Show report'):
+    df=obj.fetch_daily_report()
+    df2=obj.fetch_daily_production_table()
+    colss=st.columns(2)
+    colss[0].write(df)
+    colss[1].write(df2)
+
     
 
     
