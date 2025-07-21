@@ -23,7 +23,7 @@ for i in range(st.session_state.inputs):
     cut=cols[3].text_input("cut: ", key=f"cut_{i}")
     open_or_closed=cols[4].text_input("open or closed: ", key=f"open_{i}")
     party=cols[5].text_input("party: ", key=f"party_{i}")
-    dictt[f"{st.session_state.inputs}st party"]={"no_of_patty_gone": no_of_patty_gone, "egg_type": egg_type, "rate":rate, "cut":cut, "open_or_closed": open_or_closed, "party":party}
+    dictt[f"{i}st party"]={"no_of_patty_gone": no_of_patty_gone, "egg_type": egg_type, "rate":rate, "cut":cut, "open_or_closed": open_or_closed, "party":party}
 
 if st.button("Submit"):
     st.write(dictt)
