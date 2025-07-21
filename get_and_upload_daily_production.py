@@ -45,9 +45,9 @@ class production_class:
             recs.append(tuple(a))
     
         query="insert into daily_report (patty_gone, type, rate, cut, open_or_closed, party, date, remaining_balance_big_eggs, remaining_balance_small_eggs) values (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
-        cursor=conn.cursor()
-        cursor.executemany(query, recs)
-        conn.commit()
+        with conn.connect as con:
+            con.executemany(query, recs)
+            con.commit()
 
     @staticmethod
     def fetch_daily_report():
@@ -75,13 +75,13 @@ class production_class:
     
         today_production=df2['no_of_patty_gone'].iloc[0] + df2['rem_balance'].iloc[0]-df_last_day['remaining_balance'].iloc[0]
     
-        recs=[(date_to_update, today_production)]
+        recs=[{'a': date_to_update, 'b': today_production}]
     
-        query="insert into daily_production (date, production) values (?, ?)"
+        query="insert into daily_production (date, production) values (:a, :b)"
     
-        cursor=conn.cursor()
-        cursor.executemany(query, recs)
-        conn.commit()
+        with conn.connect as con:
+            con.executemany(query, recs)
+            con.commit()
 
     @staticmethod
     def fetch_daily_production_table():
