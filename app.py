@@ -5,7 +5,7 @@ st.set_page_config(page_title="Daily Production Stats")
 
 date=st.text_input("date: ")
 st.session_state.inputs=1
-def add_input():
+def add_inputs():
     st.session_state.inputs=st.session_state.inputs+1
 
 press=st.button("Click here if you want to put more options: ", on_click=add_inputs)
