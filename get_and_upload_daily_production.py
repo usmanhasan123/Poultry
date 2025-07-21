@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
 import pyodbc
+import mysql.connector
 
 class production_class:
     def __init__(self, inputs):
