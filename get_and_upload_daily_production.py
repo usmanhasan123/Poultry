@@ -4,6 +4,7 @@ import numpy as np
 from datetime import datetime, timedelta
 import pyodbc
 import mysql.connector
+from urllib.parse import quote_plus
 
 class production_class:
     def __init__(self, inputs):
@@ -20,6 +21,7 @@ class production_class:
         # 'DATABASE=poultry_db;'
         # 'Trusted_Connection=yes;'
         # )
+        password=password=quote_plus('Oxygen123$')
         conn=mysql.connector.connect(host='127.0.0.1', port=3307, user='user', password='Oxygen123$', database='poultry_db')
         return conn
     def insert_in_daily_report(self): # need to replace if date is repeated
