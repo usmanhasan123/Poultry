@@ -10,10 +10,11 @@ from sqlalchemy import create_engine, text
 class production_class:
     def __init__(self, inputs):
         self.inputs=inputs
-        d1=self.inputs['date'].split('(')[1]
-        d1=d1.split(')')[0]
-        d1=d1.replace(', ', '-')
-        self.inputs['date']=pd.to_datetime(d1).strftime('%Y-%m-%d')
+        self.inputs['date']=str(self.inputs['date'])
+        # d1=self.inputs['date'].split('(')[1]
+        # d1=d1.split(')')[0]
+        # d1=d1.replace(', ', '-')
+        # self.inputs['date']=pd.to_datetime(d1).strftime('%Y-%m-%d')
     @staticmethod
     def create_connection():
         # conn = pyodbc.connect(
