@@ -13,8 +13,8 @@ from urllib.parse import quote_plus
 from sqlalchemy import create_engine, text
 
 password=password=quote_plus('lDADsHdkAnShLwwkLmTFTkMqKLeEZXmP')
-conn=mysql.connector.connect(host='shortline.proxy.rlwy.net', port=39233, user='root', password=password, database='railway')
-# conn = create_engine(f"mysql+mysqlconnector://sql12791552:{password}@sql12.freesqldatabase.com:3306/sql12791552")
+# conn=mysql.connector.connect(host='shortline.proxy.rlwy.net', port=39233, user='root', password=password, database='railway')
+conn = create_engine(f"mysql+mysqlconnector://root:{password}@shortline.proxy.rlwy.net:39233/railway")
 
 if st.button('Show report'):
     query="select * from daily_production"
