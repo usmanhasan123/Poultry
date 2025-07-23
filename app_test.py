@@ -17,7 +17,7 @@ password=password=quote_plus('lDADsHdkAnShLwwkLmTFTkMqKLeEZXmP')
 conn = create_engine(f"mysql+mysqlconnector://root:{password}@shortline.proxy.rlwy.net:39233/railway")
 
 if st.button('Show report'):
-    query="select * from daily_production"
+    query="select * from daily_report"
     df=pd.read_sql(text(query), conn)
     # df=production_class.fetch_daily_report()
     # df2=production_class.fetch_daily_production_table()
