@@ -1,5 +1,5 @@
 import streamlit as st
-import subprocess
+import app
 
 username = "root"
 password = "Oxygen123$"
@@ -23,4 +23,5 @@ if st.session_state['logged_in']==False:
   login(username, password)
 else:
   # st.write('username and password corrcet')
-  subprocess.run(['python', 'app.py'])
+  # subprocess.run(['python', 'app.py'])
+  app.main()
