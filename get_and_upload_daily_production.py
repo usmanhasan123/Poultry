@@ -90,7 +90,7 @@ class production_class:
         query="insert into daily_production (date, production) values (:a, :b)"
     
         with conn.connect as con:
-            con.executemany(query, recs)
+            con.execute(text(query), recs)
             con.commit()
 
     @staticmethod
