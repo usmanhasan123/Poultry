@@ -56,7 +56,7 @@ class production_class:
     
         query="insert into daily_report (patty_gone, type, rate, cut, open_or_closed, party, date, remaining_balance_big_eggs, remaining_balance_small_eggs) values (:1, :2, :3, :4, :5, :6, :7, :8, :9)"
         with conn.connect as con:
-            con.executemany(query, recs2)
+            con.execute(text(query), recs2)
             con.commit()
 
     @staticmethod
