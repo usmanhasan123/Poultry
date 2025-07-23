@@ -22,5 +22,5 @@ if 'logged_in' not in st.session_state:
 if st.session_state['logged_in']==False:
   login(username, password)
 else:
-  st.write('username and password corrcet')
-  # subprocess.run(['python', 'app.py'])
+  # st.write('username and password corrcet')
+  subprocess.run(['python', 'app.py'])
