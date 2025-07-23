@@ -15,3 +15,10 @@ from sqlalchemy import create_engine, text
 password=password=quote_plus('Oxygen123$')
 # conn=mysql.connector.connect(host='127.0.0.1', port=3307, user='user', password=password, database='poultry_db')
 conn = create_engine(f"mysql+mysqlconnector://user:{password}@localhost:3307/poultry_db")
+
+if st.button('Show report'):
+    df=production_class.fetch_daily_report()
+    df2=production_class.fetch_daily_production_table()
+    colss=st.columns(2)
+    colss[0].write(df)
+    colss[1].write(df2)
