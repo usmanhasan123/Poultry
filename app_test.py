@@ -17,7 +17,9 @@ password=password=quote_plus('dzgmxiL4e7')
 conn = create_engine(f"mysql+mysqlconnector://sql12791552:{password}@sql12.freesqldatabase.com:3306/sql12791552")
 
 if st.button('Show report'):
-    df=production_class.fetch_daily_report()
+    query="select * from daily_production"
+    df=pd.read_sql(text(query), conn)
+    # df=production_class.fetch_daily_report()
     # df2=production_class.fetch_daily_production_table()
     # colss=st.columns(2)
     st.write(df)
