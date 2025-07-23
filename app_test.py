@@ -14,7 +14,7 @@ from sqlalchemy import create_engine, text
 
 password=password=quote_plus('dzgmxiL4e7')
 # conn=mysql.connector.connect(host='sql12.freesqldatabase.com', port=3306, user='sql12791552', password=password, database='sql12791552')
-conn = create_engine(f"mysql+mysqlconnector://user:{password}@localhost:3307/poultry_db")
+conn = create_engine(f"mysql+mysqlconnector://sql12791552:{password}@sql12.freesqldatabase.com:3306/sql12791552")
 
 if st.button('Show report'):
     df=production_class.fetch_daily_report()
