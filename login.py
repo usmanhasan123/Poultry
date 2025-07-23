@@ -12,7 +12,6 @@ def login(username, password):
     if (user==username) and (pswd==password):
       st.session_state['logged_in']=True
       st.success("Logged in successfully")
-      st.button("Login")=True
       # st.write('username and password corrcet')
     else:
       st.error("username or password incorrect")
