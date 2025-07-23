@@ -9,7 +9,7 @@ def login(username, password):
   pswd= st.text_input("password: ", key='pass_key')
 
   if st.button("Login"):
-    if (user==username) and (pwsd==password):
+    if (user==username) and (pswd==password):
       st.session_state['logged_in']=True
       st.success("Logged in successfully")
     else:
