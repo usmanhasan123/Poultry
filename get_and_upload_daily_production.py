@@ -45,9 +45,9 @@ class production_class:
                     a.append(self.inputs[j])
             recs.append(tuple(a))
 
-        k=1
         recs2=[]
         for i in recs:
+            k=1
             dictt={}
             for j in i:
                 dictt[str(k)]=j
