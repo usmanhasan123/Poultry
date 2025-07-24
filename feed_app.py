@@ -25,7 +25,7 @@ def main():
         bori_amount=cols[0].number_input("amount (bori): ", key=f"bori_{i}")
         bilti_payment=cols[1].number_input("Bilti payment: ", key=f"bilti_{i}")
         paid_by=cols[1].selectbox("Paid by: ", ['Shahid', 'Siddiq'], key=f"paidby_{i}")
-        dispatch_receipt=cols[3].number_input("dispatch receipt: ", key=f"dispatch_{i}")
+        dispatch_receipt=cols[3].text_input("dispatch receipt: ", key=f"dispatch_{i}")
         input_dict[f"{i+1}st feed"]={"bori_amount": bori_amount, "bilti_payment": bilti_payment, "paid_by":paid_by, "dispatch_receipt":dispatch_receipt}
     
     if st.button("Submit", key='submit_key_feed'):
