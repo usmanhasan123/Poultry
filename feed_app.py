@@ -8,7 +8,7 @@ def main():
     input_dict={}
     st.set_page_config(page_title="Feed Logs", page_icon=":robot:")
     st.header("Feed Logs")
-    date=st.date_input("date: ",value= datetime.date.today(), key="date_input")
+    date=st.date_input("date: ",value= datetime.date.today(), key="date_feed_input")
     input_dict['date']=date
     if 'inputs_2' not in st.session_state:
         st.session_state.inputs_2=1
