@@ -13,6 +13,7 @@ class feed_class:
     def __init__(self, inputs):
         self.inputs=inputs
         self.inputs['date']=str(self.inputs['date'])
+        self.feed_rate=5124.66
         # d1=self.inputs['date'].split('(')[1]
         # d1=d1.split(')')[0]
         # d1=d1.replace(', ', '-')
@@ -28,7 +29,7 @@ class feed_class:
         input_keys=[]
         for i in self.inputs:
             if type(self.inputs[i])==dict:
-                total_amount=feed_rate*inputs[i]['bori_amount']
+                total_amount=self.feed_rate*inputs[i]['bori_amount']
                 amount_paid=total_amount - inputs[i]['bilti_payment']
                 inputs[i]['total_amount'] = total_amount
                 inputs[i]['amount_paid'] = amount_paid
