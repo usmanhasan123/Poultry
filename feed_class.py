@@ -12,7 +12,8 @@ from get_and_upload_daily_production import production_class
 class feed_class:
     def __init__(self, inputs):
         self.inputs=inputs
-        self.inputs['date']=str(self.inputs['date'])
+        if 'date' in self.inputs:
+            self.inputs['date']=str(self.inputs['date'])
         self.feed_rate=5124.66
         # d1=self.inputs['date'].split('(')[1]
         # d1=d1.split(')')[0]
