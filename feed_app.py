@@ -18,8 +18,8 @@ def main():
     def remove_inputs():
         st.session_state.inputs_2-=1
     
-    press=st.button("Add option", on_click=add_inputs)
-    press1=st.button("Remove option", on_click=remove_inputs)
+    press=st.button("Add option", on_click=add_inputs, key='add_option_feed')
+    press1=st.button("Remove option", on_click=remove_inputs, key='remove_option_feed')
     for i in range(st.session_state.inputs_2):
         cols=st.columns(4)
         bori_amount=cols[0].number_input("amount (bori): ", key=f"bori_{i}")
