@@ -29,12 +29,12 @@ class feed_class:
         input_keys=[]
         for i in self.inputs:
             if type(self.inputs[i])==dict:
-                total_amount=self.feed_rate*inputs[i]['bori_amount']
-                amount_paid=total_amount - inputs[i]['bilti_payment']
-                inputs[i]['total_amount'] = total_amount
-                inputs[i]['amount_paid'] = amount_paid
-                inputs[i]['status']='DISPATCHED'
-                inputs[i]['car_number']=53
+                total_amount=self.feed_rate*self.inputs[i]['bori_amount']
+                amount_paid=total_amount - self.inputs[i]['bilti_payment']
+                self.inputs[i]['total_amount'] = total_amount
+                self.inputs[i]['amount_paid'] = amount_paid
+                self.inputs[i]['status']='DISPATCHED'
+                self.inputs[i]['car_number']=53
                 input_keys.append(i)
                 recs=[]
         
