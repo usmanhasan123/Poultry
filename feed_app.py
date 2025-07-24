@@ -2,7 +2,7 @@ import os
 os.chdir('./')
 import streamlit as st
 import datetime
-from get_and_upload_daily_production import production_class # import feed class
+from feed_class import feed_class
 
 def main():
     input_dict={}
@@ -30,7 +30,7 @@ def main():
     
     if st.button("Submit"):
         if len(input_dict)>0:
-            obj=production_class(input_dict)
+            obj=feed_class(input_dict)
             obj.insert_in_daily_report()
             df=obj.fetch_daily_report()
             obj.update_daily_production_table(df)
