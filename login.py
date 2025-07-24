@@ -24,4 +24,6 @@ if st.session_state['logged_in']==False:
 else:
   # st.write('username and password corrcet')
   # subprocess.run(['python', 'app.py'])
-  app.main()
+  tab1=st.tabs(["Daily Production"])
+  with tab1:
+    app.main()
