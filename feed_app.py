@@ -17,7 +17,7 @@ def main():
     def remove_inputs():
         st.session_state.inputs_2-=1
 
-    tab1, tab2 = st.tabs[('Log feed dispatch', 'Log feed arrival')]
+    tab1, tab2 = st.tabs(['Log feed dispatch', 'Log feed arrival'])
     with tab1:
         date=st.date_input("date: ",value= datetime.date.today(), key="date_feed_input")
         input_dict['date']=date
