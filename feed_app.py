@@ -32,13 +32,13 @@ def main():
             input_dict[f"{i+1}st feed"]={"bori_amount": bori_amount, "bilti_payment": bilti_payment, "paid_by":paid_by, "dispatch_receipt":dispatch_receipt}
             
         if st.button("Submit", key='submit_key_feed'):
-        if len(input_dict)>0:
-            obj=feed_class(input_dict)
-            obj.insert_in_feed_log()
-            df=obj.fetch_feed_log()
-        else:
-            pass
-        st.write(df)
+            if len(input_dict)>0:
+                obj=feed_class(input_dict)
+                obj.insert_in_feed_log()
+                df=obj.fetch_feed_log()
+            else:
+                pass
+            st.write(df)
     
     with tab2:
         cols=st.columns(3)
@@ -50,13 +50,13 @@ def main():
         input_dict['arrival_date']=arrival_date
 
         if st.button("Submit", key='submit_key_feed_update'):
-        if len(input_dict)>0:
-            obj=feed_class(input_dict)
-            obj.update_feed_arrival()
-            df=obj.fetch_feed_log()
-        else:
-            pass
-        st.write(df)
+            if len(input_dict)>0:
+                obj=feed_class(input_dict)
+                obj.update_feed_arrival()
+                df=obj.fetch_feed_log()
+            else:
+                pass
+            st.write(df)
 
     
     if st.button('Show feed logs'):
