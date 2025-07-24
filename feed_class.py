@@ -25,6 +25,9 @@ class feed_class:
         
     def insert_in_feed_log(self): # need to replace if date is repeated
         conn=self.create_connection()
+        feed_df=self.fetch_feed_log()
+        max_car_no=feed_df['car_number'].max()
+        max_car_no=max_car_no+1
         # self.inputs['date']=self.inputs['date'].strftime("%Y-%m-%d")
         input_keys=[]
         for i in self.inputs:
@@ -34,9 +37,10 @@ class feed_class:
                 self.inputs[i]['total_amount'] = total_amount
                 self.inputs[i]['amount_paid'] = amount_paid
                 self.inputs[i]['status']='DISPATCHED'
-                self.inputs[i]['car_number']=53
+                self.inputs[i]['car_number']=max_car_no
                 input_keys.append(i)
                 recs=[]
+                max_car_no=max_car_no+1
         
         for i in input_keys:
             params=self.inputs[i]
