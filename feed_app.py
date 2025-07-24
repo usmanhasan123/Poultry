@@ -31,22 +31,15 @@ def main():
     if st.button("Submit"):
         if len(input_dict)>0:
             obj=feed_class(input_dict)
-            obj.insert_in_daily_report()
-            df=obj.fetch_daily_report()
-            obj.update_daily_production_table(df)
-            df2=obj.fetch_daily_production_table()
+            obj.insert_in_feed_log()
+            df=obj.fetch_feed_log()
         else:
             pass
-        colss=st.columns(2)
-        colss[0].write(df)
-        colss[1].write(df2)
+        st.write(df)
     
     if st.button('Show report'):
-        df=production_class.fetch_daily_report()
-        df2=production_class.fetch_daily_production_table()
-        colss=st.columns(2)
-        colss[0].write(df)
-        colss[1].write(df2)
+        df=feed_class.fetch_feed_log()
+        st.write(df)
     
         
     
