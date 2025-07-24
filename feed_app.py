@@ -37,7 +37,7 @@ def main():
             pass
         st.write(df)
     
-    if st.button('Show report'):
+    if st.button('Show feed logs'):
         df=feed_class.fetch_feed_log()
         st.write(df)
     
