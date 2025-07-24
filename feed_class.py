@@ -7,7 +7,9 @@ import mysql.connector
 from urllib.parse import quote_plus
 from sqlalchemy import create_engine, text
 
-class production_class:
+from get_and_upload_daily_production import production_class
+
+class feed_class:
     def __init__(self, inputs):
         self.inputs=inputs
         self.inputs['date']=str(self.inputs['date'])
@@ -17,34 +19,31 @@ class production_class:
         # self.inputs['date']=pd.to_datetime(d1).strftime('%Y-%m-%d')
     @staticmethod
     def create_connection():
-        # conn = pyodbc.connect(
-        # 'DRIVER={ODBC Driver 17 for SQL Server};'
-        # 'SERVER=DESKTOP-GCHR40U;'
-        # 'DATABASE=poultry_db;'
-        # 'Trusted_Connection=yes;'
-        # )
-        password=password=quote_plus('lDADsHdkAnShLwwkLmTFTkMqKLeEZXmP')
-        # conn=mysql.connector.connect(host='127.0.0.1', port=3307, user='user', password=password, database='poultry_db')
-        conn = create_engine(f"mysql+mysqlconnector://root:{password}@shortline.proxy.rlwy.net:39233/railway")
-
+        conn=production_class.create_connection()
         return conn
-    def insert_in_daily_report(self): # need to replace if date is repeated
+    def insert_in_feed_log(self): # need to replace if date is repeated
         conn=self.create_connection()
         # self.inputs['date']=self.inputs['date'].strftime("%Y-%m-%d")
         input_keys=[]
         for i in self.inputs:
             if type(self.inputs[i])==dict:
+                total_amount=feed_rate*inputs[i]['amount (bori)']
+                amount_paid=total_amount - inputs[i]['Bilti payment']
+                inputs[i]['total_amount'] = total_amount
+                inputs[i]['amount_paid'] = amount_paid
+                inputs[i]['status']='DISPATCHED'
+                inputs[i]['car_number']=53
                 input_keys.append(i)
-        recs=[]
-    
+                recs=[]
+        
         for i in input_keys:
-            params=self.inputs[i]
+            params=inputs[i]
             a=list(params.values())
-            for j in self.inputs:
+            for j in inputs:
                 if j not in input_keys:
-                    a.append(self.inputs[j])
+                    a.append(inputs[j])
             recs.append(tuple(a))
-
+        
         recs2=[]
         for i in recs:
             k=1
