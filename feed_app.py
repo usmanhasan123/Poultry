@@ -28,7 +28,7 @@ def main():
         dispatch_receipt=cols[3].number_input("dispatch receipt: ", key=f"dispatch_{i}")
         input_dict[f"{i+1}st feed"]={"bori_amount": bori_amount, "bilti_payment": bilti_payment, "paid_by":paid_by, "dispatch_receipt":dispatch_receipt}
     
-    if st.button("Submit"):
+    if st.button("Submit", key='submit_key_feed'):
         if len(input_dict)>0:
             obj=feed_class(input_dict)
             obj.insert_in_feed_log()
