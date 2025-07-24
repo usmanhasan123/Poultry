@@ -67,7 +67,7 @@ class feed_class:
             con.execute(text(query), recs2)
             con.commit()
 
-    def update_feed_arrival():
+    def update_feed_arrival(self):
         conn=self.create_connection()
         query = 'update feed_log set arrival_date=:1, arrival_receipt=:2, status=:3 where car_number=:4'
         recs=[{'1': self.inputs['arrival_date'], '2': self.inputs['arrival_receipt'], '3': 'ARRIVED', '4': self.inputs['car_number']}]
