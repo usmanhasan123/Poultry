@@ -30,6 +30,16 @@ def main():
             paid_by=cols[1].selectbox("Paid by: ", ['Shahid', 'Siddiq'], key=f"paidby_{i}")
             dispatch_receipt=cols[3].text_input("dispatch receipt: ", key=f"dispatch_{i}")
             input_dict[f"{i+1}st feed"]={"bori_amount": bori_amount, "bilti_payment": bilti_payment, "paid_by":paid_by, "dispatch_receipt":dispatch_receipt}
+            
+        if st.button("Submit", key='submit_key_feed'):
+        if len(input_dict)>0:
+            obj=feed_class(input_dict)
+            obj.insert_in_feed_log()
+            df=obj.fetch_feed_log()
+        else:
+            pass
+        st.write(df)
+    
     with tab2:
         cols=st.columns(3)
         car_no=cols[0].number_input("car number: ", key=f"car_no")
@@ -38,7 +48,8 @@ def main():
         input_dict['car_number']=car_no
         input_dict['arrival_receipt']=arrival_receipt
         input_dict['arrival_date']=arrival_date
-    if st.button("Submit", key='submit_key_feed'):
+
+        if st.button("Submit", key='submit_key_feed_update'):
         if len(input_dict)>0:
             obj=feed_class(input_dict)
             obj.insert_in_feed_log()
@@ -46,6 +57,7 @@ def main():
         else:
             pass
         st.write(df)
+
     
     if st.button('Show feed logs'):
         df=feed_class.fetch_feed_log()
