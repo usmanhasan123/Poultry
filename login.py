@@ -25,5 +25,5 @@ else:
   # st.write('username and password corrcet')
   # subprocess.run(['python', 'app.py'])
   tab1, tab2=st.tabs(["Daily Production", "Feed"])
-  tab1.write("Contents for tab1")
-  # app.main()
+  with tab1:
+    app.main()
