@@ -27,3 +27,5 @@ else:
   tab1, tab2=st.tabs(["Daily Production", "Feed"])
   with tab1:
     app.main()
+  with tab2:
+    feed_app.main()
