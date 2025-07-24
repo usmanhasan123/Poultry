@@ -41,9 +41,9 @@ class feed_class:
         for i in input_keys:
             params=self.inputs[i]
             a=list(params.values())
-            for j in inputs:
+            for j in self.inputs:
                 if j not in input_keys:
-                    a.append(inputs[j])
+                    a.append(self.inputs[j])
             recs.append(tuple(a))
         
         recs2=[]
