@@ -21,14 +21,15 @@ class feed_class:
     def create_connection():
         conn=production_class.create_connection()
         return conn
+        
     def insert_in_feed_log(self): # need to replace if date is repeated
         conn=self.create_connection()
         # self.inputs['date']=self.inputs['date'].strftime("%Y-%m-%d")
         input_keys=[]
         for i in self.inputs:
             if type(self.inputs[i])==dict:
-                total_amount=feed_rate*inputs[i]['amount (bori)']
-                amount_paid=total_amount - inputs[i]['Bilti payment']
+                total_amount=feed_rate*inputs[i]['bori_amount']
+                amount_paid=total_amount - inputs[i]['bilti_payment']
                 inputs[i]['total_amount'] = total_amount
                 inputs[i]['amount_paid'] = amount_paid
                 inputs[i]['status']='DISPATCHED'
@@ -53,54 +54,24 @@ class feed_class:
                 k=k+1
             recs2.append(dictt)
     
-        query="insert into daily_report (patty_gone, type, rate, cut, open_or_closed, party, date, remaining_balance_big_eggs, remaining_balance_small_eggs) values (:1, :2, :3, :4, :5, :6, :7, :8, :9)"
+        query="insert into feed_log (amount, bilti_payment, paid_by, dispatch_receipt, total_amount, amount_paid, status, car_number, date) \
+        values (:1, :2, :3, :4, :5, :6, :7, :8, :9)"
         with conn.connect() as con:
             con.execute(text(query), recs2)
             con.commit()
 
-    @staticmethod
-    def fetch_daily_report():
-        conn=production_class.create_connection()
-        query="select * from daily_report"
-        df=pd.read_sql(text(query), conn)
-        # cursor=conn.cursor()
-        # cursor.execute(query)
-    
-        # data = cursor.fetchall()
-        # columns = [i[0] for i in cursor.description]
-        # df=pd.DataFrame.from_records(data, columns=columns)
-        return df
-    
-    def update_daily_production_table(self, df):
+    def update_feed_arrival():
         conn=self.create_connection()
-        date_to_update=self.inputs['date']
-        df['remaining_balance'] = df['remaining_balance_big_eggs'] + df['remaining_balance_small_eggs']
-        df1=df[df['date']==date_to_update]
-        df2=df1.groupby('date').agg(no_of_patty_gone=('patty_gone', 'sum'), rem_balance=('remaining_balance', 'mean')).reset_index() # df2 shouldhave 1 row
-        
-        x=pd.to_datetime(date_to_update) - timedelta(days=1)
-        last_day=x.strftime("%Y-%m-%d")
-        df_last_day=df[df['date']==last_day]
-    
-        today_production=df2['no_of_patty_gone'].iloc[0] + df2['rem_balance'].iloc[0]-df_last_day['remaining_balance'].iloc[0]
-    
-        recs=[{'a': date_to_update, 'b': today_production}]
-    
-        query="insert into daily_production (date, production) values (:a, :b)"
-    
+        query = 'update feed_log set arrival_date=:1, arrival_receipt=:2, status=:3 where car_number=:4'
+        recs=[{'1': self.inputs['arrival_date'], '2': self.inputs['arrival_receipt'], '3': 'ARRIVED', '4': self.inputs['car_number']}]
+
         with conn.connect() as con:
             con.execute(text(query), recs)
             con.commit()
 
     @staticmethod
-    def fetch_daily_production_table():
+    def fetch_feed_log():
         conn=production_class.create_connection()
-        query="select * from daily_production"
+        query="select * from feed_log"
         df=pd.read_sql(text(query), conn)
-        # cursor=conn.cursor()
-        # cursor.execute(query)
-    
-        # data = cursor.fetchall()
-        # columns = [i[0] for i in cursor.description]
-        # df=pd.DataFrame.from_records(data, columns=columns)
         return df
