@@ -52,7 +52,7 @@ def main():
         if st.button("Submit", key='submit_key_feed_update'):
         if len(input_dict)>0:
             obj=feed_class(input_dict)
-            obj.insert_in_feed_log()
+            obj.update_feed_arrival()
             df=obj.fetch_feed_log()
         else:
             pass
