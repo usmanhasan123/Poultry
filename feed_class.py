@@ -28,8 +28,9 @@ class feed_class:
         conn=self.create_connection()
         feed_df=self.fetch_feed_log()
         max_car_no=feed_df['car_number'].max()
-        max_car_no=int(max_car_no) # so that it is compatible with mysql
-        max_car_no=max_car_no+1
+        if 'int' in type(max_car_no):
+            max_car_no=int(max_car_no) # so that it is compatible with mysql
+            max_car_no=max_car_no+1
         # self.inputs['date']=self.inputs['date'].strftime("%Y-%m-%d")
         input_keys=[]
         for i in self.inputs:
