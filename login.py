@@ -1,5 +1,6 @@
 import streamlit as st
 import app
+import feed_app
 
 username = "root"
 password = "Oxygen123$"
