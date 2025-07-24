@@ -26,4 +26,5 @@ else:
   # subprocess.run(['python', 'app.py'])
   tab1=st.tabs(["Daily Production"])
   with tab1:
-    app.main()
+    # app.main()
+    st.write("Contents for tab1")
