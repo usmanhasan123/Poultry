@@ -39,7 +39,7 @@ class feed_class:
                 recs=[]
         
         for i in input_keys:
-            params=inputs[i]
+            params=self.inputs[i]
             a=list(params.values())
             for j in inputs:
                 if j not in input_keys:
