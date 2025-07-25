@@ -17,7 +17,7 @@ if "show_dialog" not in st.session_state:
 # Trigger the dialog
 if st.button("Show Warning"):
     st.session_state.show_dialog = True
-def key():
+def keyy():
   st.write('this is a test case')
 # Define the dialog box
 if st.session_state.show_dialog:
