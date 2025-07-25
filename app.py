@@ -62,28 +62,25 @@ def main():
         col1, col2=st.columns(2)
         with col1:
             if st.button("Yes, continue"):
-                df, df2=process(input_dict)
-                st.session_state['show_warning']=False
                 st.session_state['process']=True
                 st.rerun()
         with col2:
             if st.button("No"):
-                st.session_state['show_warning']=False
                 st.session_state['process']=False
                 st.rerun()
                 
                 
     if st.session_state['show_warning']==True:
         warning()
-# initialize show warning to false and process to false
+        st.session_state['show_warning']=False
+
     if st.session_state['process']==True:
+        df, df2=process(input_dict)
         colss=st.columns(2)
         colss[0].write(df)
         colss[1].write(df2)
         st.session_state['process']=False
         
-    if st.session_state.show_warning==True:
-        st.session_state.show_warning=False
     if st.button('Show report'):
         df=production_class.fetch_daily_report()
         df2=production_class.fetch_daily_production_table()
