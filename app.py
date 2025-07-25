@@ -74,6 +74,7 @@ def main():
         colss=st.columns(2)
         colss[0].write(df)
         colss[1].write(df2)
+        st.session_state['process']=False
     
     if st.button('Show report'):
         df=production_class.fetch_daily_report()
