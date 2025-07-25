@@ -24,9 +24,9 @@ def main():
     input_dict['remaining_balance_small_eggs']=remaining_balance_small_eggs
     if 'inputs' not in st.session_state:
         st.session_state.inputs=1
-    if 'show_warning' not in st.session_state['show_warning']:
+    if 'show_warning' not in st.session_state:
         st.session_state.show_warning=False
-    if 'process' not in st.session_state['process']:
+    if 'process' not in st.session_state:
         st.session_state.process=False
         
     def add_inputs():
