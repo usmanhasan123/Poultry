@@ -83,6 +83,6 @@ class feed_class:
     @staticmethod
     def fetch_feed_log():
         conn=production_class.create_connection()
-        query="select * from feed_log"
+        query="select * from feed_log order by car_number asc"
         df=pd.read_sql(text(query), conn)
         return df
