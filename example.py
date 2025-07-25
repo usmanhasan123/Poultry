@@ -17,17 +17,8 @@ if "show_dialog" not in st.session_state:
 # Trigger the dialog
 if st.button("Show Warning"):
     st.session_state.show_dialog = True
-
+def key():
+  st.write('this is a test case')
 # Define the dialog box
 if st.session_state.show_dialog:
-    with st.dialog("Important Warning"):
-        st.warning("This action will overwrite existing records. Do you want to continue?")
-        col1, col2 = st.columns(2)
-        with col1:
-            if st.button("Yes, continue"):
-                st.session_state.show_dialog = False
-                st.success("Process executed")
-                # Your function call here
-        with col2:
-            if st.button("Cancel"):
-                st.session_state.show_dialog = False
+    with st.dialog("Important Warning", keyy):
