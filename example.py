@@ -27,7 +27,8 @@ import streamlit as st
 @st.dialog("My Dialog")
 def show_my_dialog():
     st.write("This content is displayed in the dialog.")
-    st.button("Close Dialog", on_click=st.rerun) # Example of closing the dialog
+    if st.button("Close Dialog"):
+      st.rerun()# Example of closing the dialog
 
 if st.button("Open Dialog"):
     show_my_dialog() 
