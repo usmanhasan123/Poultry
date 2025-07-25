@@ -9,16 +9,26 @@
 # if st.session_state.test==1:
 #   st.write("this is a test case")
 
+# import streamlit as st
+
+# if "show_dialog" not in st.session_state:
+#     st.session_state.show_dialog = False
+
+# # Trigger the dialog
+# if st.button("Show Warning"):
+#     st.session_state.show_dialog = True
+# def keyy():
+#   st.write('this is a test case')
+# # Define the dialog box
+# if st.session_state.show_dialog:
+#     st.dialog("Important Warning", keyy)
+
+
 import streamlit as st
 
-if "show_dialog" not in st.session_state:
-    st.session_state.show_dialog = False
+def my_dialog_content():
+    st.write("This is inside the dialog!")
+    # Add other Streamlit elements here for your dialog
 
-# Trigger the dialog
-if st.button("Show Warning"):
-    st.session_state.show_dialog = True
-def keyy():
-  st.write('this is a test case')
-# Define the dialog box
-if st.session_state.show_dialog:
-    st.dialog("Important Warning", keyy)
+if st.button("Open Dialog"):
+    st.dialog("My Dialog Title", my_dialog_content)
