@@ -48,7 +48,7 @@ def main():
     
     if st.button("Submit"):
         dff=production_class.fetch_daily_report()
-        if date in dff['date'].to_list():
+        if str(date) in dff['date'].to_list():
             st.session_state['show_warning']=True
         else:
             if len(input_dict)>0:
