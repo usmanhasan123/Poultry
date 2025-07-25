@@ -8,7 +8,7 @@ def main():
     input_dict={}
     st.set_page_config(page_title="Daily Production Stats", page_icon=":robot:")
     st.header("Production Stats")
-    date=st.date_input("date: ",value= datetime.date.today(), key="date_input")
+    date=st.date_input("date: ",value= datetime.date.today(),max_value= datetime.date.today(), key="date_input")
     remaining_balance_big_eggs=st.number_input("Remaining balance for large eggs: ", key='rem_large_key')
     remaining_balance_small_eggs=st.number_input("Remaining balance for small eggs: ", key='rem_small_key')
     input_dict['date']=date
