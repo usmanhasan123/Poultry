@@ -57,18 +57,19 @@ def main():
             else:
                 pass
 
-    if st.session_state['show_warning']==True:            
-        with st.dialog("Important Warning"):
-            st.write("Records for this date already exist. Do you wish to continue?")
-            if st.button("Yes, continue"):
-                df, df2=process(input_dict)
-                st.session_state['show_warning']=False
-                st.session_state['process']=True
-            elif st.button("No"):
-                st.session_state['show_warning']=False
-                st.session_state['process']=False
-            else:
-                pass
+    if st.session_state['show_warning']==True:
+        @st.dialog("Important Warning")
+        # with st.dialog("Important Warning"):
+        st.write("Records for this date already exist. Do you wish to continue?")
+        if st.button("Yes, continue"):
+            df, df2=process(input_dict)
+            st.session_state['show_warning']=False
+            st.session_state['process']=True
+        elif st.button("No"):
+            st.session_state['show_warning']=False
+            st.session_state['process']=False
+        else:
+            pass
 # initialize show warning to false and process to false
     if st.session_state['process']==True:
         colss=st.columns(2)
