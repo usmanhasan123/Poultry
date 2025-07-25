@@ -60,12 +60,12 @@ class production_class:
                 dictt[str(k)]=j
                 k=k+1
             recs2.append(dictt)
-        del_query="delete from daily_report where date = :a"
-        del_date=[{'a':self.inputs['date']}]
+        query_del="delete from daily_report where date = :a"
+        rec_del=[{'a':self.inputs['date']}]
         # delete any records corresponing to that date. Get date from self.inputs['date']
         query="insert into daily_report (patty_gone, type, rate, cut, open_or_closed, party, date, remaining_balance_big_eggs, remaining_balance_small_eggs) values (:1, :2, :3, :4, :5, :6, :7, :8, :9)"
         with conn.connect() as con:
-            con.execute(text(query_del), del_date) # can also add an if statment before this
+            con.execute(text(query_del), rec_del) # can also add an if statment before this
             con.execute(text(query), recs2)
             con.commit()
 
