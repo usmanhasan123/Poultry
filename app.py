@@ -56,7 +56,7 @@ def main():
                 st.session_state['process']=True
             else:
                 pass
-    @st.experimental_dialog("Important Warning")
+    @st.dialog("Important Warning")
     def warning():
         st.write("Records for this date already exist. Do you wish to continue?")
         col1, col2=st.columns(2)
