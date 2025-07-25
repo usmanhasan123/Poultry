@@ -67,7 +67,7 @@ def main():
                     st.session_state['show_warning']=False
                     st.session_state['process']=True
             with col2:
-                elif st.button("No"):
+                if st.button("No"):
                     st.session_state['show_warning']=False
                     st.session_state['process']=False
 # initialize show warning to false and process to false
