@@ -1,9 +1,10 @@
 import streamlit as st
 import app
 import feed_app
+import os
 
-username = "root"
-password = "Oxygen123$"
+username = os.getenv('login_username')
+password = os.getenv('login_password')
 
 def login(username, password):
   user= st.text_input("username: ", key='user_key')
