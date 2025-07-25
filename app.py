@@ -68,9 +68,9 @@ def main():
                 st.rerun()
         with col2:
             if st.button("No"):
-                st.rerun()
                 st.session_state['show_warning']=False
                 st.session_state['process']=False
+                st.rerun()
                 
                 
     if st.session_state['show_warning']==True:
