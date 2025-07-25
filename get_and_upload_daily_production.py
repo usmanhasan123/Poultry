@@ -6,6 +6,7 @@ import pyodbc
 import mysql.connector
 from urllib.parse import quote_plus
 from sqlalchemy import create_engine, text
+import os
 
 class production_class:
     def __init__(self, inputs):
@@ -23,9 +24,15 @@ class production_class:
         # 'DATABASE=poultry_db;'
         # 'Trusted_Connection=yes;'
         # )
-        password=password=quote_plus('lDADsHdkAnShLwwkLmTFTkMqKLeEZXmP')
+        user=os.getenv('mysql_user')
+        password=os.getenv('mysql_password')
+        host=os.getenv('host')
+        port=os.getenv('port')
+        db=os.getenv('db')
+        
+        password=quote_plus(password)
         # conn=mysql.connector.connect(host='127.0.0.1', port=3307, user='user', password=password, database='poultry_db')
-        conn = create_engine(f"mysql+mysqlconnector://root:{password}@shortline.proxy.rlwy.net:39233/railway")
+        conn = create_engine(f"mysql+mysqlconnector://{user}:{password}@{host}:{port}/{db}")
 
         return conn
     def insert_in_daily_report(self): # need to replace if date is repeated
