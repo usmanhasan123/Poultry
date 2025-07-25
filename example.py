@@ -22,13 +22,12 @@
 # # Define the dialog box
 # if st.session_state.show_dialog:
 #     st.dialog("Important Warning", keyy)
-
-
 import streamlit as st
 
-def my_dialog_content():
-    st.write("This is inside the dialog!")
-    # Add other Streamlit elements here for your dialog
+@st.experimental_dialog("My Dialog")
+def show_my_dialog():
+    st.write("This content is displayed in the dialog.")
+    st.button("Close Dialog", on_click=st.rerun) # Example of closing the dialog
 
 if st.button("Open Dialog"):
-    st.dialog("My Dialog Title", my_dialog_content)
+    show_my_dialog() 
