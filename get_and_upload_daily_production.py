@@ -60,9 +60,12 @@ class production_class:
                 dictt[str(k)]=j
                 k=k+1
             recs2.append(dictt)
+        del_query="delete from daily_report where date = :a"
+        del_date=[{'a':self.inputs['date']}]
         # delete any records corresponing to that date. Get date from self.inputs['date']
         query="insert into daily_report (patty_gone, type, rate, cut, open_or_closed, party, date, remaining_balance_big_eggs, remaining_balance_small_eggs) values (:1, :2, :3, :4, :5, :6, :7, :8, :9)"
         with conn.connect() as con:
+            con.execute(text(query_del), del_date) # can also add an if statment before this
             con.execute(text(query), recs2)
             con.commit()
 
@@ -83,28 +86,34 @@ class production_class:
         conn=self.create_connection()
         date_to_update=self.inputs['date']
         df['remaining_balance'] = df['remaining_balance_big_eggs'] + df['remaining_balance_small_eggs']
-        df1=df[df['date']==date_to_update]
-        # fetch records with date>= date_to_update-1
-        df2=df1.groupby('date').agg(no_of_patty_gone=('patty_gone', 'sum'), rem_balance=('remaining_balance', 'mean')).reset_index() # df2 shouldhave 1 row for each date
-        # df2['last_rem_balance']=df2['rem_balance'].shift(1)
-        # df2['production']=df2['no_of_patty_gone'] + df2['rem_balance'] - df2['last_rem_balance']
-        # fetch records with date>= date_to_update (this will omit the day-1 record)
-        # df2[['date', 'production']]
-        # for i, j in df2.iterrows():
-        #     dictt['a']=j['date']
-        #     dictt['b']=j['production']
-        #     recs.append(dictt)
         x=pd.to_datetime(date_to_update) - timedelta(days=1)
         last_day=x.strftime("%Y-%m-%d")
-        df_last_day=df[df['date']==last_day]
+        df1=df[df['date']>=last_day]
+        # fetch records with date>= date_to_update-1
+        df2=df1.groupby('date').agg(no_of_patty_gone=('patty_gone', 'sum'), rem_balance=('remaining_balance', 'mean')).reset_index() # df2 shouldhave 1 row for each date
+        df2['last_rem_balance']=df2['rem_balance'].shift(1)
+        df2['production']=df2['no_of_patty_gone'] + df2['rem_balance'] - df2['last_rem_balance']
+        # fetch records with date>= date_to_update (this will omit the day-1 record)
+        df2=df2[df2['date']>=date_to_update]
+        df2=df2[['date', 'production']]
+        recs=[]
+        for i, j in df2.iterrows():
+            dictt={}
+            dictt['a']=j['date']
+            dictt['b']=j['production']
+            recs.append(dictt)
+        # df_last_day=df[df['date']==last_day]
     
-        today_production=df2['no_of_patty_gone'].iloc[0] + df2['rem_balance'].iloc[0]-df_last_day['remaining_balance'].iloc[0]
+        # today_production=df2['no_of_patty_gone'].iloc[0] + df2['rem_balance'].iloc[0]-df_last_day['remaining_balance'].iloc[0]
     
-        recs=[{'a': date_to_update, 'b': today_production}]
+        # recs=[{'a': date_to_update, 'b': today_production}]
         # delete records for date>=date_to_update
+        query_del="delete from daily_production where date>= :a"
+        rec_del=[{'a': date_to_update}]
         query="insert into daily_production (date, production) values (:a, :b)"
     
         with conn.connect() as con:
+            con.execute(text(query_del), rec_del)
             con.execute(text(query), recs)
             con.commit()
 
