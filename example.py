@@ -21,4 +21,4 @@ def key():
   st.write('this is a test case')
 # Define the dialog box
 if st.session_state.show_dialog:
-    with st.dialog("Important Warning", keyy):
+    st.dialog("Important Warning", keyy)
