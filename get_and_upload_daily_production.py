@@ -69,7 +69,7 @@ class production_class:
     @staticmethod
     def fetch_daily_report():
         conn=production_class.create_connection()
-        query="select * from daily_report"
+        query="select * from daily_report order by date asc"
         df=pd.read_sql(text(query), conn)
         # cursor=conn.cursor()
         # cursor.execute(query)
@@ -103,7 +103,7 @@ class production_class:
     @staticmethod
     def fetch_daily_production_table():
         conn=production_class.create_connection()
-        query="select * from daily_production"
+        query="select * from daily_production order by date asc"
         df=pd.read_sql(text(query), conn)
         # cursor=conn.cursor()
         # cursor.execute(query)
