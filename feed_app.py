@@ -80,7 +80,7 @@ def main():
                 options=st.multiselect("What details do you want to change?", ['date', 'bori amount', 'bilti payment', 'paid by', 'dispatch receipt',
                                                                       'arrival date', 'arrival receipt', 'status'])
                 st.number_input('car number: ', key='car_no_dets')
-                cols=st.columns(len(i))
+                cols=st.columns(len(options))
                 for i, j in enumerate(options):
                     if j=='date':
                         date=cols[i].date_input("date: ", value=datetime.date.today(), max_value=datetime.date.today(), key='date_')
