@@ -19,7 +19,7 @@ def main():
     def remove_inputs():
         st.session_state.inputs_2-=1
 
-    tab1, tab2 = st.tabs(['Log feed dispatch', 'Log feed arrival'])
+    tab1, tab2 = st.tabs(['Log feed dispatch', 'Update feed table'])
     with tab1:
         if st.checkbox("Log masterfeed?"):
             st.session_state.is_masterfeed=True
@@ -63,13 +63,21 @@ def main():
             st.write(df)
     
     with tab2:
-        cols=st.columns(3)
-        car_no=cols[0].number_input("car number: ", key=f"car_no")
-        arrival_receipt=cols[1].text_input("arrival receipt: ", key=f"arr_rec")
-        arrival_date=cols[2].date_input("arrival date: ",value= datetime.date.today(), key="date_arrival_input")
-        input_dict['car_number']=car_no
-        input_dict['arrival_receipt']=arrival_receipt
-        input_dict['arrival_date']=arrival_date
+        if st.checkbox("Update masterfeed table?"):
+            st.write("TBD")
+        else:
+            if st.button("Update car arrival"):
+                cols=st.columns(3)
+                car_no=cols[0].number_input("car number: ", key=f"car_no")
+                arrival_receipt=cols[1].text_input("arrival receipt: ", key=f"arr_rec")
+                arrival_date=cols[2].date_input("arrival date: ",value= datetime.date.today(), key="date_arrival_input")
+                input_dict['car_number']=car_no
+                input_dict['arrival_receipt']=arrival_receipt
+                input_dict['arrival_date']=arrival_date
+            elif st.button("Update table details"):
+                options=st.multiselect("What details do you want to change?", ['date', 'bori amount', 'bilti payment', 'paid by', 'dispatch receipt',
+                                                                      'arrival date', 'arrival receipt', 'status'])
+                st.write(options)
 
         if st.button("Submit", key='submit_key_feed_update'):
             if len(input_dict)>0:
