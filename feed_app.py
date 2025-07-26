@@ -68,6 +68,11 @@ def main():
         if st.checkbox("Update masterfeed table?"):
             st.write("TBD")
         else:
+            if st.button("Update car arrival"):
+                st.session_state.is_callarrival=True
+            if st.button("Update table details"):
+                st.session_state.is_callarrival=False
+                
             if st.session_state.is_callarrival==True:
                 cols=st.columns(3)
                 car_no=cols[0].number_input("car number: ", key="car_no")
@@ -101,12 +106,6 @@ def main():
                         bori_amount=cols[i].number_input("bori amount", key=f'bori_')
                     elif j=='bilti payment':
                         bilti=cols[i].number_input("bilti payment", key=f'bilti_')
-                
-            if st.button("Update car arrival"):
-                st.session_state.is_callarrival=True
-            if st.button("Update table details"):
-                st.session_state.is_callarrival=False
-
 
         if st.button("Submit", key='submit_key_feed_update'):
             if len(input_dict)>0:
