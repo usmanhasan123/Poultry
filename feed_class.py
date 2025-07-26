@@ -124,6 +124,8 @@ class feed_class:
         with conn.connect() as con:
             con.execute(text(query), recs)
             con.commit()
+
+    # def update_feed_tabel_master(self)
             
     @staticmethod
     def fetch_feed_log():
