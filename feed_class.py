@@ -64,7 +64,8 @@ class feed_class:
                 dictt[str(k)]=j
                 k=k+1
             recs2.append(dictt)
-    
+        # query_del="delete from feed_log where car_number=:1"
+        # rec_del=
         query="insert into feed_log (amount, bilti_payment, paid_by, dispatch_receipt, total_amount, amount_paid, status, car_number, date) \
         values (:1, :2, :3, :4, :5, :6, :7, :8, :9)"
         with conn.connect() as con:
