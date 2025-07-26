@@ -66,8 +66,11 @@ def main():
     
     with tab2:
         if st.checkbox("Update masterfeed table?"):
+            st.session_state.updates=3
             st.write("TBD")
+            # create input dict
         else:
+            st.session_state.updates=None
             if st.button("Update car arrival"):
                 st.session_state.updates=1
             if st.button("Update table details"):
@@ -128,9 +131,11 @@ def main():
                     obj=feed_class(input_dict)
                     obj.update_feed_table()
                     df=obj.fetch_feed_log()
-                else:
+                elif st.session_state.updates==3:
                     pass
                     # masterfeed update
+                else:
+                    pass
             else:
                 pass
             st.write(df)
