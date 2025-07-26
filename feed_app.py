@@ -78,7 +78,7 @@ def main():
             elif st.button("Update table details"):
                 # include st,.sesiosn state as false
                 options=st.multiselect("What details do you want to change?", ['date', 'bori amount', 'bilti payment', 'paid by', 'dispatch receipt',
-                                                                      'arrival date', 'arrival receipt', 'status'])
+                                                                      'arrival date', 'arrival receipt', 'status'], default=['date'])
                 st.number_input('car number: ', key='car_no_dets')
                 cols=st.columns(len(options))
                 for i, j in enumerate(options):
