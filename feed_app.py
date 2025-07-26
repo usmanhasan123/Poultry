@@ -11,6 +11,8 @@ def main():
     
     if 'inputs_2' not in st.session_state:
         st.session_state.inputs_2=1
+    if 'is_masterfeed' not in st.session_state:
+        st.session_state.is_masterfeed=False
         
     def add_inputs():
         st.session_state.inputs_2+=1
@@ -20,6 +22,7 @@ def main():
     tab1, tab2 = st.tabs(['Log feed dispatch', 'Log feed arrival'])
     with tab1:
         if st.checkbox("Log masterfeed?"):
+            st.session_state.is_masterfeed=True
             date=st.date_input("date: ",value= datetime.date.today(), max_value= datetime.date.today(), key="date_feed_input_mas")
             input_dict['date']=date
             press=st.button("Add option", on_click=add_inputs, key='add_option_feed_mas')
@@ -32,6 +35,7 @@ def main():
                 farm=cols[1].selectbox("Farm : ", ['Makhdoomia', 'Shahid', 'Usman'] key=f"farm_mas_{i}")
                 input_dict[f"{i+1}st feed"]={"bori_amount": bori_amount, "order_no": order_no, "amount_paid":amount_paid, "farm":farm}
         else:
+            st.session_state.is_masterfeed=False
             date=st.date_input("date: ",value= datetime.date.today(), max_value= datetime.date.today(), key="date_feed_input")
             input_dict['date']=date
             press=st.button("Add option", on_click=add_inputs, key='add_option_feed')
@@ -46,9 +50,14 @@ def main():
             
         if st.button("Submit", key='submit_key_feed'):
             if len(input_dict)>0:
-                obj=feed_class(input_dict)
-                obj.insert_in_feed_log()
-                df=obj.fetch_feed_log()
+                if st.session_state.is_masterfeed==True:
+                    obj=feed_class(input_dict)
+                    obj.insert_in_feed_log()
+                    df=obj.fetch_feed_log()
+                else:
+                    obj=feed_class(input_dict)
+                    obj.insert_in_feed_log()
+                    df=obj.fetch_feed_log()                    
             else:
                 pass
             st.write(df)
