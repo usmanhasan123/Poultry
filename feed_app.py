@@ -124,11 +124,11 @@ def main():
         if st.button("Submit", key='submit_key_feed_update'):
             if len(input_dict)>0:
                 if st.session_state.updates==1:
-                    st.write(input_dict)
                     obj=feed_class(input_dict)
                     obj.update_feed_arrival()
                     df=obj.fetch_feed_log()
                 elif st.session_state.updates==2:
+                    st.write(input_dict)
                     obj=feed_class(input_dict)
                     obj.update_feed_table()
                     df=obj.fetch_feed_log()
