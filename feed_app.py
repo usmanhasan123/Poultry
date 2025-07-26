@@ -13,8 +13,8 @@ def main():
         st.session_state.inputs_2=1
     if 'is_masterfeed' not in st.session_state:
         st.session_state.is_masterfeed=False
-    if 'is_callarrival' not in st.session_state:
-        st.session_state.is_callarrival=True
+    if 'updates' not in st.session_state:
+        st.session_state.updates=1
         
     def add_inputs():
         st.session_state.inputs_2+=1
@@ -69,11 +69,11 @@ def main():
             st.write("TBD")
         else:
             if st.button("Update car arrival"):
-                st.session_state.is_callarrival=True
+                st.session_state.updates=1
             if st.button("Update table details"):
-                st.session_state.is_callarrival=False
+                st.session_state.updates=2
                 
-            if st.session_state.is_callarrival==True:
+            if st.session_state.updates==1:
                 cols=st.columns(3)
                 car_no=cols[0].number_input("car number: ", key="car_no")
                 arrival_receipt=cols[1].text_input("arrival receipt: ", key="arr_rec")
@@ -81,7 +81,7 @@ def main():
                 input_dict['car_number']=car_no
                 input_dict['arrival_receipt']=arrival_receipt
                 input_dict['arrival_date']=arrival_date
-            else:
+            elif st.session_state.updates==2:
                 options=st.multiselect("What details do you want to change?", ['date', 'bori amount', 'bilti payment', 'paid by', 'dispatch receipt',
                                                                       'arrival date', 'arrival receipt', 'status'], default=['date'])
                 st.number_input('car number: ', key='car_no_dets')
@@ -92,29 +92,44 @@ def main():
                 for i, j in enumerate(options):
                     if j=='date':
                         date=cols[i].date_input("date: ", value=datetime.date.today(), max_value=datetime.date.today(), key='date_')
+                        input_dict['date']=date
                     elif j=='paid by':
                         paid_by=cols[i].selectbox("Paid by: ", ['Shahid', 'Siddiq'], key=f"paidby_")
+                        input_dict['paid_by']=paid_by
                     elif j=='dispatch receipt':
                         dispatch_receipt=cols[i].text_input("dispatch receipt: ", key=f"dispatch_")
+                        input_dict['dispatch_receipt']=dispatch_receipt
                     elif j=='arrival date':
                         arrival_date=cols[i].date_input("arrival date: ", value=datetime.date.today(), key='date_arrival_')
+                        input_dict['arrival_date']=arrival_date
                     elif j=='arrival receipt':
                         arrival_receipt=cols[i].text_input("arrival receipt: ", key=f"arrival_")
+                        input_dict['arrival_receipt']=arrival_receipt
                     elif j=='status':
                         status=cols[i].selectbox("Status: ", ['DISPATCHED', 'ARRIVED'], key=f"status_")
+                        input_dict['status']=status
                     elif j=='bori_amount':
                         bori_amount=cols[i].number_input("bori amount", key=f'bori_')
+                        input_dict['amount']=bori_amount
                     elif j=='bilti payment':
                         bilti=cols[i].number_input("bilti payment", key=f'bilti_')
+                        input_dict['bilti_payment']=bilti
+            else:
+                pass
 
         if st.button("Submit", key='submit_key_feed_update'):
             if len(input_dict)>0:
-                # if st.sesison state ==True:
-                obj=feed_class(input_dict)
-                obj.update_feed_arrival()
-                df=obj.fetch_feed_log()
-                # else:
-            # update the feed log according to selectboxes. make a func in feed_class for this
+                if st.session_state.updates==1:
+                    obj=feed_class(input_dict)
+                    obj.update_feed_arrival()
+                    df=obj.fetch_feed_log()
+                elif st.session_state.updates==2:
+                    obj=feed_class(input_dict)
+                    obj.update_feed_table() # change to the new func (which updates based on custom values
+                    df=obj.fetch_feed_log()
+                else:
+                    pass
+                    # masterfeed update
             else:
                 pass
             st.write(df)
