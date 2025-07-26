@@ -52,8 +52,8 @@ def main():
             if len(input_dict)>0:
                 if st.session_state.is_masterfeed==True:
                     obj=feed_class(input_dict)
-                    obj.insert_in_feed_log()
-                    df=obj.fetch_feed_log()
+                    obj.insert_in_feed_log_master()
+                    df=obj.fetch_feed_log_master()
                 else:
                     obj=feed_class(input_dict)
                     obj.insert_in_feed_log()
@@ -82,8 +82,11 @@ def main():
 
     
     if st.button('Show feed logs'):
-        df=feed_class.fetch_feed_log()
-        st.write(df)
+        df_mudas=feed_class.fetch_feed_log()
+        df_mas=feed_class.fetch_feed_log_master()
+        col1, col2 = st.columns(2)
+        col1.write(df_mudas)
+        col2.write(df_mas)
     
         
     
