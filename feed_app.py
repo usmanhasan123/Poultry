@@ -67,23 +67,46 @@ def main():
             st.write("TBD")
         else:
             if st.button("Update car arrival"):
+                # include st.session state as True
                 cols=st.columns(3)
-                car_no=cols[0].number_input("car number: ", key=f"car_no")
-                arrival_receipt=cols[1].text_input("arrival receipt: ", key=f"arr_rec")
+                car_no=cols[0].number_input("car number: ", key="car_no")
+                arrival_receipt=cols[1].text_input("arrival receipt: ", key="arr_rec")
                 arrival_date=cols[2].date_input("arrival date: ",value= datetime.date.today(), key="date_arrival_input")
                 input_dict['car_number']=car_no
                 input_dict['arrival_receipt']=arrival_receipt
                 input_dict['arrival_date']=arrival_date
             elif st.button("Update table details"):
+                # include st,.sesiosn state as false
                 options=st.multiselect("What details do you want to change?", ['date', 'bori amount', 'bilti payment', 'paid by', 'dispatch receipt',
                                                                       'arrival date', 'arrival receipt', 'status'])
-                st.write(options)
+                st.number_input('car number: ', key='car_no_dets')
+                cols=st.columns(len(i))
+                for i, j in enumerate(options):
+                    if j=='date':
+                        date=cols[i].date_input("date: ", value=datetime.date.today(), max_value=datetime.date.today(), key='date_')
+                    elif j=='paid by':
+                        paid_by=cols[i].selectbox("Paid by: ", ['Shahid', 'Siddiq'], key=f"paidby_")
+                    elif j=='dispatch receipt':
+                        dispatch_receipt=cols[i].text_input("dispatch receipt: ", key=f"dispatch_")
+                    elif j=='arrival date':
+                        arrival_date=cols[i].date_input("arrival date: ", value=datetime.date.today(), key='date_arrival_')
+                    elif j=='arrival receipt':
+                        arrival_receipt=cols[i].text_input("arrival receipt: ", key=f"arrival_")
+                    elif j=='status':
+                        status=cols[i].selectbox("Status: ", ['DISPATCHED', 'ARRIVED'], key=f"status_")
+                    elif j=='bori_amount':
+                        bori_amount=cols[i].number_input("bori amount", key=f'bori_')
+                    elif j=='bilti payment':
+                        bilti=cols[i].number_input("bilti payment", key=f'bilti_')
 
         if st.button("Submit", key='submit_key_feed_update'):
             if len(input_dict)>0:
+                # if st.sesison state ==True:
                 obj=feed_class(input_dict)
                 obj.update_feed_arrival()
                 df=obj.fetch_feed_log()
+                # else:
+            # update the feed log according to selectboxes. make a func in feed_class for this
             else:
                 pass
             st.write(df)
