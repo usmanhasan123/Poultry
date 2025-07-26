@@ -113,6 +113,18 @@ class feed_class:
             con.execute(text(query), recs)
             con.commit()
 
+    def update_feed_table(self):
+        conn=self.create_connection()
+        columns_to_update=self.inputs.keys()
+        set_clause = ', '.join(f"{i}=:{i}" for i in columns_to_update if i != 'car_number')
+        query = f"update feed_log set {set_clause} where car_number=:4"
+        recs=self.inputs
+        # recs=[{'1': self.inputs['arrival_date'], '2': self.inputs['arrival_receipt'], '3': 'ARRIVED', '4': self.inputs['car_number']}]
+
+        with conn.connect() as con:
+            con.execute(text(query), recs)
+            con.commit()
+            
     @staticmethod
     def fetch_feed_log():
         conn=production_class.create_connection()
