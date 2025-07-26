@@ -115,7 +115,7 @@ def main():
                     elif j=='status':
                         status=cols[i].selectbox("Status: ", ['DISPATCHED', 'ARRIVED'], key=f"status_")
                         input_dict['status']=status
-                    elif j=='bori_amount':
+                    elif j=='bori amount':
                         bori_amount=cols[i].number_input("bori amount", key=f'bori_')
                         input_dict['amount']=bori_amount
                     elif j=='bilti payment':
