@@ -13,6 +13,8 @@ def main():
         st.session_state.inputs_2=1
     if 'is_masterfeed' not in st.session_state:
         st.session_state.is_masterfeed=False
+    if 'is_callarrival' not in st.session_state:
+        st.session_state.is_callarrival=True
         
     def add_inputs():
         st.session_state.inputs_2+=1
@@ -66,8 +68,7 @@ def main():
         if st.checkbox("Update masterfeed table?"):
             st.write("TBD")
         else:
-            if st.button("Update car arrival"):
-                # include st.session state as True
+            if st.session_state.is_callarrival==True:
                 cols=st.columns(3)
                 car_no=cols[0].number_input("car number: ", key="car_no")
                 arrival_receipt=cols[1].text_input("arrival receipt: ", key="arr_rec")
@@ -75,12 +76,14 @@ def main():
                 input_dict['car_number']=car_no
                 input_dict['arrival_receipt']=arrival_receipt
                 input_dict['arrival_date']=arrival_date
-            elif st.button("Update table details"):
-                # include st,.sesiosn state as false
+            else:
                 options=st.multiselect("What details do you want to change?", ['date', 'bori amount', 'bilti payment', 'paid by', 'dispatch receipt',
                                                                       'arrival date', 'arrival receipt', 'status'], default=['date'])
                 st.number_input('car number: ', key='car_no_dets')
-                cols=st.columns(len(options))
+                if len(options)==0:
+                    cols=st.columns(1)
+                else:
+                    cols=st.columns(len(options))
                 for i, j in enumerate(options):
                     if j=='date':
                         date=cols[i].date_input("date: ", value=datetime.date.today(), max_value=datetime.date.today(), key='date_')
@@ -98,6 +101,14 @@ def main():
                         bori_amount=cols[i].number_input("bori amount", key=f'bori_')
                     elif j=='bilti payment':
                         bilti=cols[i].number_input("bilti payment", key=f'bilti_')
+                
+            if st.button("Update car arrival"):
+                st.session_state.is_callarrival=True
+            elif st.button("Update table details"):
+                st.session_state.is_callarrival=False
+            else:
+                pass
+
 
         if st.button("Submit", key='submit_key_feed_update'):
             if len(input_dict)>0:
