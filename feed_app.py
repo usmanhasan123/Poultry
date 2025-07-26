@@ -5,7 +5,6 @@ import datetime
 from feed_class import feed_class
 
 def main():
-    input_dict={}
     st.set_page_config(page_title="Feed Logs", page_icon=":robot:")
     st.header("Feed Logs")
     
@@ -24,6 +23,7 @@ def main():
     tab1, tab2 = st.tabs(['Log feed dispatch', 'Update feed table'])
     with tab1:
         if st.checkbox("Log masterfeed?"):
+            input_dict={}
             st.session_state.is_masterfeed=True
             date=st.date_input("date: ",value= datetime.date.today(), max_value= datetime.date.today(), key="date_feed_input_mas")
             input_dict['date']=date
@@ -38,6 +38,7 @@ def main():
                 input_dict[f"{i+1}st feed"]={"bori_amount": bori_amount, "order_no": order_no, "amount_paid":amount_paid, "farm":farm}
         else:
             st.session_state.is_masterfeed=False
+            input_dict={}
             date=st.date_input("date: ",value= datetime.date.today(), max_value= datetime.date.today(), key="date_feed_input")
             input_dict['date']=date
             press=st.button("Add option", on_click=add_inputs, key='add_option_feed')
@@ -77,6 +78,7 @@ def main():
                 st.session_state.updates=2
                 
             if st.session_state.updates==1:
+                input_dict={}
                 cols=st.columns(3)
                 car_no=cols[0].number_input("car number: ", key="car_no")
                 arrival_receipt=cols[1].text_input("arrival receipt: ", key="arr_rec")
@@ -85,6 +87,7 @@ def main():
                 input_dict['arrival_receipt']=arrival_receipt
                 input_dict['arrival_date']=arrival_date
             elif st.session_state.updates==2:
+                input_dict={}
                 options=st.multiselect("What details do you want to change?", ['date', 'bori amount', 'bilti payment', 'paid by', 'dispatch receipt',
                                                                       'arrival date', 'arrival receipt', 'status'], default=['date'])
                 car_number=st.number_input('car number: ', key='car_no_dets')
