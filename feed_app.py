@@ -19,17 +19,30 @@ def main():
 
     tab1, tab2 = st.tabs(['Log feed dispatch', 'Log feed arrival'])
     with tab1:
-        date=st.date_input("date: ",value= datetime.date.today(), key="date_feed_input")
-        input_dict['date']=date
-        press=st.button("Add option", on_click=add_inputs, key='add_option_feed')
-        press1=st.button("Remove option", on_click=remove_inputs, key='remove_option_feed')
-        for i in range(st.session_state.inputs_2):
-            cols=st.columns(4)
-            bori_amount=cols[0].number_input("amount (bori): ", key=f"bori_{i}")
-            bilti_payment=cols[1].number_input("Bilti payment: ", key=f"bilti_{i}")
-            paid_by=cols[1].selectbox("Paid by: ", ['Shahid', 'Siddiq'], key=f"paidby_{i}")
-            dispatch_receipt=cols[3].text_input("dispatch receipt: ", key=f"dispatch_{i}")
-            input_dict[f"{i+1}st feed"]={"bori_amount": bori_amount, "bilti_payment": bilti_payment, "paid_by":paid_by, "dispatch_receipt":dispatch_receipt}
+        if st.checkbox("Log masterfeed?"):
+            date=st.date_input("date: ",value= datetime.date.today(), max_value= datetime.date.today(), key="date_feed_input_mas")
+            input_dict['date']=date
+            press=st.button("Add option", on_click=add_inputs, key='add_option_feed_mas')
+            press1=st.button("Remove option", on_click=remove_inputs, key='remove_option_feed_mas')
+            for i in range(st.session_state.inputs_2):
+                cols=st.columns(4):
+                bori_amount=cols[0].number_input("amount (bori): ", key=f"bori_mas_{i}")
+                order_no=cols[1].text_input("order no. : ", key=f"order_mas_{i}")
+                amount_paid=cols[1].number_input("amount paid : ", key=f"amount_mas_{i}")
+                farm=cols[1].selectbox("Farm : ", ['Makhdoomia', 'Shahid', 'Usman'] key=f"farm_mas_{i}")
+                input_dict[f"{i+1}st feed"]={"bori_amount": bori_amount, "order_no": order_no, "amount_paid":amount_paid, "farm":farm}
+        else:
+            date=st.date_input("date: ",value= datetime.date.today(), max_value= datetime.date.today(), key="date_feed_input")
+            input_dict['date']=date
+            press=st.button("Add option", on_click=add_inputs, key='add_option_feed')
+            press1=st.button("Remove option", on_click=remove_inputs, key='remove_option_feed')
+            for i in range(st.session_state.inputs_2):
+                cols=st.columns(4)
+                bori_amount=cols[0].number_input("amount (bori): ", key=f"bori_{i}")
+                bilti_payment=cols[1].number_input("Bilti payment: ", key=f"bilti_{i}")
+                paid_by=cols[1].selectbox("Paid by: ", ['Shahid', 'Siddiq'], key=f"paidby_{i}")
+                dispatch_receipt=cols[3].text_input("dispatch receipt: ", key=f"dispatch_{i}")
+                input_dict[f"{i+1}st feed"]={"bori_amount": bori_amount, "bilti_payment": bilti_payment, "paid_by":paid_by, "dispatch_receipt":dispatch_receipt}
             
         if st.button("Submit", key='submit_key_feed'):
             if len(input_dict)>0:
