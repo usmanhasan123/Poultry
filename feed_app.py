@@ -84,7 +84,8 @@ def main():
             elif st.session_state.updates==2:
                 options=st.multiselect("What details do you want to change?", ['date', 'bori amount', 'bilti payment', 'paid by', 'dispatch receipt',
                                                                       'arrival date', 'arrival receipt', 'status'], default=['date'])
-                st.number_input('car number: ', key='car_no_dets')
+                car_number=st.number_input('car number: ', key='car_no_dets')
+                input_dict['car_number']=car_number
                 if len(options)==0:
                     cols=st.columns(1)
                 else:
@@ -125,7 +126,7 @@ def main():
                     df=obj.fetch_feed_log()
                 elif st.session_state.updates==2:
                     obj=feed_class(input_dict)
-                    obj.update_feed_table() # change to the new func (which updates based on custom values
+                    obj.update_feed_table()
                     df=obj.fetch_feed_log()
                 else:
                     pass
