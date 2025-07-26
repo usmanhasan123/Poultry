@@ -64,9 +64,42 @@ class feed_class:
                 dictt[str(k)]=j
                 k=k+1
             recs2.append(dictt)
-    
+        # query_del="delete from feed_log where car_number=:1"
+        # rec_del=
         query="insert into feed_log (amount, bilti_payment, paid_by, dispatch_receipt, total_amount, amount_paid, status, car_number, date) \
         values (:1, :2, :3, :4, :5, :6, :7, :8, :9)"
+        with conn.connect() as con:
+            con.execute(text(query), recs2)
+            con.commit()
+
+    def insert_in_feed_log_master(self): # need to replace if date is repeated
+        conn=self.create_connection()
+        feed_df=self.fetch_feed_log_master()
+        input_keys=[]
+        for i in self.inputs:
+            if type(self.inputs[i])==dict:
+                input_keys.append(i)
+                recs=[]
+
+        for i in input_keys:
+            params=self.inputs[i]
+            a=list(params.values())
+            for j in self.inputs:
+                if j not in input_keys:
+                    a.append(self.inputs[j])
+            recs.append(tuple(a))
+        
+        recs2=[]
+        for i in recs:
+            k=1
+            dictt={}
+            for j in i:
+                dictt[str(k)]=j
+                k=k+1
+            recs2.append(dictt)
+    
+        query="insert into feed_log_master (amount, order_no, amount_paid, farm, date) \
+        values (:1, :2, :3, :4, :5)"
         with conn.connect() as con:
             con.execute(text(query), recs2)
             con.commit()
@@ -80,9 +113,29 @@ class feed_class:
             con.execute(text(query), recs)
             con.commit()
 
+    def update_feed_table(self):
+        conn=self.create_connection()
+        columns_to_update=self.inputs.keys()
+        set_clause = ', '.join(f"{i}=:{i}" for i in columns_to_update if i != 'car_number')
+        query = f"update feed_log set {set_clause} where car_number=:car_number"
+        recs=self.inputs
+        # recs=[{'1': self.inputs['arrival_date'], '2': self.inputs['arrival_receipt'], '3': 'ARRIVED', '4': self.inputs['car_number']}]
+
+        with conn.connect() as con:
+            con.execute(text(query), recs)
+            con.commit()
+
+    # def update_feed_tabel_master(self)
+            
     @staticmethod
     def fetch_feed_log():
         conn=production_class.create_connection()
         query="select * from feed_log order by car_number asc"
+        df=pd.read_sql(text(query), conn)
+        return df
+    @staticmethod
+    def fetch_feed_log_master():
+        conn=production_class.create_connection()
+        query="select * from feed_log_master order by date asc"
         df=pd.read_sql(text(query), conn)
         return df

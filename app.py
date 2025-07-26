@@ -4,6 +4,14 @@ import streamlit as st
 import datetime
 from get_and_upload_daily_production import production_class
 
+def process(input_dict):
+    obj=production_class(input_dict)
+    obj.insert_in_daily_report()
+    df=obj.fetch_daily_report()
+    obj.update_daily_production_table(df)
+    df2=obj.fetch_daily_production_table()
+    return df, df2
+    
 def main():
     input_dict={}
     st.set_page_config(page_title="Daily Production Stats", page_icon=":robot:")
@@ -16,6 +24,10 @@ def main():
     input_dict['remaining_balance_small_eggs']=remaining_balance_small_eggs
     if 'inputs' not in st.session_state:
         st.session_state.inputs=1
+    if 'show_warning' not in st.session_state:
+        st.session_state.show_warning=False
+    if 'process' not in st.session_state:
+        st.session_state.process=False
         
     def add_inputs():
         st.session_state.inputs+=1
@@ -35,18 +47,40 @@ def main():
         input_dict[f"{i+1}st party"]={"no_of_patty_gone": no_of_patty_gone, "egg_type": egg_type, "rate":rate, "cut":cut, "open_or_closed": open_or_closed, "party":party}
     
     if st.button("Submit"):
-        if len(input_dict)>0:
-            obj=production_class(input_dict)
-            obj.insert_in_daily_report()
-            df=obj.fetch_daily_report()
-            obj.update_daily_production_table(df)
-            df2=obj.fetch_daily_production_table()
+        dff=production_class.fetch_daily_report()
+        if str(date) in dff['date'].to_list():
+            st.session_state['show_warning']=True
         else:
-            pass
+            if len(input_dict)>0:
+                df, df2=process(input_dict)
+                st.session_state['process']=True
+            else:
+                pass
+    @st.dialog("Important Warning")
+    def warning():
+        st.write("Records for this date already exist. Do you wish to continue?")
+        col1, col2=st.columns(2)
+        with col1:
+            if st.button("Yes, continue"):
+                st.session_state['process']=True
+                st.rerun()
+        with col2:
+            if st.button("No"):
+                st.session_state['process']=False
+                st.rerun()
+                
+                
+    if st.session_state['show_warning']==True:
+        warning()
+        st.session_state['show_warning']=False
+
+    if st.session_state['process']==True:
+        df, df2=process(input_dict)
         colss=st.columns(2)
         colss[0].write(df)
         colss[1].write(df2)
-    
+        st.session_state['process']=False
+        
     if st.button('Show report'):
         df=production_class.fetch_daily_report()
         df2=production_class.fetch_daily_production_table()
