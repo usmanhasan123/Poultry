@@ -32,7 +32,7 @@ def main():
                 bori_amount=cols[0].number_input("amount (bori): ", key=f"bori_mas_{i}")
                 order_no=cols[1].text_input("order no. : ", key=f"order_mas_{i}")
                 amount_paid=cols[1].number_input("amount paid : ", key=f"amount_mas_{i}")
-                farm=cols[1].selectbox("Farm : ", ['Makhdoomia', 'Shahid', 'Usman'] key=f"farm_mas_{i}")
+                farm=cols[1].selectbox("Farm : ", ['Makhdoomia', 'Shahid', 'Usman'], key=f"farm_mas_{i}")
                 input_dict[f"{i+1}st feed"]={"bori_amount": bori_amount, "order_no": order_no, "amount_paid":amount_paid, "farm":farm}
         else:
             st.session_state.is_masterfeed=False
