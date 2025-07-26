@@ -28,7 +28,7 @@ def main():
             press=st.button("Add option", on_click=add_inputs, key='add_option_feed_mas')
             press1=st.button("Remove option", on_click=remove_inputs, key='remove_option_feed_mas')
             for i in range(st.session_state.inputs_2):
-                cols=st.columns(4):
+                cols=st.columns(4)
                 bori_amount=cols[0].number_input("amount (bori): ", key=f"bori_mas_{i}")
                 order_no=cols[1].text_input("order no. : ", key=f"order_mas_{i}")
                 amount_paid=cols[1].number_input("amount paid : ", key=f"amount_mas_{i}")
