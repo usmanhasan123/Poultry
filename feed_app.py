@@ -131,7 +131,6 @@ def main():
                     obj.update_feed_arrival()
                     df=obj.fetch_feed_log()
                 elif st.session_state.updates==2:
-                    st.write(input_dict)
                     obj=feed_class(input_dict)
                     obj.update_feed_table()
                     df=obj.fetch_feed_log()
