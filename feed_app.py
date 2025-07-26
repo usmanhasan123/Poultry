@@ -104,10 +104,8 @@ def main():
                 
             if st.button("Update car arrival"):
                 st.session_state.is_callarrival=True
-            elif st.button("Update table details"):
+            if st.button("Update table details"):
                 st.session_state.is_callarrival=False
-            else:
-                pass
 
 
         if st.button("Submit", key='submit_key_feed_update'):
