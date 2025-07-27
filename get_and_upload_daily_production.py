@@ -88,13 +88,13 @@ class production_class:
         df['remaining_balance'] = df['remaining_balance_big_eggs'] + df['remaining_balance_small_eggs']
         x=pd.to_datetime(date_to_update) - timedelta(days=1)
         last_day=x.strftime("%Y-%m-%d")
-        df1=df[df['date']>=last_day]
+        df1=df[df['date']>=last_day] # filter on >=last day and <= day+1
         # fetch records with date>= date_to_update-1
         df2=df1.groupby('date').agg(no_of_patty_gone=('patty_gone', 'sum'), rem_balance=('remaining_balance', 'mean')).reset_index() # df2 shouldhave 1 row for each date
         df2['last_rem_balance']=df2['rem_balance'].shift(1)
         df2['production']=df2['no_of_patty_gone'] + df2['rem_balance'] - df2['last_rem_balance']
         # fetch records with date>= date_to_update (this will omit the day-1 record)
-        df2=df2[df2['date']>=date_to_update]
+        df2=df2[df2['date']>=date_to_update] # this will have 2 rows after line 91
         df2=df2[['date', 'production']]
         recs=[]
         for i, j in df2.iterrows():
@@ -103,11 +103,15 @@ class production_class:
             dictt['b']=j['production']
             recs.append(dictt)
         # df_last_day=df[df['date']==last_day]
-    
         # today_production=df2['no_of_patty_gone'].iloc[0] + df2['rem_balance'].iloc[0]-df_last_day['remaining_balance'].iloc[0]
-    
         # recs=[{'a': date_to_update, 'b': today_production}]
         # delete records for date>=date_to_update
+        
+        # update_query = 'update daily_production set production = case date 
+        #             when 'date1' then prod1 
+        #             when 'date2' then prod2'
+        #             else production end
+        #                         where date in (date1, date2)
         query_del="delete from daily_production where date>= :a"
         rec_del=[{'a': date_to_update}]
         query="insert into daily_production (date, production) values (:a, :b)"
