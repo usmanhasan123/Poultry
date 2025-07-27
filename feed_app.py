@@ -160,8 +160,9 @@ def main():
                         obj.update_feed_table()
                         df=obj.fetch_feed_log()
                     elif st.session_state.updates==3: # update for masterfeed
-                        pass
-                        # masterfeed update
+                        obj=feed_class(input_dict)
+                        obj.update_feed_table_master()
+                        df=obj.fetch_feed_log_master()
                     else:
                         pass
                 else:
