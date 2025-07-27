@@ -67,9 +67,34 @@ def main():
     
     with tab2:
         if st.checkbox("Update masterfeed table?"):
-            # st.session_state.updates=3
-            st.write("TBD")
+            st.session_state.updates=3
+            # st.write("TBD")
             # create input dict
+                input_dict={}
+                options=st.multiselect("What details do you want to change?", ['date', 'bori amount', 'order number', 'amount paid', 'farm'], 
+                                       default=['date'])
+                id=st.number_input('id: ', key='id_dets')
+                input_dict['id']=id
+                if len(options)==0:
+                    cols=st.columns(1)
+                else:
+                    cols=st.columns(len(options))
+                for i, j in enumerate(options):
+                    if j=='date':
+                        date=cols[i].date_input("date: ", value=datetime.date.today(), max_value=datetime.date.today(), key='date__')
+                        input_dict['date']=date
+                    elif j=='bori amount':
+                        amount=cols[i].number_input("bori amount", key=f'bori_amount_')
+                        input_dict['amount']=amount
+                    elif j=='order number':
+                        order_no=cols[i].text_input("order number: ", key=f"order_no_")
+                        input_dict['order_no']=order_no
+                    elif j=='amount paid':
+                        amount_paid=cols[i].number_input("amount paid: ", key='amount_paid_')
+                        input_dict['amount_paid']=amount_paid
+                    elif j=='farm':
+                        farm=cols[i].selectbox("farm: ",['Makhdoomia', ], key=f"farm_")
+                        input_dict['farm']=farm
         else:
             st.session_state.updates=None
             if st.button("Update car arrival"):
@@ -123,25 +148,25 @@ def main():
                         input_dict['bilti_payment']=bilti
             else:
                 pass
-
-        if st.button("Submit", key='submit_key_feed_update'):
-            if len(input_dict)>0:
-                if st.session_state.updates==1:
-                    obj=feed_class(input_dict)
-                    obj.update_feed_arrival()
-                    df=obj.fetch_feed_log()
-                elif st.session_state.updates==2:
-                    obj=feed_class(input_dict)
-                    obj.update_feed_table()
-                    df=obj.fetch_feed_log()
-                # elif st.session_state.updates==3:
-                #     pass
-                #     # masterfeed update
+        if st.session_state.updates:
+            if st.button("Submit", key='submit_key_feed_update'):
+                if len(input_dict)>0:
+                    if st.session_state.updates==1: # update arrival for mudasir feed
+                        obj=feed_class(input_dict)
+                        obj.update_feed_arrival()
+                        df=obj.fetch_feed_log()
+                    elif st.session_state.updates==2: # update for mudasir feed
+                        obj=feed_class(input_dict)
+                        obj.update_feed_table()
+                        df=obj.fetch_feed_log()
+                    elif st.session_state.updates==3: # update for masterfeed
+                        pass
+                        # masterfeed update
+                    else:
+                        pass
                 else:
                     pass
-            else:
-                pass
-            st.write(df)
+                st.write(df)
 
     
     if st.button('Show feed logs'):
