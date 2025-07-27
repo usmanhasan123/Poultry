@@ -75,11 +75,18 @@ class feed_class:
     def insert_in_feed_log_master(self): # need to replace if date is repeated
         conn=self.create_connection()
         feed_df=self.fetch_feed_log_master()
+        
+        max_id=feed_df['id'].max()
+        max_id=int(max_id) # so that it is compatible with mysql
+        max_id=max_id+1
+        
         input_keys=[]
         for i in self.inputs:
             if type(self.inputs[i])==dict:
+                self.inputs[i]['id']=max_id
                 input_keys.append(i)
                 recs=[]
+                max_id=max_id+1
 
         for i in input_keys:
             params=self.inputs[i]
@@ -98,8 +105,8 @@ class feed_class:
                 k=k+1
             recs2.append(dictt)
     
-        query="insert into feed_log_master (amount, order_no, amount_paid, farm, date) \
-        values (:1, :2, :3, :4, :5)"
+        query="insert into feed_log_master (amount, order_no, amount_paid, farm, id, date) \
+        values (:1, :2, :3, :4, :5, :6)"
         with conn.connect() as con:
             con.execute(text(query), recs2)
             con.commit()
