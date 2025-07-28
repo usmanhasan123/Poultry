@@ -38,9 +38,12 @@ class production_class:
     def insert_in_daily_report(self): # need to replace if date is repeated
         conn=self.create_connection()
         dff=self.fetch_daily_report()
-        max_id=dff['id'].max()
-        max_id=int(max_id)
-        max_id=max_id+1
+        if self.inputs['date'] in dff['date'].to_list():
+            max_id=int(dff[dff['date']==self.inputs['date']]['id'])
+        else:
+            max_id=dff['id'].max()
+            max_id=int(max_id)
+            max_id=max_id+1
         # self.inputs['date']=self.inputs['date'].strftime("%Y-%m-%d")
         input_keys=[]
         for i in self.inputs:
