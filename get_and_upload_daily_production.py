@@ -90,7 +90,7 @@ class production_class:
         y=pd.to_datetime(date_to_update) + timedelta(days=1)
         last_day=x.strftime("%Y-%m-%d")
         day_plus_one=y.strftime("%Y-%m-%d")
-        df1=df[(df['date']>=last_day) && (df['date']<=day_plus_one)] # filter on >=last day and <= day+1
+        df1=df[(df['date']>=last_day) and (df['date']<=day_plus_one)] # filter on >=last day and <= day+1
         # fetch records with date>= date_to_update-1
         df2=df1.groupby('date').agg(no_of_patty_gone=('patty_gone', 'sum'), rem_balance=('remaining_balance', 'mean')).reset_index() # df2 shouldhave 1 row for each date
         df2['last_rem_balance']=df2['rem_balance'].shift(1)
