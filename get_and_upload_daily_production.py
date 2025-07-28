@@ -37,11 +37,17 @@ class production_class:
         return conn
     def insert_in_daily_report(self): # need to replace if date is repeated
         conn=self.create_connection()
+        dff=self.fetch_daily_report()
+        max_id=dff['id'].max()
+        max_id=int(max_id)
+        max_id=max_id+1
         # self.inputs['date']=self.inputs['date'].strftime("%Y-%m-%d")
         input_keys=[]
         for i in self.inputs:
             if type(self.inputs[i])==dict:
+                self.inputs[i]['id']=max_id
                 input_keys.append(i)
+                max_id=max_id+1
         recs=[]
     
         for i in input_keys:
@@ -63,7 +69,7 @@ class production_class:
         query_del="delete from daily_report where date = :a"
         rec_del=[{'a':self.inputs['date']}]
         # delete any records corresponing to that date. Get date from self.inputs['date']
-        query="insert into daily_report (patty_gone, type, rate, cut, open_or_closed, party, date, remaining_balance_big_eggs, remaining_balance_small_eggs) values (:1, :2, :3, :4, :5, :6, :7, :8, :9)"
+        query="insert into daily_report (patty_gone, type, rate, cut, open_or_closed, party, id, date, remaining_balance_big_eggs, remaining_balance_small_eggs) values (:1, :2, :3, :4, :5, :6, :7, :8, :9, :10)"
         with conn.connect() as con:
             con.execute(text(query_del), rec_del) # can also add an if statment before this
             con.execute(text(query), recs2)
