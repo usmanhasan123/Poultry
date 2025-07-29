@@ -75,6 +75,18 @@ class production_class:
             con.execute(text(query), recs2)
             con.commit()
 
+    def update_daily_report():
+        conn=self.create_connection()
+        columns_to_update=self.inputs.keys()
+        set_clause = ', '.join(f"{i}=:{i}" for i in columns_to_update if i != 'id')
+        query = f"update daily_report set {set_clause} where id=:id"
+        recs=self.inputs
+        # recs=[{'1': self.inputs['arrival_date'], '2': self.inputs['arrival_receipt'], '3': 'ARRIVED', '4': self.inputs['car_number']}]
+
+        with conn.connect() as con:
+            con.execute(text(query), recs)
+            con.commit()
+
     @staticmethod
     def fetch_daily_report():
         conn=production_class.create_connection()
@@ -90,7 +102,11 @@ class production_class:
     
     def update_daily_production_table(self, df):
         conn=self.create_connection()
-        date_to_update=self.inputs['date']
+        if 'date' in self.inputs:
+            date_to_update=self.inputs['date']
+        elif 'id' in self.inputs:
+            idd=self.inputs['id']
+            date_to_update=df[df['id']==idd]['date']
         df['remaining_balance'] = df['remaining_balance_big_eggs'] + df['remaining_balance_small_eggs']
         x=pd.to_datetime(date_to_update) - timedelta(days=1)
         y=pd.to_datetime(date_to_update) + timedelta(days=1)

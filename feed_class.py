@@ -85,8 +85,8 @@ class feed_class:
             if type(self.inputs[i])==dict:
                 self.inputs[i]['id']=max_id
                 input_keys.append(i)
-                recs=[]
                 max_id=max_id+1
+        recs=[]
 
         for i in input_keys:
             params=self.inputs[i]
