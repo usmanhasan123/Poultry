@@ -26,10 +26,10 @@ def main():
 
     if 'inputs' not in st.session_state:
         st.session_state.inputs=1
-    if 'insert_report' not in st.session_state:
-        st.session_state.insert_report=False
-    if 'update_report' not in st.session_state:
-        st.session_state.update_report=False
+    # if 'insert_report' not in st.session_state:
+    #     st.session_state.insert_report=False
+    # if 'update_report' not in st.session_state:
+    #     st.session_state.update_report=False
     if 'show_warning' not in st.session_state:
         st.session_state.show_warning=False
     if 'process' not in st.session_state:
@@ -45,7 +45,7 @@ def main():
     tab1, tab2 = st.tabs(['Log daily report', 'Update daily_report'])
     with tab1:
         input_dict={}
-        st.session_state.insert_report=True
+        # st.session_state.insert_report=True
         date=st.date_input("date: ",value= datetime.date.today(),max_value= datetime.date.today(), key="date_input")
         remaining_balance_big_eggs=st.number_input("Remaining balance for large eggs: ", key='rem_large_key')
         remaining_balance_small_eggs=st.number_input("Remaining balance for small eggs: ", key='rem_small_key')
@@ -64,9 +64,20 @@ def main():
             party=cols[5].selectbox("party: ", ['Siddiq', 'Zulfi'], key=f"party_{i}")
             input_dict[f"{i+1}st party"]={"no_of_patty_gone": no_of_patty_gone, "egg_type": egg_type, "rate":rate, "cut":cut, "open_or_closed": open_or_closed, "party":party}
 
+        if st.button("Submit"):
+            st.session_state.log_balance=True
+            # if st.session_state.insert_report==True:
+            dff=production_class.fetch_daily_report()
+            if str(date) in dff['date'].to_list():
+                st.session_state['show_warning']=True
+            else:
+                if len(input_dict)>0:
+                    df, df2=process(input_dict) # can remove this
+                    st.session_state['process']=True 
+
     with tab2:
         input_dict={}
-        st.session_state.update_report=True
+        # st.session_state.update_report=True
         options=st.multiselect("What details do you want to change?", ['date', 'no of patty gone', 'egg type', 'rate', 'cut', 'open or closed', 
                                                                       'Remaining balance for large eggs', 'Remaining balance for small eggs', 'party'], 
                                default=['date'])
@@ -104,27 +115,17 @@ def main():
             elif j=='party':
                 party=cols[i].number_input("party: ", key='party_')
                 input_dict['party']=party
-    
-    if st.button("Submit"):
-        st.session_state.log_balance=True
-        if st.session_state.insert_report==True:
-            dff=production_class.fetch_daily_report()
-            if str(date) in dff['date'].to_list():
-                st.session_state['show_warning']=True
-            else:
-                if len(input_dict)>0:
-                    df, df2=process(input_dict) # can remove this
-                    st.session_state['process']=True
 
-        if st.session_state.update_report==True:
+        if st.button("Submit"):
+            st.session_state.log_balance=True
+            # if st.session_state.update_report==True:
             if len(input_dict)>0:
                 df, df2=update_process(input_dict)
                 colss=st.columns(2)
                 colss[0].write(df)
                 colss[1].write(df2)
-                st.session_state['update_report']=False
+                # st.session_state['update_report']=False
 
-        st.session_state.log_balance=False
     @st.dialog("Important Warning")
     def warning():
         st.write("Records for this date already exist. Do you wish to continue?")
@@ -153,6 +154,7 @@ def main():
     if st.session_state['log_balance']==True:
         pass
         # balance logs
+        st.session_state['log_balance']==False
         
     if st.button('Show report'):
         df=production_class.fetch_daily_report()
