@@ -29,7 +29,7 @@ class debit_credit:
             max_id=max_id+1
         else:
             max_id=19
-            max_id=int(max_car_no)
+            max_id=int(max_id)
         
         
         final_input={}
