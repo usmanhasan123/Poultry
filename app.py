@@ -73,6 +73,7 @@ def main():
             col1, col2=st.columns(2)
             with col1:
                 if st.button("Yes, continue"):
+                    st.session_state.log_balance=True
                     st.session_state['process']=True
                     st.rerun()
             with col2:
@@ -82,7 +83,6 @@ def main():
                     st.rerun()
                 
         if st.button("Submit", key='log_submit_key'):
-            st.session_state.log_balance=True
             # if st.session_state.insert_report==True:
             dff=production_class.fetch_daily_report()
             if str(date) in dff['date'].to_list():
@@ -90,6 +90,7 @@ def main():
             else:
                 if len(input_dict)>0:
                     # df, df2=process(input_dict) # can remove this
+                    st.session_state.log_balance=True
                     st.session_state['process']=True 
 
         if st.session_state['show_warning']==True:
