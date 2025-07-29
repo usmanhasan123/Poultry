@@ -76,7 +76,7 @@ class production_class:
             con.execute(text(query), recs2)
             con.commit()
 
-    def update_daily_report():
+    def update_daily_report(self):
         conn=self.create_connection()
         columns_to_update=self.inputs.keys()
         set_clause = ', '.join(f"{i}=:{i}" for i in columns_to_update if i != 'id')
