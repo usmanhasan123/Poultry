@@ -119,7 +119,7 @@ def main():
                 patty_gone=cols[i].number_input("no of patty gone", key='patty_gone_')
                 input_dict['patty_gone']=patty_gone
             elif j=='egg type':
-                egg_type=cols[i].text_input("egg type: ",['big', 'small'], key="egg_type_")
+                egg_type=cols[i].selectbox("egg type: ",['big', 'small'], key="egg_type_")
                 input_dict['type']=egg_type
             elif j=='rate':
                 rate=cols[i].number_input("rate: ", key='rate_')
@@ -128,7 +128,7 @@ def main():
                 cut=cols[i].number_input("cut: ", key='cut_')
                 input_dict['cut']=cut
             elif j=='open or closed':
-                open_or_closed=cols[i].text_input("open or closed: ",['open', 'closed'], key="open_close_")
+                open_or_closed=cols[i].selectbox("open or closed: ",['open', 'closed'], key="open_close_")
                 input_dict['open_or_closed']=open_or_closed
             elif j=='Remaining balance for large eggs':
                 remaining_balance_big_eggs=cols[i].number_input("Remaining balance for large eggs: ", key='large_eggs_rem_')
@@ -137,7 +137,7 @@ def main():
                 remaining_balance_small_eggs=cols[i].number_input("Remaining balance for small eggs: ", key='small_eggs_rem_')
                 input_dict['remaining_balance_small_eggs']=remaining_balance_small_eggs
             elif j=='party':
-                party=cols[i].number_input("party: ", key='party_')
+                party=cols[i].selectbox("party: ",['Siddiq', 'Zulfi'], key='party_')
                 input_dict['party']=party
 
         if st.button("Submit", key='update_submit_key'):
