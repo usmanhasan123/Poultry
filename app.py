@@ -64,7 +64,7 @@ def main():
             party=cols[5].selectbox("party: ", ['Siddiq', 'Zulfi'], key=f"party_{i}")
             input_dict[f"{i+1}st party"]={"no_of_patty_gone": no_of_patty_gone, "egg_type": egg_type, "rate":rate, "cut":cut, "open_or_closed": open_or_closed, "party":party}
 
-        if st.button("Submit"):
+        if st.button("Submit", key='log_submit_key'):
             st.session_state.log_balance=True
             # if st.session_state.insert_report==True:
             dff=production_class.fetch_daily_report()
@@ -116,7 +116,7 @@ def main():
                 party=cols[i].number_input("party: ", key='party_')
                 input_dict['party']=party
 
-        if st.button("Submit"):
+        if st.button("Submit", key='update_submit_key'):
             st.session_state.log_balance=True
             # if st.session_state.update_report==True:
             if len(input_dict)>0:
