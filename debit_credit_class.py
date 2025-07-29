@@ -22,7 +22,7 @@ class debit_credit:
     def insert_debit(self):
         conn=self.create_connection()
         dff=self.fetch_debit_credit_log()
-        max_id=dff['id'].max()
+        max_id=dff['report_id'].max()
         
         if 'int' in str(type(max_id)):
             max_id=int(max_id) # so that it is compatible with mysql
