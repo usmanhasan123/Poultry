@@ -145,6 +145,7 @@ def main():
         st.session_state['show_warning']=False
 
     if st.session_state['process']==True:
+        st.write(input_dict)
         df, df2=process(input_dict)
         colss=st.columns(2)
         colss[0].write(df)
