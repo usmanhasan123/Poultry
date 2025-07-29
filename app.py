@@ -3,6 +3,7 @@ os.chdir('./')
 import streamlit as st
 import datetime
 from get_and_upload_daily_production import production_class
+from debit_credit_class import debit_credit
 
 def process(input_dict):
     obj=production_class(input_dict)
@@ -36,6 +37,8 @@ def main():
         st.session_state.process=False
     if 'log_balance' not in st.session_state:
         st.session_state.log_balance=False
+    if 'update_balance' not in st.session_state:
+        st.session_state.update_balance=False
         
     def add_inputs():
         st.session_state.inputs+=1
@@ -75,6 +78,7 @@ def main():
             with col2:
                 if st.button("No"):
                     st.session_state['process']=False
+                    st.session_state.log_balance=False
                     st.rerun()
                 
         if st.button("Submit", key='log_submit_key'):
@@ -98,6 +102,10 @@ def main():
             colss[0].write(df)
             colss[1].write(df2)
             st.session_state['process']=False
+
+        if st.session_state['log_balance']==True:
+            debit_credit.insert_debit(input_dict)
+            st.session_state['log_balance']=False
 
     with tab2:
         input_dict={}
@@ -141,7 +149,7 @@ def main():
                 input_dict['party']=party
 
         if st.button("Submit", key='update_submit_key'):
-            st.session_state.log_balance=True
+            st.session_state.update_balance=True
             # if st.session_state.update_report==True:
             if len(input_dict)>0:
                 df, df2=update_process(input_dict)
@@ -150,10 +158,10 @@ def main():
                 colss[1].write(df2)
                 # st.session_state['update_report']=False
 
-    if st.session_state['log_balance']==True:
-        pass
-        # balance logs
-        st.session_state['log_balance']==False
+        if st.session_state['update_balance']==True:
+            pass
+            # balance logs
+            st.session_state['update_balance']==False
         
     if st.button('Show report'):
         df=production_class.fetch_daily_report()
