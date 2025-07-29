@@ -63,7 +63,20 @@ def main():
             open_or_closed=cols[4].selectbox("open or closed: ", ['open', 'closed'], key=f"open_{i}")
             party=cols[5].selectbox("party: ", ['Siddiq', 'Zulfi'], key=f"party_{i}")
             input_dict[f"{i+1}st party"]={"no_of_patty_gone": no_of_patty_gone, "egg_type": egg_type, "rate":rate, "cut":cut, "open_or_closed": open_or_closed, "party":party}
-
+            
+        @st.dialog("Important Warning")
+        def warning():
+            st.write("Records for this date already exist. Do you wish to continue?")
+            col1, col2=st.columns(2)
+            with col1:
+                if st.button("Yes, continue"):
+                    st.session_state['process']=True
+                    st.rerun()
+            with col2:
+                if st.button("No"):
+                    st.session_state['process']=False
+                    st.rerun()
+                
         if st.button("Submit", key='log_submit_key'):
             st.session_state.log_balance=True
             # if st.session_state.insert_report==True:
@@ -74,6 +87,18 @@ def main():
                 if len(input_dict)>0:
                     # df, df2=process(input_dict) # can remove this
                     st.session_state['process']=True 
+
+        if st.session_state['show_warning']==True:
+            warning()
+            st.session_state['show_warning']=False
+    
+        if st.session_state['process']==True:
+            st.write(input_dict)
+            df, df2=process(input_dict)
+            colss=st.columns(2)
+            colss[0].write(df)
+            colss[1].write(df2)
+            st.session_state['process']=False
 
     with tab2:
         input_dict={}
@@ -125,32 +150,6 @@ def main():
                 colss[0].write(df)
                 colss[1].write(df2)
                 # st.session_state['update_report']=False
-
-    @st.dialog("Important Warning")
-    def warning():
-        st.write("Records for this date already exist. Do you wish to continue?")
-        col1, col2=st.columns(2)
-        with col1:
-            if st.button("Yes, continue"):
-                st.session_state['process']=True
-                st.rerun()
-        with col2:
-            if st.button("No"):
-                st.session_state['process']=False
-                st.rerun()
-                
-                
-    if st.session_state['show_warning']==True:
-        warning()
-        st.session_state['show_warning']=False
-
-    if st.session_state['process']==True:
-        st.write(input_dict)
-        df, df2=process(input_dict)
-        colss=st.columns(2)
-        colss[0].write(df)
-        colss[1].write(df2)
-        st.session_state['process']=False
 
     if st.session_state['log_balance']==True:
         pass
