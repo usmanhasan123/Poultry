@@ -84,16 +84,16 @@ def main():
                     date=cols[i].date_input("date: ", value=datetime.date.today(), max_value=datetime.date.today(), key='date__')
                     input_dict['date']=date
                 elif j=='bori amount':
-                    amount=cols[i].number_input("bori amount", key=f'bori_amount_')
+                    amount=cols[i].number_input("bori amount", key='bori_amount_')
                     input_dict['amount']=amount
                 elif j=='order number':
-                    order_no=cols[i].text_input("order number: ", key=f"order_no_")
+                    order_no=cols[i].text_input("order number: ", key="order_no_")
                     input_dict['order_no']=order_no
                 elif j=='amount paid':
                     amount_paid=cols[i].number_input("amount paid: ", key='amount_paid_')
                     input_dict['amount_paid']=amount_paid
                 elif j=='farm':
-                    farm=cols[i].selectbox("farm: ",['Makhdoomia', ], key=f"farm_")
+                    farm=cols[i].selectbox("farm: ",['Makhdoomia', 'Shahid', 'Usman'], key="farm_")
                     input_dict['farm']=farm
         else:
             st.session_state.updates=None
@@ -126,25 +126,25 @@ def main():
                         date=cols[i].date_input("date: ", value=datetime.date.today(), max_value=datetime.date.today(), key='date_')
                         input_dict['date']=date
                     elif j=='paid by':
-                        paid_by=cols[i].selectbox("Paid by: ", ['Shahid', 'Siddiq'], key=f"paidby_")
+                        paid_by=cols[i].selectbox("Paid by: ", ['Shahid', 'Siddiq'], key="paidby_")
                         input_dict['paid_by']=paid_by
                     elif j=='dispatch receipt':
-                        dispatch_receipt=cols[i].text_input("dispatch receipt: ", key=f"dispatch_")
+                        dispatch_receipt=cols[i].text_input("dispatch receipt: ", key="dispatch_")
                         input_dict['dispatch_receipt']=dispatch_receipt
                     elif j=='arrival date':
                         arrival_date=cols[i].date_input("arrival date: ", value=datetime.date.today(), key='date_arrival_')
                         input_dict['arrival_date']=arrival_date
                     elif j=='arrival receipt':
-                        arrival_receipt=cols[i].text_input("arrival receipt: ", key=f"arrival_")
+                        arrival_receipt=cols[i].text_input("arrival receipt: ", key="arrival_")
                         input_dict['arrival_receipt']=arrival_receipt
                     elif j=='status':
-                        status=cols[i].selectbox("Status: ", ['DISPATCHED', 'ARRIVED'], key=f"status_")
+                        status=cols[i].selectbox("Status: ", ['DISPATCHED', 'ARRIVED'], key="status_")
                         input_dict['status']=status
                     elif j=='bori amount':
-                        bori_amount=cols[i].number_input("bori amount", key=f'bori_')
+                        bori_amount=cols[i].number_input("bori amount", key='bori_')
                         input_dict['amount']=bori_amount
                     elif j=='bilti payment':
-                        bilti=cols[i].number_input("bilti payment", key=f'bilti_')
+                        bilti=cols[i].number_input("bilti payment", key='bilti_')
                         input_dict['bilti_payment']=bilti
             else:
                 pass
