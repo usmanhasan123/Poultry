@@ -11,7 +11,8 @@ import os
 class production_class:
     def __init__(self, inputs):
         self.inputs=inputs
-        self.inputs['date']=str(self.inputs['date'])
+        if 'date' in self.inputs:
+            self.inputs['date']=str(self.inputs['date'])
         # d1=self.inputs['date'].split('(')[1]
         # d1=d1.split(')')[0]
         # d1=d1.replace(', ', '-')
