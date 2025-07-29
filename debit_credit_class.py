@@ -23,7 +23,9 @@ class debit_credit:
         conn=self.create_connection()
         dff=self.fetch_debit_credit_log()
         max_id=dff['report_id'].max()
-        
+        # remove this if statement later. replace with:
+        #  max_id=int(max_id) # so that it is compatible with mysql
+        # max_id=max_id+1
         if 'int' in str(type(max_id)):
             max_id=int(max_id) # so that it is compatible with mysql
             max_id=max_id+1
