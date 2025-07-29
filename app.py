@@ -72,7 +72,7 @@ def main():
                 st.session_state['show_warning']=True
             else:
                 if len(input_dict)>0:
-                    df, df2=process(input_dict) # can remove this
+                    # df, df2=process(input_dict) # can remove this
                     st.session_state['process']=True 
 
     with tab2:
