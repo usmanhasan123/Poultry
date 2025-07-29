@@ -107,7 +107,7 @@ class production_class:
             date_to_update=self.inputs['date']
         elif 'id' in self.inputs:
             idd=self.inputs['id']
-            date_to_update=df[df['id']==idd]['date'][1]
+            date_to_update=df[df['id']==idd]['date'].iloc[0]
         df['remaining_balance'] = df['remaining_balance_big_eggs'] + df['remaining_balance_small_eggs']
         x=pd.to_datetime(date_to_update) - timedelta(days=1)
         y=pd.to_datetime(date_to_update) + timedelta(days=1)
