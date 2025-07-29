@@ -38,12 +38,9 @@ class production_class:
     def insert_in_daily_report(self): # need to replace if date is repeated
         conn=self.create_connection()
         dff=self.fetch_daily_report()
-        if self.inputs['date'] in dff['date'].to_list():
-            max_id=int(dff[dff['date']==self.inputs['date']]['id'])
-        else:
-            max_id=dff['id'].max()
-            max_id=int(max_id)
-            max_id=max_id+1
+        max_id=dff['id'].max()
+        max_id=int(max_id)
+        max_id=max_id+1
         # self.inputs['date']=self.inputs['date'].strftime("%Y-%m-%d")
         input_keys=[]
         for i in self.inputs:
@@ -69,12 +66,12 @@ class production_class:
                 dictt[str(k)]=j
                 k=k+1
             recs2.append(dictt)
-        query_del="delete from daily_report where date = :a"
-        rec_del=[{'a':self.inputs['date']}]
+        # query_del="delete from daily_report where date = :a"
+        # rec_del=[{'a':self.inputs['date']}]
         # delete any records corresponing to that date. Get date from self.inputs['date']
         query="insert into daily_report (patty_gone, type, rate, cut, open_or_closed, party, id, date, remaining_balance_big_eggs, remaining_balance_small_eggs) values (:1, :2, :3, :4, :5, :6, :7, :8, :9, :10)"
         with conn.connect() as con:
-            con.execute(text(query_del), rec_del) # can also add an if statment before this
+            # con.execute(text(query_del), rec_del) # can also add an if statment before this
             con.execute(text(query), recs2)
             con.commit()
 
