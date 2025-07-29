@@ -41,7 +41,7 @@ class debit_credit:
                 else:
                     party_count[final_input['party']]=party_count[final_input['party']]+1
 
-                ids=dff[(dff['date']==self.inputs['date']) & (dff['party']==self.inputs['party'])]['id'].to_list()
+                ids=dff[(dff['date']==self.inputs['date']) & (dff['party']==self.inputs[i]['party'])]['id'].to_list()
 
                 final_input['report_id'] = ids[party_count[final_input['party']]]
     
