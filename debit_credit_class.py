@@ -21,7 +21,7 @@ class debit_credit:
 
     def insert_debit(self):
         conn=self.create_connection()
-        dff=self.fetch_daily_report()
+        dff=production_class.fetch_daily_report()
         final_input={}
         party_count={}
         input_keys=[]
