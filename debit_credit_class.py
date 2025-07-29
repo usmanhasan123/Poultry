@@ -21,7 +21,9 @@ class debit_credit:
 
     def insert_debit(self):
         conn=self.create_connection()
+        dff=self.fetch_daily_report()
         final_input={}
+        party_count={}
         input_keys=[]
         final_input['debit_date']=self.inputs['date']
         for i in self.inputs:
@@ -33,9 +35,18 @@ class debit_credit:
                 final_input['party'] = self.inputs[i]['party']
                 final_input['week'] = int(pd.to_datetime(self.inputs['date']).strftime("%W"))
                 final_input['credit_amount'] = 0
+                
+                if final_input['party'] not in party_count:
+                    party_count[final_input['party']] = 0
+                else:
+                    party_count[final_input['party']]=party_count[final_input['party']]+1
+
+                ids=dff[(dff['debit_date']==self.inputs['date']) & (dff['party']==self.inputs['party'])]['id'].to_list()
+
+                final_input['report_id'] = ids[party_count[final_input['party']]]
     
-                query = "insert into debit_credit_table (debit_date, debit_description, debit_amount, party, week, credit_amount) \
-                values (:debit_date, :debit_description, :debit_amount, :party, :week, :credit_amount)"
+                query = "insert into debit_credit_table (debit_date, debit_description, debit_amount, party, week, credit_amount, report_id) \
+                values (:debit_date, :debit_description, :debit_amount, :party, :week, :credit_amount, :report_id)"
                 with conn.connect() as con:
                     con.execute(text(query), final_input)
                     con.commit()
