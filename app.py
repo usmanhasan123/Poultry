@@ -104,7 +104,8 @@ def main():
             st.session_state['process']=False
 
         if st.session_state['log_balance']==True:
-            debit_credit.insert_debit(input_dict)
+            obj=debit_credit(input_dict)
+            obj.insert_debit()
             st.session_state['log_balance']=False
 
     with tab2:
