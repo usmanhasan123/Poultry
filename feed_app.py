@@ -62,7 +62,7 @@ def main():
                     obj=feed_class(input_dict)
                     obj1=debit_credit(input_dict)
                     obj.insert_in_feed_log()
-                    obj1.insert_credit()
+                    obj1.insert_credit_triggered_by_mudasir_log()
                     df=obj.fetch_feed_log()                    
             else:
                 pass

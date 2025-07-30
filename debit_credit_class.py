@@ -13,6 +13,7 @@ class debit_credit:
         self.inputs=inputs
         if 'date' in self.inputs:
             self.inputs['date']=str(self.inputs['date'])
+        self.feed_rate=5124.66
 
     @staticmethod
     def create_connection():
@@ -122,15 +123,15 @@ class debit_credit:
         final_input['credit_date']=self.inputs['date']
         for i in self.inputs:
             if type(self.inputs[i])==dict:
-                patty_amount=self.inputs[i]['rate'] - self.inputs[i]['cut']
-                no_of_patty_gone=self.inputs[i]['no_of_patty_gone']
-                final_input['credit_description'] = "Paid to mudasir feed"
-                final_input['debit_amount'] = no_of_patty_gone*patty_amount
+                final_input['debit_amount'] = 0
                 final_input['party'] = 'Siddiq'
                 # final_input['week'] = int(pd.to_datetime(self.inputs['date']).strftime("%W"))
-                final_input['credit_amount'] = 0
+                final_input['credit_description'] = f"Paid to mudasir feed car number {max_id}"
                 
-                final_input['report_id'] = max_id
+                total_amount=self.feed_rate*self.inputs[i]['bori_amount']
+                amount_paid=total_amount - self.inputs[i]['bilti_payment']
+                final_input['credit_amount'] = amount_paid
+                final_input['car_number'] = max_id
                 max_id=max_id+1
                 # if final_input['party'] not in party_count:
                 #     party_count[final_input['party']] = 0
@@ -139,8 +140,8 @@ class debit_credit:
                 # ids=dff[(dff['date']==self.inputs['date']) & (dff['party']==self.inputs[i]['party'])]['id'].to_list()
                 # final_input['report_id'] = ids[party_count[final_input['party']]]
     
-                query = "insert into debit_credit_table (debit_date, debit_description, debit_amount, party, week, credit_amount, report_id) \
-                values (:debit_date, :debit_description, :debit_amount, :party, :week, :credit_amount, :report_id)"
+                query = "insert into debit_credit_table (credit_date, debit_amount, party, credit_description, credit_amount, car_number) \
+                values (:credit_date, :debit_amount, :party,credit_description, :credit_amount, :car_number)"
                 with conn.connect() as con:
                     con.execute(text(query), final_input)
                     con.commit()
