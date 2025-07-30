@@ -63,7 +63,6 @@ class debit_credit:
                     con.commit()
 
     def update_debit(self):
-        st.write("update debit is triggered")
         conn=self.create_connection()
         dff=self.fetch_daily_report()
         df=dff[dff['id']==self.inputs['id']]
