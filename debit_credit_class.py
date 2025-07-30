@@ -102,6 +102,48 @@ class debit_credit:
             con.execute(text(query), final_input)
             con.commit()
 
+    def insert_credit_triggered_by_mudasir_log(self):
+        conn=self.create_connection()
+        dff=self.fetch_debit_credit_log()
+        max_id=dff['car_number'].max()
+        # remove this if statement later. replace with:
+        #  max_id=int(max_id) # so that it is compatible with mysql
+        # max_id=max_id+1
+        if 'int' in str(type(max_id)):
+            max_id=int(max_id) # so that it is compatible with mysql
+            max_id=max_id+1
+        else:
+            max_id=56
+            max_id=int(max_id)
+        
+        final_input={}
+        party_count={}
+        input_keys=[]
+        final_input['credit_date']=self.inputs['date']
+        for i in self.inputs:
+            if type(self.inputs[i])==dict:
+                patty_amount=self.inputs[i]['rate'] - self.inputs[i]['cut']
+                no_of_patty_gone=self.inputs[i]['no_of_patty_gone']
+                final_input['credit_description'] = "Paid to mudasir feed"
+                final_input['debit_amount'] = no_of_patty_gone*patty_amount
+                final_input['party'] = 'Siddiq'
+                # final_input['week'] = int(pd.to_datetime(self.inputs['date']).strftime("%W"))
+                final_input['credit_amount'] = 0
+                
+                final_input['report_id'] = max_id
+                max_id=max_id+1
+                # if final_input['party'] not in party_count:
+                #     party_count[final_input['party']] = 0
+                # else:
+                #     party_count[final_input['party']]=party_count[final_input['party']]+1
+                # ids=dff[(dff['date']==self.inputs['date']) & (dff['party']==self.inputs[i]['party'])]['id'].to_list()
+                # final_input['report_id'] = ids[party_count[final_input['party']]]
+    
+                query = "insert into debit_credit_table (debit_date, debit_description, debit_amount, party, week, credit_amount, report_id) \
+                values (:debit_date, :debit_description, :debit_amount, :party, :week, :credit_amount, :report_id)"
+                with conn.connect() as con:
+                    con.execute(text(query), final_input)
+                    con.commit()
     @staticmethod
     def fetch_debit_credit_log():
         conn=production_class.create_connection()
