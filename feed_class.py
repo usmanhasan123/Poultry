@@ -126,7 +126,7 @@ class feed_class:
         df=dff[dff['car_number']==self.inputs['car_number']]
         columns_to_update=self.inputs.keys()
         if 'bori_amount' in self.inputs:
-            total_amount = self.feed_rate*self.inputs['bori_amount']
+            total_amount = self.feed_rate*self.inputs['amount']
         else:
             total_amount = self.feed_rate*int(df['amount'].iloc[0])
 
