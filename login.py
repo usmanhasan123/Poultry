@@ -1,6 +1,7 @@
 import streamlit as st
 import app
 import feed_app
+import balance_app
 import os
 
 username = os.getenv('login_username')
@@ -26,8 +27,10 @@ if st.session_state['logged_in']==False:
 else:
   # st.write('username and password corrcet')
   # subprocess.run(['python', 'app.py'])
-  tab1, tab2=st.tabs(["Daily Production", "Feed"])
+  tab1, tab2=st.tabs(["Daily Production", "Feed", "Balance Sheet"])
   with tab1:
     app.main()
   with tab2:
     feed_app.main()
+  with tab3:
+    balance_app.main()
