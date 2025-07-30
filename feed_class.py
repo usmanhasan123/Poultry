@@ -8,6 +8,7 @@ from urllib.parse import quote_plus
 from sqlalchemy import create_engine, text
 
 from get_and_upload_daily_production import production_class
+from feed_class import feed_class
 
 class feed_class:
     def __init__(self, inputs):
@@ -122,7 +123,20 @@ class feed_class:
 
     def update_feed_table(self):
         conn=self.create_connection()
+        dff=feed_class.fetch_feed_log()
+        df=dff[dff['car_number']==self.inputs['car_number']]
         columns_to_update=self.inputs.keys()
+        if 'bori_amount' in self.inputs:
+            total_amount = self.feed_rate*self.inputs['bori_amount']
+        else:
+            total_amount = self.feed_rate*int(df['bori_amount'].iloc[0])
+
+        if 'bilti_payment' in self.inputs:
+            amount_paid = total_amount - self.inputs['bilti_payment']
+        else:
+            amount_paid = total_amount - float(df['bilti_payment'].iloc[0])
+        self.inputs['total_amount'] = total_amount
+        self.inputs['amount_paid'] = amount_paid
         set_clause = ', '.join(f"{i}=:{i}" for i in columns_to_update if i != 'car_number')
         query = f"update feed_log set {set_clause} where car_number=:car_number"
         recs=self.inputs
