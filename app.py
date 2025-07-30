@@ -154,6 +154,7 @@ def main():
             st.session_state.update_balance=True
             # if st.session_state.update_report==True:
             if len(input_dict)>0:
+                st.write(st.session_state.update_balance)
                 df, df2=update_process(input_dict)
                 colss=st.columns(2)
                 colss[0].write(df)
