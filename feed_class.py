@@ -128,7 +128,7 @@ class feed_class:
         if 'bori_amount' in self.inputs:
             total_amount = self.feed_rate*self.inputs['bori_amount']
         else:
-            total_amount = self.feed_rate*int(df['bori_amount'].iloc[0])
+            total_amount = self.feed_rate*int(df['amount'].iloc[0])
 
         if 'bilti_payment' in self.inputs:
             amount_paid = total_amount - self.inputs['bilti_payment']
