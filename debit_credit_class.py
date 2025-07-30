@@ -21,7 +21,7 @@ class debit_credit:
         conn=production_class.create_connection()
         return conn
 
-    def insert_debit(self):
+    def insert_debit(self): # after eggs gone
         conn=self.create_connection()
         dff=self.fetch_debit_credit_log()
         max_id=dff['report_id'].max()
@@ -64,7 +64,7 @@ class debit_credit:
                     con.execute(text(query), final_input)
                     con.commit()
 
-    def update_debit(self):
+    def update_debit(self): # for eggs gone
         conn=self.create_connection()
         dff=production_class.fetch_daily_report()
         df=dff[dff['id']==self.inputs['id']]
@@ -103,7 +103,7 @@ class debit_credit:
             con.execute(text(query), final_input)
             con.commit()
 
-    def insert_credit_triggered_by_mudasir_log(self):
+    def insert_credit_triggered_by_mudasir_log(self): # when we buy feed
         conn=self.create_connection()
         dff=self.fetch_debit_credit_log()
         max_id=dff['car_number'].max()
