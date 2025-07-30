@@ -99,7 +99,7 @@ def main():
                     farm=cols[i].selectbox("farm: ",['Makhdoomia', 'Shahid', 'Usman'], key="farm_")
                     input_dict['farm']=farm
         else:
-            st.session_state.updates=None
+            # st.session_state.updates=None
             if st.button("Update car arrival"):
                 st.session_state.updates=1
             if st.button("Update table details"):
