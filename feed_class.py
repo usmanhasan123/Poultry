@@ -8,7 +8,6 @@ from urllib.parse import quote_plus
 from sqlalchemy import create_engine, text
 
 from get_and_upload_daily_production import production_class
-from feed_class import feed_class
 
 class feed_class:
     def __init__(self, inputs):
