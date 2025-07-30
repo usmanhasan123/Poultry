@@ -3,6 +3,7 @@ os.chdir('./')
 import streamlit as st
 import datetime
 from feed_class import feed_class
+from debit_credit_class import debit_credit
 
 def main():
     st.set_page_config(page_title="Feed Logs", page_icon=":robot:")
@@ -59,7 +60,9 @@ def main():
                     df=obj.fetch_feed_log_master()
                 else:
                     obj=feed_class(input_dict)
+                    obj1=debit_credit(input_dict)
                     obj.insert_in_feed_log()
+                    obj1.insert_credit()
                     df=obj.fetch_feed_log()                    
             else:
                 pass
