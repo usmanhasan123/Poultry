@@ -171,8 +171,8 @@ def main():
         df2=production_class.fetch_daily_production_table()
         colss=st.columns(2)
         colss[0].write(df)
-        colss[1].write(df2)
-        colss[2].write("hello")
+        # colss[1].write(df2)
+        # colss[2].write("hello")
     
         
     
