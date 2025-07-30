@@ -7,6 +7,7 @@ from urllib.parse import quote_plus
 from sqlalchemy import create_engine, text
 
 from get_and_upload_daily_production import production_class
+from feed_class import feed_class
 
 class debit_credit:
     def __init__(self, inputs):
@@ -68,7 +69,6 @@ class debit_credit:
         dff=production_class.fetch_daily_report()
         df=dff[dff['id']==self.inputs['id']]
         final_input={}
-        columns=['patty_gone', 'rate', 'cut']
         if 'patty_gone' in self.inputs.keys():
             no_of_patty_gone = self.inputs['patty_gone']
         else:
@@ -145,6 +145,38 @@ class debit_credit:
                 with conn.connect() as con:
                     con.execute(text(query), final_input)
                     con.commit()
+
+    def update_credit_triggered_by_mudasir_log(self):
+        conn=self.create_connection()
+        dff=feed_class.fetch_feed_log()
+        df=dff[dff['car_number']==self.inputs['car_number']]
+        final_input={}
+        if 'amount' in self.inputs.keys():
+            bori_amount = self.inputs['amount']
+        else:
+            bori_amount=int(df['amount'].iloc[0])
+
+        if 'bilti_payment' in self.inputs.keys():
+            bilti_payment = self.inputs['bilti_payment']
+        else:
+            bilti_payment=float(df['bilti_payment'].iloc[0])
+        
+        if 'date' in self.inputs.keys():
+            final_input['credit_date'] = self.inputs['date']
+        total_amount=self.feed_rate*bori_amount
+        amount_paid=total_amount - bilti_payment
+
+        final_input['credit_amount'] = amount_paid
+        final_input['car_number'] = self.inputs['car_number']
+        columns_to_update=final_input.keys()
+        set_clause = ', '.join(f"{i}=:{i}" for i in columns_to_update if i != 'car_number')
+        query = f"update debit_credit_table set {set_clause} where car_number=:car_number"
+        # recs=[{'1': self.inputs['arrival_date'], '2': self.inputs['arrival_receipt'], '3': 'ARRIVED', '4': self.inputs['car_number']}]
+
+        with conn.connect() as con:
+            con.execute(text(query), final_input)
+            con.commit()
+            
     @staticmethod
     def fetch_debit_credit_log():
         conn=production_class.create_connection()
