@@ -161,8 +161,8 @@ def main():
                 # st.session_state['update_report']=False
 
         if st.session_state['update_balance']==True:
-            pass
-            # balance logs
+            obj=debit_credit(input_dict)
+            obj.update_debit()
             st.session_state['update_balance']==False
         
     if st.button('Show report'):
