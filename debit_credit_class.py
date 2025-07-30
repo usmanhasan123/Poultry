@@ -33,7 +33,6 @@ class debit_credit:
             max_id=19
             max_id=int(max_id)
         
-        
         final_input={}
         party_count={}
         input_keys=[]
@@ -63,6 +62,45 @@ class debit_credit:
                     con.execute(text(query), final_input)
                     con.commit()
 
+    def update_debit(self):
+        conn=self.create_connection()
+        dff=self.fetch_daily_report()
+        df=dff[dff['id']==self.inputs['id']]
+        final_input={}
+        columns=['patty_gone', 'rate', 'cut']
+        if 'patty_gone' in self.inputs.keys():
+            no_of_patty_gone = self.inputs['patty_gone']
+        else:
+            no_of_patty_gone=int(df['patty_gone'].iloc[0])
+
+        if 'rate' in self.inputs.keys():
+            rate = self.inputs['rate']
+        else:
+            rate=float(df['rate'].iloc[0])
+
+        if 'cut' in self.inputs.keys():
+            cut = self.inputs['cut']
+        else:
+            cut=float(df['cut'].iloc[0])
+        
+        if 'date' in self.inputs.keys():
+            final_input['debit_date'] = self.inputs['date']
+            final_input['week'] = int(pd.to_datetime(self.inputs['date']).strftime("%W"))
+        elif 'party' in self.inputs.keys():
+            final_input['party']=self.inputs['party']
+        patty_amount = rate-cut
+        debit_amount=no_of_patty_gone*patty_amount
+        final_input['debit_description'] = f"{no_of_patty_gone} x {patty_amount}"
+        final_input['debit_amount'] = debit_amount
+        final_input['report_id'] = self.inputs['id']
+        columns_to_update=final_input.keys()
+        set_clause = ', '.join(f"{i}=:{i}" for i in columns_to_update if i != 'report_id')
+        query = f"update debit_credit_table set {set_clause} where report_id=:report_id"
+        # recs=[{'1': self.inputs['arrival_date'], '2': self.inputs['arrival_receipt'], '3': 'ARRIVED', '4': self.inputs['car_number']}]
+
+        with conn.connect() as con:
+            con.execute(text(query), final_input)
+            con.commit()
 
     @staticmethod
     def fetch_debit_credit_log():
