@@ -64,7 +64,7 @@ class debit_credit:
 
     def update_debit(self):
         conn=self.create_connection()
-        dff=self.fetch_daily_report()
+        dff=production_class.fetch_daily_report()
         df=dff[dff['id']==self.inputs['id']]
         final_input={}
         columns=['patty_gone', 'rate', 'cut']
