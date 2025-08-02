@@ -146,8 +146,8 @@ class feed_class:
         feed_rate=feed_rate[feed_rate['feed_provider']=='Mudasir']
         # columns_to_update=self.inputs.keys()
         total_amount=0
-        # st.write(self.inputs['feed_bifurcation'])
-        # st.write(type(self.inputs['feed_bifurcation']))
+        st.write(self.inputs['feed_bifurcation'])
+        st.write(type(self.inputs['feed_bifurcation'])=='dict')
         if 'feed_bifurcation' in self.inputs:
             for i,j in enumerate(self.inputs['feed_bifurcation'].keys()):
                 xx=feed_rate[feed_rate['id']==int(feed_rate[feed_rate['product_name']==j]['id'].max())]
