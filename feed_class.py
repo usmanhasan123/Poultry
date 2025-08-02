@@ -173,7 +173,7 @@ class feed_class:
         columns_to_update=self.inputs.keys()
         set_clause = ', '.join(f"{i}=:{i}" for i in columns_to_update if i != 'car_number')
         query = f"update feed_log set {set_clause} where car_number=:car_number"
-        # recs=self.inputs
+        recs=self.inputs
         # recs['feed_bifurcation'] = json.dumps(self.inputs['feed_bifurcation'])
         # recs=[{'1': self.inputs['arrival_date'], '2': self.inputs['arrival_receipt'], '3': 'ARRIVED', '4': self.inputs['car_number']}]
 
