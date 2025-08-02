@@ -143,7 +143,7 @@ class feed_class:
         df=dff[dff['car_number']==self.inputs['car_number']]
         feed_rate = self.extract_feed_rate()
         feed_rate=feed_rate[feed_rate['feed_provider']=='Mudasir']
-        columns_to_update=self.inputs.keys()
+        # columns_to_update=self.inputs.keys()
         total_amount=0
         
         if 'feed_bifurcation' in self.inputs:
@@ -165,7 +165,8 @@ class feed_class:
             amount_paid = total_amount - float(df['bilti_payment'].iloc[0])
         self.inputs['total_amount'] = total_amount
         self.inputs['amount_paid'] = amount_paid
-        self.inputs[i]['feed_bifurcation']=json.dumps(self.inputs[i]['feed_bifurcation'])
+        self.inputs['feed_bifurcation']=json.dumps(self.inputs['feed_bifurcation'])
+        columns_to_update=self.inputs.keys()
         set_clause = ', '.join(f"{i}=:{i}" for i in columns_to_update if i != 'car_number')
         query = f"update feed_log set {set_clause} where car_number=:car_number"
         recs=self.inputs
