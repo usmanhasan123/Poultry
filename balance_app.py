@@ -11,6 +11,7 @@ def main():
   st.header("Balance Sheet")
 
   if st.button("Insert Debit"):
+      st.write("TBD")
     
   
     
