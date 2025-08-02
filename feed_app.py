@@ -69,6 +69,7 @@ def main():
                     obj.insert_in_feed_log_master()
                     df=obj.fetch_feed_log_master()
                 else:
+                    st.write(input_dict['1st feed']['feed_bifurcation'])
                     obj=feed_class(input_dict)
                     obj1=debit_credit(input_dict)
                     obj.insert_in_feed_log()
