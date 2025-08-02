@@ -170,7 +170,7 @@ def main():
 
                         for j, k in enumerate(products):
                             bori_amount=cols2[j].number_input(f"amount (bori) {k}: ", key=f"bori__{j}")
-                            bori_dict[k]: bori_amount
+                            bori_dict[k]= bori_amount
                             tot_bori_amount=tot_bori_amount+bori_amount
                             input_dict['amount']=tot_bori_amount
                             input_dict['feed_bifurcation']=bori_dict
