@@ -45,12 +45,22 @@ def main():
             press=st.button("Add option", on_click=add_inputs, key='add_option_feed')
             press1=st.button("Remove option", on_click=remove_inputs, key='remove_option_feed')
             for i in range(st.session_state.inputs_2):
-                cols=st.columns(4)
-                bori_amount=cols[0].number_input("amount (bori): ", key=f"bori_{i}")
-                bilti_payment=cols[1].number_input("Bilti payment: ", key=f"bilti_{i}")
+                bori_dict={}
+                tot_bori_amount=0
+                products=st.multiselect("Product: ", ["LAYER CHICKS CRUMBS", "LAYER CRUMBS (CONTROL)"],default=["LAYER CRUMBS (CONTROL)"], key=f"product_{i}") # changed
+                if len(products)==0:
+                    cols=st.columns(3)
+                else:
+                    cols=st.columns(3+len(products))
+                bilti_payment=cols[0].number_input("Bilti payment: ", key=f"bilti_{i}")
                 paid_by=cols[1].selectbox("Paid by: ", ['Shahid', 'Siddiq'], key=f"paidby_{i}")
-                dispatch_receipt=cols[3].text_input("dispatch receipt: ", key=f"dispatch_{i}")
-                input_dict[f"{i+1}st feed"]={"bori_amount": bori_amount, "bilti_payment": bilti_payment, "paid_by":paid_by, "dispatch_receipt":dispatch_receipt}
+                dispatch_receipt=cols[2].text_input("dispatch receipt: ", key=f"dispatch_{i}")
+                for j, k in enumerate(products):
+                    bori_amount=cols[3+j].number_input(f"amount (bori) {k}: ", key=f"bori_{j}")
+                    bori_dict[k]: bori_amount
+                    tot_bori_amount=tot_bori_amount+bori_amount
+
+                input_dict[f"{i+1}st feed"]={"bori_amount": tot_bori_amount, "bilti_payment": bilti_payment, "paid_by":paid_by, "dispatch_receipt":dispatch_receipt, "feed_bifurcation": bori_dict}
             
         if st.button("Submit", key='submit_key_feed'):
             if len(input_dict)>0:
@@ -116,8 +126,10 @@ def main():
                 input_dict['arrival_date']=arrival_date
             elif st.session_state.updates==2:
                 input_dict={}
-                options=st.multiselect("What details do you want to change?", ['date', 'bori amount', 'bilti payment', 'paid by', 'dispatch receipt',
-                                                                      'arrival date', 'arrival receipt', 'status'], default=['date'])
+                bori_dict={}
+                tot_bori_amount=0
+                options=st.multiselect("What details do you want to change?", ['date', 'bilti payment', 'paid by', 'dispatch receipt',
+                                                                      'feed bifurcation', 'arrival date', 'arrival receipt', 'status'], default=['date'])
                 car_number=st.number_input('car number: ', key='car_no_dets')
                 input_dict['car_number']=car_number
                 if len(options)==0:
@@ -143,12 +155,26 @@ def main():
                     elif j=='status':
                         status=cols[i].selectbox("Status: ", ['DISPATCHED', 'ARRIVED'], key="status_")
                         input_dict['status']=status
-                    elif j=='bori amount':
-                        bori_amount=cols[i].number_input("bori amount", key='bori_')
-                        input_dict['amount']=bori_amount
+                    # elif j=='bori amount':
+                    #     bori_amount=cols[i].number_input("bori amount", key='bori_')
+                    #     input_dict['amount']=bori_amount
                     elif j=='bilti payment':
                         bilti=cols[i].number_input("bilti payment", key='bilti_')
                         input_dict['bilti_payment']=bilti
+                    elif j=='feed bifurcation':
+                        products=st.multiselect("Product: ", ['LAYER CHICKS CRUMBS', 'LAYER CRUMBS (CONTROL)'],default=['LAYER CRUMBS (CONTROL)'], key="product_")
+                        if len(products)==0:
+                            cols2=st.columns(1)
+                        else:
+                            cols2=st.columns(len(products))
+
+                        for j, k in enumerate(products):
+                            bori_amount=cols2[j].number_input(f"amount (bori) {k}: ", key=f"bori__{j}")
+                            bori_dict[k]: bori_amount
+                            tot_bori_amount=tot_bori_amount+bori_amount
+                            input_dict['amount']=tot_bori_amount
+                            input_dict['feed_bifurcation']=bori_dict
+                        
             else:
                 pass
         if st.session_state.updates:

@@ -106,6 +106,8 @@ class debit_credit:
     def insert_credit_triggered_by_mudasir_log(self): # when we buy feed
         conn=self.create_connection()
         dff=self.fetch_debit_credit_log()
+        feed_rate = self.extract_feed_rate()
+        feed_rate=feed_rate[feed_rate['feed_provider']=='Mudasir']
         max_id=dff['car_number'].max()
         # remove this if statement later. replace with:
         #  max_id=int(max_id) # so that it is compatible with mysql
@@ -127,8 +129,12 @@ class debit_credit:
                 final_input['party'] = 'Siddiq'
                 # final_input['week'] = int(pd.to_datetime(self.inputs['date']).strftime("%W"))
                 final_input['credit_description'] = f"Paid to mudasir feed car number {max_id}"
-                
-                total_amount=self.feed_rate*self.inputs[i]['bori_amount']
+                for i in self.inputs[i]['feed_bifurcation'].keys():
+                    xx=feed_rate[feed_rate['id']==int(feed_rate[feed_rate['product_name']==i]['id'].max())]
+                    ratee = (xx['rate'].iloc[0] - (xx['rate'].iloc[0] * (xx['discount']/100))) + xx['gst_per_bag'].iloc[0]
+                    amount_for_feed=rate*self.inputs[i]['feed_bifurcation'][i]
+                    total_amount=total_amount+amount_for_feed                
+                # total_amount=self.feed_rate*self.inputs[i]['bori_amount']
                 amount_paid=total_amount - self.inputs[i]['bilti_payment']
                 final_input['credit_amount'] = amount_paid
                 final_input['car_number'] = max_id
@@ -150,12 +156,27 @@ class debit_credit:
         conn=self.create_connection()
         dff=feed_class.fetch_feed_log()
         df=dff[dff['car_number']==self.inputs['car_number']]
+        feed_rate = self.extract_feed_rate()
+        feed_rate=feed_rate[feed_rate['feed_provider']=='Mudasir']
         final_input={}
-        if 'amount' in self.inputs.keys():
-            bori_amount = self.inputs['amount']
+        total_amount=0
+        # if 'amount' in self.inputs.keys():
+        #     bori_amount = self.inputs['amount']
+        # else:
+        #     bori_amount=int(df['amount'].iloc[0])
+        if 'feed_bifurcation' in self.inputs:
+            for i,j in enumerate(self.inputs['feed_bifurcation'].keys()):
+                xx=feed_rate[feed_rate['id']==int(feed_rate[feed_rate['product_name']==i]['id'].max())]
+                ratee = (xx['rate'].iloc[0] - (xx['rate'].iloc[0] * (xx['discount']/100))) + xx['gst_per_bag'].iloc[0]
+                amount_for_feed=ratee*self.inputs['feed_bifurcation'][j]
+                total_amount=total_amount+amount_for_feed
         else:
-            bori_amount=int(df['amount'].iloc[0])
-
+            for i,j in json.loads(df['feed_bifurcation'].iloc[0]).keys():
+                xx=feed_rate[feed_rate['id']==int(feed_rate[feed_rate['product_name']==i]['id'].max())]
+                ratee = (xx['rate'].iloc[0] - (xx['rate'].iloc[0] * (xx['discount']/100))) + xx['gst_per_bag'].iloc[0]
+                amount_for_feed = ratee*json.loads(df['feed_bifurcation'].iloc[0])[j]
+                total_amount=total_amount+amount_for_feed
+                
         if 'bilti_payment' in self.inputs.keys():
             bilti_payment = self.inputs['bilti_payment']
         else:
@@ -163,7 +184,7 @@ class debit_credit:
         
         if 'date' in self.inputs.keys():
             final_input['credit_date'] = self.inputs['date']
-        total_amount=self.feed_rate*bori_amount
+        # total_amount=self.feed_rate*bori_amount
         amount_paid=total_amount - bilti_payment
 
         final_input['credit_amount'] = amount_paid

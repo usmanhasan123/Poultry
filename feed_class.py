@@ -6,6 +6,7 @@ import pyodbc
 import mysql.connector
 from urllib.parse import quote_plus
 from sqlalchemy import create_engine, text
+import json
 
 from get_and_upload_daily_production import production_class
 
@@ -24,9 +25,18 @@ class feed_class:
         conn=production_class.create_connection()
         return conn
         
+    @staticmethod
+    def extract_feed_rate():
+        conn=production_class.create_connection()
+        query="select * from feed_rate"
+        df=pd.read_sql(text(query), conn)
+        return df
+        
     def insert_in_feed_log(self): # need to replace if date is repeated
         conn=self.create_connection()
         feed_df=self.fetch_feed_log()
+        feed_rate = self.extract_feed_rate()
+        feed_rate=feed_rate[feed_rate['feed_provider']=='Mudasir']
         max_car_no=feed_df['car_number'].max()
         if 'int' in str(type(max_car_no)):
             max_car_no=int(max_car_no) # so that it is compatible with mysql
@@ -37,13 +47,20 @@ class feed_class:
         # self.inputs['date']=self.inputs['date'].strftime("%Y-%m-%d")
         input_keys=[]
         for i in self.inputs:
+            total_amount=0
             if type(self.inputs[i])==dict:
-                total_amount=self.feed_rate*self.inputs[i]['bori_amount']
+                for i in self.inputs[i]['feed_bifurcation'].keys():
+                    xx=feed_rate[feed_rate['id']==int(feed_rate[feed_rate['product_name']==i]['id'].max())]
+                    ratee = (xx['rate'].iloc[0] - (xx['rate'].iloc[0] * (xx['discount']/100))) + xx['gst_per_bag'].iloc[0]
+                    amount_for_feed=rate*self.inputs[i]['feed_bifurcation'][i]
+                    total_amount=total_amount+amount_for_feed
+                # total_amount=self.feed_rate*self.inputs[i]['bori_amount']
                 amount_paid=total_amount - self.inputs[i]['bilti_payment']
                 self.inputs[i]['total_amount'] = total_amount
                 self.inputs[i]['amount_paid'] = amount_paid
                 self.inputs[i]['status']='DISPATCHED'
                 self.inputs[i]['car_number']=max_car_no
+                self.inputs[i]['feed_bifurcation']=json.dumps(self.inputs[i]['feed_bifurcation'])
                 input_keys.append(i)
                 recs=[]
                 max_car_no=max_car_no+1
@@ -66,8 +83,8 @@ class feed_class:
             recs2.append(dictt)
         # query_del="delete from feed_log where car_number=:1"
         # rec_del=
-        query="insert into feed_log (amount, bilti_payment, paid_by, dispatch_receipt, total_amount, amount_paid, status, car_number, date) \
-        values (:1, :2, :3, :4, :5, :6, :7, :8, :9)"
+        query="insert into feed_log (amount, bilti_payment, paid_by, dispatch_receipt, feed_bifurcation, total_amount, amount_paid, status, car_number, date) \
+        values (:1, :2, :3, :4, :5, :6, :7, :8, :9, :10)"
         with conn.connect() as con:
             con.execute(text(query), recs2)
             con.commit()
@@ -124,11 +141,23 @@ class feed_class:
         conn=self.create_connection()
         dff=feed_class.fetch_feed_log()
         df=dff[dff['car_number']==self.inputs['car_number']]
+        feed_rate = self.extract_feed_rate()
+        feed_rate=feed_rate[feed_rate['feed_provider']=='Mudasir']
         columns_to_update=self.inputs.keys()
-        if 'bori_amount' in self.inputs:
-            total_amount = self.feed_rate*self.inputs['amount']
+        total_amount=0
+        
+        if 'feed_bifurcation' in self.inputs:
+            for i,j in enumerate(self.inputs['feed_bifurcation'].keys()):
+                xx=feed_rate[feed_rate['id']==int(feed_rate[feed_rate['product_name']==i]['id'].max())]
+                ratee = (xx['rate'].iloc[0] - (xx['rate'].iloc[0] * (xx['discount']/100))) + xx['gst_per_bag'].iloc[0]
+                amount_for_feed=ratee*self.inputs['feed_bifurcation'][j]
+                total_amount=total_amount+amount_for_feed
         else:
-            total_amount = self.feed_rate*int(df['amount'].iloc[0])
+            for i,j in json.loads(df['feed_bifurcation'].iloc[0]).keys():
+                xx=feed_rate[feed_rate['id']==int(feed_rate[feed_rate['product_name']==i]['id'].max())]
+                ratee = (xx['rate'].iloc[0] - (xx['rate'].iloc[0] * (xx['discount']/100))) + xx['gst_per_bag'].iloc[0]
+                amount_for_feed = ratee*json.loads(df['feed_bifurcation'].iloc[0])[j]
+                total_amount=total_amount+amount_for_feed
 
         if 'bilti_payment' in self.inputs:
             amount_paid = total_amount - self.inputs['bilti_payment']
