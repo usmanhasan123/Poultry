@@ -186,11 +186,13 @@ def main():
                         obj.update_feed_arrival()
                         df=obj.fetch_feed_log()
                     elif st.session_state.updates==2: # update for mudasir feed
-                        st.write(input_dict['feed_bifurcation'])
-                        obj=feed_class(input_dict)
+                        a1=input_dict.copy()
+                        a2=input_dict.copy()
+                        st.write(a1['feed_bifurcation'])
+                        obj=feed_class(a1)
                         obj.update_feed_table()
-                        st.write(input_dict['feed_bifurcation'])
-                        obj1=debit_credit(input_dict)
+                        st.write(a2['feed_bifurcation'])
+                        obj1=debit_credit(a2)
                         obj1.update_credit_triggered_by_mudasir_log()
                         df=obj.fetch_feed_log()
                     elif st.session_state.updates==3: # update for masterfeed
