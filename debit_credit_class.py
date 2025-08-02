@@ -108,6 +108,7 @@ class debit_credit:
         dff=self.fetch_debit_credit_log()
         feed_rate = feed_class.extract_feed_rate()
         feed_rate=feed_rate[feed_rate['feed_provider']=='Mudasir']
+        total_amount=0
         max_id=dff['car_number'].max()
         # remove this if statement later. replace with:
         #  max_id=int(max_id) # so that it is compatible with mysql
