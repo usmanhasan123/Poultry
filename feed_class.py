@@ -49,10 +49,10 @@ class feed_class:
         for i in self.inputs:
             total_amount=0
             if type(self.inputs[i])==dict:
-                for i in self.inputs[i]['feed_bifurcation'].keys():
-                    xx=feed_rate[feed_rate['id']==int(feed_rate[feed_rate['product_name']==i]['id'].max())]
+                for j in self.inputs[i]['feed_bifurcation'].keys():
+                    xx=feed_rate[feed_rate['id']==int(feed_rate[feed_rate['product_name']==j]['id'].max())]
                     ratee = (xx['rate'].iloc[0] - (xx['rate'].iloc[0] * (xx['discount']/100))) + xx['gst_per_bag'].iloc[0]
-                    amount_for_feed=rate*self.inputs[i]['feed_bifurcation'][i]
+                    amount_for_feed=ratee.iloc[0]*self.inputs[i]['feed_bifurcation'][j]
                     total_amount=total_amount+amount_for_feed
                 # total_amount=self.feed_rate*self.inputs[i]['bori_amount']
                 amount_paid=total_amount - self.inputs[i]['bilti_payment']
@@ -148,15 +148,15 @@ class feed_class:
         
         if 'feed_bifurcation' in self.inputs:
             for i,j in enumerate(self.inputs['feed_bifurcation'].keys()):
-                xx=feed_rate[feed_rate['id']==int(feed_rate[feed_rate['product_name']==i]['id'].max())]
+                xx=feed_rate[feed_rate['id']==int(feed_rate[feed_rate['product_name']==j]['id'].max())]
                 ratee = (xx['rate'].iloc[0] - (xx['rate'].iloc[0] * (xx['discount']/100))) + xx['gst_per_bag'].iloc[0]
-                amount_for_feed=ratee*self.inputs['feed_bifurcation'][j]
+                amount_for_feed=ratee.iloc[0]*self.inputs['feed_bifurcation'][j]
                 total_amount=total_amount+amount_for_feed
         else:
             for i,j in json.loads(df['feed_bifurcation'].iloc[0]).keys():
-                xx=feed_rate[feed_rate['id']==int(feed_rate[feed_rate['product_name']==i]['id'].max())]
+                xx=feed_rate[feed_rate['id']==int(feed_rate[feed_rate['product_name']==j]['id'].max())]
                 ratee = (xx['rate'].iloc[0] - (xx['rate'].iloc[0] * (xx['discount']/100))) + xx['gst_per_bag'].iloc[0]
-                amount_for_feed = ratee*json.loads(df['feed_bifurcation'].iloc[0])[j]
+                amount_for_feed = ratee.iloc[0]*json.loads(df['feed_bifurcation'].iloc[0])[j]
                 total_amount=total_amount+amount_for_feed
 
         if 'bilti_payment' in self.inputs:
