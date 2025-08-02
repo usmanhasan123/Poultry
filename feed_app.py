@@ -187,8 +187,8 @@ def main():
                         df=obj.fetch_feed_log()
                     elif st.session_state.updates==2: # update for mudasir feed
                         obj=feed_class(input_dict)
-                        obj1=debit_credit(input_dict)
                         obj.update_feed_table()
+                        obj1=debit_credit(input_dict)
                         obj1.update_credit_triggered_by_mudasir_log()
                         df=obj.fetch_feed_log()
                     elif st.session_state.updates==3: # update for masterfeed
