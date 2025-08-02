@@ -98,14 +98,14 @@ def main():
             st.session_state['show_warning']=False
     
         if st.session_state['process']==True:
-            df, df2=process(input_dict)
+            df, df2=process(copy.deepcopy(input_dict))
             colss=st.columns(2)
             colss[0].write(df)
             colss[1].write(df2)
             st.session_state['process']=False
 
         if st.session_state['log_balance']==True:
-            obj=debit_credit(input_dict)
+            obj=debit_credit(copy.deepcopy(input_dict))
             obj.insert_debit()
             st.session_state['log_balance']=False
 
@@ -154,14 +154,14 @@ def main():
             st.session_state.update_balance=True
             # if st.session_state.update_report==True:
             if len(input_dict)>0:
-                df, df2=update_process(input_dict)
+                df, df2=update_process(copy.deepcopy(input_dict))
                 colss=st.columns(2)
                 colss[0].write(df)
                 colss[1].write(df2)
                 # st.session_state['update_report']=False
 
         if st.session_state['update_balance']==True:
-            obj=debit_credit(input_dict)
+            obj=debit_credit(copy.deepcopy(input_dict))
             obj.update_debit()
             st.session_state['update_balance']==False
         
