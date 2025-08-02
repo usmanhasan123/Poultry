@@ -4,6 +4,7 @@ import streamlit as st
 import datetime
 from get_and_upload_daily_production import production_class
 from debit_credit_class import debit_credit
+import copy
 
 def process(input_dict):
     obj=production_class(input_dict)
