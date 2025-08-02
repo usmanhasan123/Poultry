@@ -117,7 +117,7 @@ class debit_credit:
             max_id=int(max_id) # so that it is compatible with mysql
             max_id=max_id+1
         else:
-            max_id=56
+            max_id=54
             max_id=int(max_id)
         
         final_input={}
