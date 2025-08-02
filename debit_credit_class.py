@@ -189,7 +189,7 @@ class debit_credit:
             final_input['credit_date'] = self.inputs['date']
         # total_amount=self.feed_rate*bori_amount
         amount_paid=total_amount - bilti_payment
-        st.write(amount_paid)
+        # st.write(amount_paid)
         final_input['credit_amount'] = amount_paid
         final_input['car_number'] = self.inputs['car_number']
         columns_to_update=final_input.keys()
