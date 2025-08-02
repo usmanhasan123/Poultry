@@ -16,7 +16,6 @@ class debit_credit:
         self.inputs=inputs
         if 'date' in self.inputs:
             self.inputs['date']=str(self.inputs['date'])
-        rgrtgrsgrstt
         st.write(self.inputs['feed_bifurcation'])
         # self.feed_rate=5124.66
 
