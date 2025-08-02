@@ -56,7 +56,7 @@ def main():
                 paid_by=cols[1].selectbox("Paid by: ", ['Shahid', 'Siddiq'], key=f"paidby_{i}")
                 dispatch_receipt=cols[2].text_input("dispatch receipt: ", key=f"dispatch_{i}")
                 for j, k in enumerate(products):
-                    bori_amount=cols[3+j].number_input(f"amount (bori) {k}: ", key=f"bori_{j}")
+                    bori_amount=cols[3+j].number_input(f"amount (bori) {k}: ", key=f"bori_{i}_{j}")
                     bori_dict[k]: bori_amount
                     tot_bori_amount=tot_bori_amount+bori_amount
 
