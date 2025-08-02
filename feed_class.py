@@ -75,13 +75,13 @@ class feed_class:
             recs.append(tuple(a))
         
         recs2=[]
-        for i in recs:
+        for l, i in enumerate(recs):
             k=1
             dictt={}
             for j in i:
                 dictt[str(k)]=j
                 k=k+1
-            dictt['5'] = json.dumps(self.inputs[input_keys[i]]['feed_bifurcation'])
+            dictt['5'] = json.dumps(self.inputs[input_keys[l]]['feed_bifurcation'])
             recs2.append(dictt)
         # query_del="delete from feed_log where car_number=:1"
         # rec_del=
