@@ -35,7 +35,7 @@ class debit_credit:
             int(max_id)
             max_id=int(max_id) # so that it is compatible with mysql
             max_id=max_id+1
-        except valueError:
+        except ValueError:
             max_id=19
             max_id=int(max_id)
         
@@ -122,7 +122,7 @@ class debit_credit:
             int(max_id)
             max_id=int(max_id) # so that it is compatible with mysql
             max_id=max_id+1
-        except valueError:
+        except ValueError:
             max_id=54
             max_id=int(max_id)
         
