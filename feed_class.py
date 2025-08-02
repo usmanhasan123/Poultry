@@ -39,10 +39,11 @@ class feed_class:
         feed_rate = self.extract_feed_rate()
         feed_rate=feed_rate[feed_rate['feed_provider']=='Mudasir']
         max_car_no=feed_df['car_number'].max()
-        if ('int' in str(type(max_car_no))) or ('float' in str(type(max_car_no))):
+        try:
+            int(max_car_no)
             max_car_no=int(max_car_no) # so that it is compatible with mysql
             max_car_no=max_car_no+1
-        else:
+        except ValueError:
             max_car_no=53
             max_car_no=int(max_car_no)
         # self.inputs['date']=self.inputs['date'].strftime("%Y-%m-%d")
