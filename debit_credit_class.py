@@ -15,7 +15,7 @@ class debit_credit:
         self.inputs=inputs
         if 'date' in self.inputs:
             self.inputs['date']=str(self.inputs['date'])
-        self.feed_rate=5124.66
+        # self.feed_rate=5124.66
 
     @staticmethod
     def create_connection():
