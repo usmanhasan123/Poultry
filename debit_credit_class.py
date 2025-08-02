@@ -16,6 +16,7 @@ class debit_credit:
         if 'date' in self.inputs:
             self.inputs['date']=str(self.inputs['date'])
         # self.feed_rate=5124.66
+        st.write(self.inputs['feed_bifurcation'])
 
     @staticmethod
     def create_connection():
@@ -166,7 +167,7 @@ class debit_credit:
         # else:
         #     bori_amount=int(df['amount'].iloc[0])
         if 'feed_bifurcation' in self.inputs:
-            st.write(self.inputs['feed_bifurcation'])
+            # st.write(self.inputs['feed_bifurcation'])
             for i,j in enumerate(self.inputs['feed_bifurcation'].keys()):
                 xx=feed_rate[feed_rate['id']==int(feed_rate[feed_rate['product_name']==j]['id'].max())]
                 ratee = (xx['rate'].iloc[0] - (xx['rate'].iloc[0] * (xx['discount']/100))) + xx['gst_per_bag'].iloc[0]
