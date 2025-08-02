@@ -49,6 +49,7 @@ class feed_class:
         for i in self.inputs:
             total_amount=0
             if type(self.inputs[i])==dict:
+                st.write("hello")
                 st.write(self.inputs[i]['feed_bifurcation'])
                 for j in self.inputs[i]['feed_bifurcation'].keys():
                     xx=feed_rate[feed_rate['id']==int(feed_rate[feed_rate['product_name']==j]['id'].max())]
