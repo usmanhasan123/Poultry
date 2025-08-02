@@ -5,7 +5,6 @@ import pyodbc
 import mysql.connector
 from urllib.parse import quote_plus
 from sqlalchemy import create_engine, text
-import streamlit as st
 
 from get_and_upload_daily_production import production_class
 from feed_class import feed_class
@@ -16,7 +15,6 @@ class debit_credit:
         if 'date' in self.inputs:
             self.inputs['date']=str(self.inputs['date'])
         # self.feed_rate=5124.66
-        st.write(self.inputs['feed_bifurcation'])
 
     @staticmethod
     def create_connection():
