@@ -186,6 +186,7 @@ def main():
                         obj.update_feed_arrival()
                         df=obj.fetch_feed_log()
                     elif st.session_state.updates==2: # update for mudasir feed
+                        st.write(input_dict['feed_bifurcation'])
                         obj=feed_class(input_dict)
                         obj.update_feed_table()
                         st.write(input_dict['feed_bifurcation'])
