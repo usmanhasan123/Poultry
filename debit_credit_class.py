@@ -116,7 +116,7 @@ class debit_credit:
         # remove this if statement later. replace with:
         #  max_id=int(max_id) # so that it is compatible with mysql
         # max_id=max_id+1
-        if 'int' in str(type(max_id)):
+        if ('int' in str(type(max_id))) or ('float' in str(type(max_id))):
             max_id=int(max_id) # so that it is compatible with mysql
             max_id=max_id+1
         else:
