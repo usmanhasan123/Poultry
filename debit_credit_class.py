@@ -132,7 +132,7 @@ class debit_credit:
                 for j in self.inputs[i]['feed_bifurcation'].keys():
                     xx=feed_rate[feed_rate['id']==int(feed_rate[feed_rate['product_name']==j]['id'].max())]
                     ratee = (xx['rate'].iloc[0] - (xx['rate'].iloc[0] * (xx['discount']/100))) + xx['gst_per_bag'].iloc[0]
-                    amount_for_feed=rate*self.inputs[i]['feed_bifurcation'][j]
+                    amount_for_feed=ratee.iloc[0]*self.inputs[i]['feed_bifurcation'][j]
                     total_amount=total_amount+amount_for_feed                
                 # total_amount=self.feed_rate*self.inputs[i]['bori_amount']
                 amount_paid=total_amount - self.inputs[i]['bilti_payment']
