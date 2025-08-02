@@ -15,7 +15,7 @@ class feed_class:
         self.inputs=inputs
         if 'date' in self.inputs:
             self.inputs['date']=str(self.inputs['date'])
-        self.feed_rate=5124.66
+        # self.feed_rate=5124.66
         # d1=self.inputs['date'].split('(')[1]
         # d1=d1.split(')')[0]
         # d1=d1.replace(', ', '-')
