@@ -9,11 +9,15 @@ from sqlalchemy import create_engine, text
 from get_and_upload_daily_production import production_class
 from feed_class import feed_class
 
+import streamlit as st
+
 class debit_credit:
     def __init__(self, inputs):
         self.inputs=inputs
         if 'date' in self.inputs:
             self.inputs['date']=str(self.inputs['date'])
+
+        st.write(self.inputs['feed_bifurcation'])
         # self.feed_rate=5124.66
 
     @staticmethod
