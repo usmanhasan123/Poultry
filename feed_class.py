@@ -62,7 +62,7 @@ class feed_class:
                 self.inputs[i]['amount_paid'] = amount_paid
                 self.inputs[i]['status']='DISPATCHED'
                 self.inputs[i]['car_number']=max_car_no
-                # self.inputs[i]['feed_bifurcation']=json.dumps(self.inputs[i]['feed_bifurcation'])
+                self.inputs[i]['feed_bifurcation']=json.dumps(self.inputs[i]['feed_bifurcation'])
                 input_keys.append(i)
                 recs=[]
                 max_car_no=max_car_no+1
@@ -82,7 +82,7 @@ class feed_class:
             for j in i:
                 dictt[str(k)]=j
                 k=k+1
-            dictt['5'] = json.dumps(self.inputs[input_keys[l]]['feed_bifurcation'])
+            # dictt['5'] = json.dumps(self.inputs[input_keys[l]]['feed_bifurcation'])
             recs2.append(dictt)
         # query_del="delete from feed_log where car_number=:1"
         # rec_del=
@@ -168,12 +168,13 @@ class feed_class:
             amount_paid = total_amount - float(df['bilti_payment'].iloc[0])
         self.inputs['total_amount'] = total_amount
         self.inputs['amount_paid'] = amount_paid
-        # self.inputs['feed_bifurcation']=json.dumps(self.inputs['feed_bifurcation'])
+        if 'feed_bifurcation' in self.inputs:
+            self.inputs['feed_bifurcation']=json.dumps(self.inputs['feed_bifurcation'])
         columns_to_update=self.inputs.keys()
         set_clause = ', '.join(f"{i}=:{i}" for i in columns_to_update if i != 'car_number')
         query = f"update feed_log set {set_clause} where car_number=:car_number"
-        recs=self.inputs
-        recs['feed_bifurcation'] = json.dumps(self.inputs['feed_bifurcation'])
+        # recs=self.inputs
+        # recs['feed_bifurcation'] = json.dumps(self.inputs['feed_bifurcation'])
         # recs=[{'1': self.inputs['arrival_date'], '2': self.inputs['arrival_receipt'], '3': 'ARRIVED', '4': self.inputs['car_number']}]
 
         with conn.connect() as con:
