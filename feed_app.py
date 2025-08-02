@@ -55,10 +55,10 @@ def main():
                 bilti_payment=cols[0].number_input("Bilti payment: ", key=f"bilti_{i}")
                 paid_by=cols[1].selectbox("Paid by: ", ['Shahid', 'Siddiq'], key=f"paidby_{i}")
                 dispatch_receipt=cols[2].text_input("dispatch receipt: ", key=f"dispatch_{i}")
-                st.write(products[0])
+                
                 for j, k in enumerate(products):
                     bori_amount=cols[3+j].number_input(f"amount (bori) {k}: ", key=f"bori_{i}_{j}")
-                    bori_dict[k]: bori_amount
+                    bori_dict[k]= bori_amount
                     tot_bori_amount=tot_bori_amount+bori_amount
 
                 input_dict[f"{i+1}st feed"]={"bori_amount": tot_bori_amount, "bilti_payment": bilti_payment, "paid_by":paid_by, "dispatch_receipt":dispatch_receipt, "feed_bifurcation": bori_dict}
