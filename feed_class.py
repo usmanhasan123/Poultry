@@ -81,7 +81,7 @@ class feed_class:
             for j in i:
                 dictt[str(k)]=j
                 k=k+1
-            dictt['5'] = json.dumps(self.inputs[i]['feed_bifurcation'])
+            dictt['5'] = json.dumps(self.inputs[input_keys[i]]['feed_bifurcation'])
             recs2.append(dictt)
         # query_del="delete from feed_log where car_number=:1"
         # rec_del=
