@@ -4,6 +4,7 @@ import streamlit as st
 import datetime
 from feed_class import feed_class
 from debit_credit_class import debit_credit
+import copy
 
 def main():
     st.set_page_config(page_title="Feed Logs", page_icon=":robot:")
@@ -66,12 +67,12 @@ def main():
         if st.button("Submit", key='submit_key_feed'):
             if len(input_dict)>0:
                 if st.session_state.is_masterfeed==True:
-                    obj=feed_class(input_dict)
+                    obj=feed_class(copy.deepcopy(input_dict))
                     obj.insert_in_feed_log_master()
                     df=obj.fetch_feed_log_master()
                 else:
-                    obj=feed_class(input_dict)
-                    obj1=debit_credit(input_dict)
+                    obj=feed_class(copy.deepcopy(input_dict))
+                    obj1=debit_credit(copy.deepcopy(input_dict))
                     obj.insert_in_feed_log()
                     obj1.insert_credit_triggered_by_mudasir_log()
                     df=obj.fetch_feed_log()                    
@@ -186,18 +187,13 @@ def main():
                         obj.update_feed_arrival()
                         df=obj.fetch_feed_log()
                     elif st.session_state.updates==2: # update for mudasir feed
-                        # a1=input_dict.copy()
-                        # a2=input_dict.copy()
-                        st.write(input_dict['feed_bifurcation'])
-                        obj=feed_class(input_dict)
-                        st.write(input_dict['feed_bifurcation'])
-                        obj1=debit_credit(input_dict)
+                        obj=feed_class(copy.deepcopy(input_dict))
+                        obj1=debit_credit(copy.deepcopy(input_dict))
                         obj.update_feed_table()
-                        st.write(input_dict['feed_bifurcation'])
                         obj1.update_credit_triggered_by_mudasir_log()
                         df=obj.fetch_feed_log()
                     elif st.session_state.updates==3: # update for masterfeed
-                        obj=feed_class(input_dict)
+                        obj=feed_class(copy.deepcopy(input_dict))
                         obj.update_feed_table_master()
                         df=obj.fetch_feed_log_master()
                     else:
