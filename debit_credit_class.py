@@ -106,7 +106,7 @@ class debit_credit:
     def insert_credit_triggered_by_mudasir_log(self): # when we buy feed
         conn=self.create_connection()
         dff=self.fetch_debit_credit_log()
-        feed_rate = self.extract_feed_rate()
+        feed_rate = feed_class.extract_feed_rate()
         feed_rate=feed_rate[feed_rate['feed_provider']=='Mudasir']
         max_id=dff['car_number'].max()
         # remove this if statement later. replace with:
@@ -156,7 +156,7 @@ class debit_credit:
         conn=self.create_connection()
         dff=feed_class.fetch_feed_log()
         df=dff[dff['car_number']==self.inputs['car_number']]
-        feed_rate = self.extract_feed_rate()
+        feed_rate = feed_class.extract_feed_rate()
         feed_rate=feed_rate[feed_rate['feed_provider']=='Mudasir']
         final_input={}
         total_amount=0
