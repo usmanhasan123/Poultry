@@ -46,7 +46,7 @@ def main():
                     st.write(df)
             st.session_state.insert_custom_debit=False
             
-        if st.session_state.insert_custom_debit==True:
+        if st.session_state.insert_custom_credit==True:
             st.write('TBD')
 
     with tab2:
