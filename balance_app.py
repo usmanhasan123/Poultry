@@ -4,6 +4,7 @@ os.chdir('./')
 import streamlit as st
 import datetime
 from debit_credit_class import debit_credit
+import copy
     
 def main():
     st.set_page_config(page_title="Balance Sheet", page_icon=":robot:")
