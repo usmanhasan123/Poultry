@@ -164,7 +164,7 @@ def main():
                         bilti=cols[i].number_input("bilti payment", key='bilti_')
                         input_dict['bilti_payment']=bilti
                     elif j=='feed bifurcation':
-                        products=st.multiselect("Product: ", ['LAYER CHICKS CRUMBS', 'LAYER CRUMBS (CONTROL)'],default=['LAYER CRUMBS (CONTROL)'], key="product_")
+                        products=st.multiselect("Product: ", ["LAYER CHICKS CRUMBS", "LAYER CRUMBS (CONTROL)"],default=["LAYER CRUMBS (CONTROL)"], key="product_")
                         if len(products)==0:
                             cols2=st.columns(1)
                         else:
