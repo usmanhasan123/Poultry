@@ -206,7 +206,7 @@ class debit_credit:
             con.execute(text(query), final_input)
             con.commit()
 
-    def insert_custom_debit():
+    def insert_custom_debit(self):
         conn=self.create_connection()
         dff=self.fetch_debit_credit_log()
         max_id=dff['custom_debit_id'].max()
@@ -233,7 +233,7 @@ class debit_credit:
             con.execute(text(query), final_input)
             con.commit()
 
-    def update_custom_debit():
+    def update_custom_debit(self):
         conn=self.create_connection()
         columns_to_update=self.inputs.keys()
         set_clause = ', '.join(f"{i}=:{i}" for i in columns_to_update if i != 'custom_debit_id')
