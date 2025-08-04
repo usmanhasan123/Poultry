@@ -23,8 +23,10 @@ def main():
     with tab1:
         if st.button("Insert Debit"):
             st.session_state.insert_custom_debit=True
+            st.session_state.insert_custom_credit=False
         if st.button("Insert Credit"):
             st.session_state.insert_custom_credit=True
+            st.session_state.insert_custom_debit=False
     
         if st.session_state.insert_custom_debit==True:
             input_dict={}
