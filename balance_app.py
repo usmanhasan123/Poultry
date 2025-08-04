@@ -29,7 +29,7 @@ def main():
         if st.session_state.insert_custom_debit==True:
             input_dict={}
             cols=st.columns(4)
-            debit_date=cols[0].date_input("debit date: ",value= datetime.date.today(), key="debit_date_input")
+            debit_date=cols[0].date_input("debit date: ",max_value= datetime.date.today(), key="debit_date_input")
             debit_descr=cols[1].text_input("debit description: ", key="deb_descr_input")
             debit_amount=cols[2].number_input("debit amount: ", key="deb_amount")
             party=cols[3].selectbox("Party: ", ['Siddiq', 'Masterfeed', 'Mudasir', 'Zulfi'], key="part_deb")
