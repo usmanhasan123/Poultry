@@ -54,8 +54,10 @@ def main():
     with tab2:
         if st.button("Update Debit"):
             st.session_state.update_custom_debit=True
+            st.session_state.update_custom_credit=False
         if st.button("Update Credit"):
             st.session_state.update_custom_credit=True
+            st.session_state.update_custom_debit=False
     
         if st.session_state.update_custom_debit==True:
             input_dict={}
