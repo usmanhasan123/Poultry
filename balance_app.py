@@ -87,7 +87,7 @@ def main():
                     st.write(df)
             st.session_state.update_custom_debit==False
 
-        if st.session_state.update_custom_credit=True:
+        if st.session_state.update_custom_credit==True:
             st.write('TBD')
     
   
