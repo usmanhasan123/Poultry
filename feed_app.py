@@ -200,7 +200,7 @@ def main():
                         pass
                 else:
                     pass
-                st.write(df)
+                st.write(df) # can include this inside the if condition
 
     
     if st.button('Show feed logs'):
