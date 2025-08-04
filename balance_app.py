@@ -44,7 +44,7 @@ def main():
                     obj.insert_custom_debit()
                     df = obj.fetch_debit_credit_log()
                     st.write(df)
-            st.session_state.insert_custom_debit=False
+            # st.session_state.insert_custom_debit=False
             
         if st.session_state.insert_custom_credit==True:
             st.write('TBD')
@@ -85,7 +85,7 @@ def main():
                     obj.update_custom_debit()
                     df = obj.fetch_debit_credit_log()
                     st.write(df)
-            st.session_state.update_custom_debit==False
+            # st.session_state.update_custom_debit==False
 
         if st.session_state.update_custom_credit==True:
             st.write('TBD')
