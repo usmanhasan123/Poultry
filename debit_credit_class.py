@@ -220,7 +220,7 @@ class debit_credit:
             max_id=int(max_id)
 
         final_input={}
-        final_input['debit_date']=self.inputs['date']
+        final_input['debit_date']=self.inputs['debit_date']
         final_input['debit_description'] = self.inputs['debit_descr']
         final_input['debit_amount'] = self.inputs['debit_amount']
         final_input['party'] = self.inputs['party']
