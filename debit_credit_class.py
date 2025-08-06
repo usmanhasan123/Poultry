@@ -330,8 +330,8 @@ class debit_credit:
 
         columns_to_update=final_input.keys()
         if len(columns_to_update)>1:
-            set_clause = ', '.join(f"{i}=:{i}" for i in columns_to_update if i != 'custom_credit_id')
-            query = f"update debit_credit_table set {set_clause} where masterfeed_id=:custom_credit_id"
+            set_clause = ', '.join(f"{i}=:{i}" for i in columns_to_update if i != 'masterfeed_id')
+            query = f"update debit_credit_table set {set_clause} where masterfeed_id=:masterfeed_id"
             # recs=[{'1': self.inputs['arrival_date'], '2': self.inputs['arrival_receipt'], '3': 'ARRIVED', '4': self.inputs['car_number']}]
     
             with conn.connect() as con:
