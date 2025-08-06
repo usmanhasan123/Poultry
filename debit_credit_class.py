@@ -320,6 +320,7 @@ class debit_credit:
     def update_mf_records(x):
         conn=production_class.create_connection()
         final_input={}
+        final_input['masterfeed_id']=x['custom_credit_id']
         if 'credit_date' in x.keys():
             final_input['debit_date']=x['credit_date']
         if 'party' in x.keys():
@@ -328,7 +329,7 @@ class debit_credit:
             final_input['debit_amount']=x['credit_amount']
 
         columns_to_update=final_input.keys()
-        if columns_to_update:
+        if len(columns_to_update)>1:
             set_clause = ', '.join(f"{i}=:{i}" for i in columns_to_update if i != 'custom_credit_id')
             query = f"update debit_credit_table set {set_clause} where masterfeed_id=:custom_credit_id"
             # recs=[{'1': self.inputs['arrival_date'], '2': self.inputs['arrival_receipt'], '3': 'ARRIVED', '4': self.inputs['car_number']}]
