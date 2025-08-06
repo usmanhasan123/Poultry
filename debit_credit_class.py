@@ -296,7 +296,7 @@ class debit_credit:
 
         final_input={}
         final_input['debit_date']=self.inputs['credit_date']
-        final_input['debit_description'] = self.inputs['credit_descr'] ##
+        final_input['debit_description'] = 'Paid by ' + self.inputs['party']
         final_input['debit_amount'] = self.inputs['credit_amount']
         final_input['party'] = 'Masterfeed'
         # final_input['week'] = int(pd.to_datetime(self.inputs['date']).strftime("%W"))
@@ -308,14 +308,67 @@ class debit_credit:
             con.execute(text(query), final_input)
             con.commit()
 
+    @staticmethod
+    def delete_mf_record(x):
+        conn=production_class.create_connection()
+        query = "delete from debit_credit_table if masterfeed_id=:masterfeed_id"
+        id_dict={'masterfeed_id': x}
+        with conn.connect() as con:
+            con.execute(text(query), id_dict)
+            con.commit()
+    @staticmethod
+    def update_mf_records(x):
+        conn=production_class.create_connection()
+        columns_to_update=x.keys()
+        set_clause = ', '.join(f"{i}=:{i}" for i in columns_to_update if i != 'custom_credit_id')
+        query = f"update debit_credit_table set {set_clause} where masterfeed_id=:custom_credit_id"
+        # recs=[{'1': self.inputs['arrival_date'], '2': self.inputs['arrival_receipt'], '3': 'ARRIVED', '4': self.inputs['car_number']}]
+
+        with conn.connect() as con:
+            con.execute(text(query), x)
+            con.commit()
+    @staticmethod
+    def insert_mf_records(dff2):
+        final_input={}
+        final_input['debit_date']=dff2['credit_date'].iloc[0]
+        final_input['debit_description']='Paid by ' + dff2['party'].iloc[0]
+        final_input['debit_amount']=dff2['credit_amount']
+        final_input['party'] = 'Masterfeed'
+        final_input['credit_amount'] = 0
+        final_input['masterfeed_id']=dff2['custom_credit_id']
+        query = "insert into debit_credit_table (debit_date, debit_description, debit_amount, party, credit_amount, masterfeed_id) \
+        values (:debit_date, :debit_description, :debit_amount, :party, :credit_amount, :masterfeed_id)"
+        with conn.connect() as con:
+            con.execute(text(query), final_input)
+            con.commit()
+            
     def update_debit_triggered_by_custom_credit_mf(self):
         conn=self.create_connection()
         dff=self.fetch_debit_credit_log()
-        dff=dff[dff['masterfeed_id']==self.inputs['custom_credit_id']]
-        if len(dff)>0:
-            mf_list=['masterfeed', 'Masterfeed', 'MasterFeed', 'masterFeed', 'MASTERFEED', 'MF']
+        dff1=dff[dff['masterfeed_id']==self.inputs['custom_credit_id']]
+        dff2=dff[dff['custom_credit_id']==self.inputs['custom_credit_id']]
+        mf_list=['masterfeed', 'Masterfeed', 'MasterFeed', 'masterFeed', 'MASTERFEED', 'MF']
+        if len(dff1)>0:
             if 'credit_description' in self.inputs.keys():
-                [i for i in mf_list if i in self.inputs['credit_description']]
+                mf_in_cred_decsr=[i for i in mf_list if i in self.inputs['credit_description']]
+                if not mf_in_cred_decsr:
+                    self.delete_mf_record(self.inputs['custom_credit_id'])
+                    # delet mf record for that masterfeed id
+                else:
+                    self.update_mf_records(self.inputs)
+                    # udpate all details
+            else:
+                self.update_mf_records(self.inputs)
+                # chane other details
+        
+        else:
+            if 'credit_description' in self.inputs.keys():
+                mf_in_cred_decsr=[i for i in mf_list if i in self.inputs['credit_description']]
+                if mf_in_cred_decsr:
+                    self.insert_mf_records(dff2)
+                    # create mf record
+            
+           
             
             
     @staticmethod
