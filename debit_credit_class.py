@@ -326,6 +326,8 @@ class debit_credit:
             final_input['debit_description']='Paid by' + x['party']
         if 'credit_amount' in x.keys():
             final_input['debit_amount']=x['credit_amount']
+        else:
+            break
         columns_to_update=final_input.keys()
         set_clause = ', '.join(f"{i}=:{i}" for i in columns_to_update if i != 'custom_credit_id')
         query = f"update debit_credit_table set {set_clause} where masterfeed_id=:custom_credit_id"
