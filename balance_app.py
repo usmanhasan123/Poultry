@@ -50,7 +50,27 @@ def main():
             # st.session_state.insert_custom_debit=False
             
         if st.session_state.insert_custom_credit==True:
-            st.write('TBD')
+            input_dict={}
+            cols=st.columns(4)
+            credit_date=cols[0].date_input("credit date: ",max_value= datetime.date.today(), key="credit_date_input")
+            credit_descr=cols[1].text_input("credit description: ", key="cred_descr_input")
+            credit_amount=cols[2].number_input("credit amount: ", key="cred_amount")
+            party=cols[3].selectbox("Party: ", ['Siddiq', 'Masterfeed', 'Mudasir', 'Zulfi'], key="part_cred")
+            input_dict['credit_date']=credit_date
+            input_dict['credit_descr']=credit_descr
+            input_dict['credit_amount']=credit_amount
+            input_dict['party']=party
+    
+            if st.button("Submit", key='submit_key_ins_debit'):
+                if len(input_dict)>0:
+                    obj=debit_credit(copy.deepcopy(input_dict))
+                    obj.insert_custom_credit()
+                    # mf_list=['masterfeed', 'Masterfeed', 'MasterFeed', 'masterFeed', 'MASTERFEED', 'MF']
+                    # mf_in_cred_descr=[i for i in mf_list if i in credit_descr]
+                    # if mf_in_cred_descr:
+                    # obj.insert_debit_for_masterfeed()
+                    df = obj.fetch_debit_credit_log()
+                    st.write(df)
 
     with tab2:
         if st.button("Update Debit"):
