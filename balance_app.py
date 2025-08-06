@@ -65,10 +65,10 @@ def main():
                 if len(input_dict)>0:
                     obj=debit_credit(copy.deepcopy(input_dict))
                     obj.insert_custom_credit()
-                    # mf_list=['masterfeed', 'Masterfeed', 'MasterFeed', 'masterFeed', 'MASTERFEED', 'MF']
-                    # mf_in_cred_descr=[i for i in mf_list if i in credit_descr]
-                    # if mf_in_cred_descr:
-                    # obj.insert_debit_for_masterfeed()
+                    mf_list=['masterfeed', 'Masterfeed', 'MasterFeed', 'masterFeed', 'MASTERFEED', 'MF']
+                    mf_in_cred_descr=[i for i in mf_list if i in credit_descr]
+                    if mf_in_cred_descr:
+                        obj.insert_debit_triggered_by_custom_credit_mf()
                     df = obj.fetch_debit_credit_log()
                     st.write(df)
 
