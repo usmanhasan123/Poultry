@@ -311,7 +311,7 @@ class debit_credit:
     @staticmethod
     def delete_mf_record(x):
         conn=production_class.create_connection()
-        query = "delete from debit_credit_table if masterfeed_id=:masterfeed_id"
+        query = "delete from debit_credit_table where masterfeed_id=:masterfeed_id"
         id_dict={'masterfeed_id': x}
         with conn.connect() as con:
             con.execute(text(query), id_dict)
