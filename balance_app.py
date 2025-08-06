@@ -140,6 +140,7 @@ def main():
                 if len(input_dict)>0:
                     obj=debit_credit(copy.deepcopy(input_dict))
                     obj.update_custom_credit()
+                    obj.update_debit_triggered_by_custom_credit_mf()
                     df = obj.fetch_debit_credit_log()
                     st.write(df)
     
