@@ -282,6 +282,32 @@ class debit_credit:
             con.execute(text(query), self.inputs)
             con.commit()
 
+    def insert_debit_triggered_by_custom_credit_mf(self):
+        conn=self.create_connection()
+        dff=self.fetch_debit_credit_log()
+        max_id=dff['custom_credit_id'].max()
+        
+        try:
+            int(max_id)
+            max_id=int(max_id) # so that it is compatible with mysql
+        except ValueError:
+            max_id=1
+            max_id=int(max_id)
+
+        final_input={}
+        final_input['debit_date']=self.inputs['credit_date']
+        final_input['debit_description'] = self.inputs['credit_descr'] ##
+        final_input['debit_amount'] = self.inputs['credit_amount']
+        final_input['party'] = 'Masterfeed'
+        # final_input['week'] = int(pd.to_datetime(self.inputs['date']).strftime("%W"))
+        final_input['credit_amount'] = 0
+        final_input['masterfeed_id'] = max_id
+        query = "insert into debit_credit_table (debit_date, debit_description, debit_amount, party, credit_amount, masterfeed_id) \
+        values (:debit_date, :debit_description, :debit_amount, :party, :credit_amount, :masterfeed_id)"
+        with conn.connect() as con:
+            con.execute(text(query), final_input)
+            con.commit()
+            
     @staticmethod
     def fetch_debit_credit_log():
         conn=production_class.create_connection()
