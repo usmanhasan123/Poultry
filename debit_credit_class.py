@@ -329,6 +329,7 @@ class debit_credit:
             con.commit()
     @staticmethod
     def insert_mf_records(dff2):
+        conn=production_class.create_connection()
         final_input={}
         final_input['debit_date']=dff2['credit_date'].iloc[0]
         final_input['debit_description']='Paid by ' + dff2['party'].iloc[0]
