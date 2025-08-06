@@ -313,6 +313,7 @@ class debit_credit:
         dff=self.fetch_debit_credit_log()
         dff=dff[dff['masterfeed_id']==self.inputs['custom_credit_id']]
         if len(dff)>0:
+            mf_list=['masterfeed', 'Masterfeed', 'MasterFeed', 'masterFeed', 'MASTERFEED', 'MF']
             
             
     @staticmethod
