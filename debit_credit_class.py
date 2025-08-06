@@ -319,13 +319,20 @@ class debit_credit:
     @staticmethod
     def update_mf_records(x):
         conn=production_class.create_connection()
-        columns_to_update=x.keys()
+        final_input={}
+        if 'credit_date' in x.keys():
+            final_input['debit_date']=x['credit_date']
+        if 'party' in x.keys():
+            final_input['debit_description']='Paid by' + x['party']
+        if 'credit_amount' in x.keys():
+            final_input['debit_amount']=x['credit_amount']
+        columns_to_update=final_input.keys()
         set_clause = ', '.join(f"{i}=:{i}" for i in columns_to_update if i != 'custom_credit_id')
         query = f"update debit_credit_table set {set_clause} where masterfeed_id=:custom_credit_id"
         # recs=[{'1': self.inputs['arrival_date'], '2': self.inputs['arrival_receipt'], '3': 'ARRIVED', '4': self.inputs['car_number']}]
 
         with conn.connect() as con:
-            con.execute(text(query), x)
+            con.execute(text(query), final_input)
             con.commit()
     @staticmethod
     def insert_mf_records(dff2):
