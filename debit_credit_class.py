@@ -314,6 +314,8 @@ class debit_credit:
         dff=dff[dff['masterfeed_id']==self.inputs['custom_credit_id']]
         if len(dff)>0:
             mf_list=['masterfeed', 'Masterfeed', 'MasterFeed', 'masterFeed', 'MASTERFEED', 'MF']
+            if 'credit_description' in self.inputs.keys():
+                [i for i in mf_list if i in self.inputs['credit_description']]
             
             
     @staticmethod
