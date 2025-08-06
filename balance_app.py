@@ -101,7 +101,7 @@ def main():
                     debit_amount=cols[i].number_input("debit amount: ", key="deb_amount_")
                     input_dict['debit_amount']=debit_amount
                 elif j=='Party':
-                    party=cols[i].number_input("Party: ", key='party_')
+                    party=cols[i].number_input("Party: ", key='party_upd_deb')
                     input_dict['party']=party
     
             if st.button("Submit", key='submit_key_upd_debit'):
@@ -113,7 +113,35 @@ def main():
             # st.session_state.update_custom_debit==False
 
         if st.session_state.update_custom_credit==True:
-            st.write('TBD')
+            input_dict={}
+            options=st.multiselect("What details do you want to change?", ['credit date', 'credit description', 'credit amount', 'Party'], 
+                                   default=['credit date'])
+            id=st.number_input('custom_credit_id: ', key='id_cred')
+            input_dict['custom_credit_id']=id
+            if len(options)==0:
+                cols=st.columns(1)
+            else:
+                cols=st.columns(len(options))
+            for i, j in enumerate(options):
+                if j=='credit date':
+                    date=cols[i].date_input("credit date: ", value=datetime.date.today(), max_value=datetime.date.today(), key='date_cred__')
+                    input_dict['credit_date']=date
+                elif j=='credit description':
+                    cred_descr=cols[i].text_input("credit description", key='cred_descr_')
+                    input_dict['credit_description']=cred_descr
+                elif j=='credit amount':
+                    credit_amount=cols[i].number_input("credit amount: ", key="cred_amount_")
+                    input_dict['credit_amount']=credit_amount
+                elif j=='Party':
+                    party=cols[i].number_input("Party: ", key='party_upd_cred')
+                    input_dict['party']=party
+    
+            if st.button("Submit", key='submit_key_upd_debit'):
+                if len(input_dict)>0:
+                    obj=debit_credit(copy.deepcopy(input_dict))
+                    obj.update_custom_credit()
+                    df = obj.fetch_debit_credit_log()
+                    st.write(df)
     
   
     
