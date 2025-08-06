@@ -244,6 +244,44 @@ class debit_credit:
             con.execute(text(query), self.inputs)
             con.commit()
 
+    def insert_custom_credit(self):
+        conn=self.create_connection()
+        dff=self.fetch_debit_credit_log()
+        max_id=dff['custom_credit_id'].max()
+
+        try:
+            int(max_id)
+            max_id=int(max_id) # so that it is compatible with mysql
+            max_id=max_id+1
+        except ValueError:
+            max_id=1
+            max_id=int(max_id)
+
+        final_input={}
+        final_input['credit_date']=self.inputs['credit_date']
+        final_input['credit_description'] = self.inputs['credit_descr'] ##
+        final_input['credit_amount'] = self.inputs['credit_amount']
+        final_input['party'] = self.inputs['party']
+        # final_input['week'] = int(pd.to_datetime(self.inputs['date']).strftime("%W"))
+        final_input['debit_amount'] = 0
+        final_input['custom_credit_id'] = max_id
+        query = "insert into debit_credit_table (credit_date, credit_description, credit_amount, party, debit_amount, custom_credit_id) \
+        values (:credit_date, :credit_description, :credit_amount, :party, :debit_amount, :custom_credit_id)"
+        with conn.connect() as con:
+            con.execute(text(query), final_input)
+            con.commit()
+
+    def update_custom_credit(self):
+        conn=self.create_connection()
+        columns_to_update=self.inputs.keys()
+        set_clause = ', '.join(f"{i}=:{i}" for i in columns_to_update if i != 'custom_credit_id')
+        query = f"update debit_credit_table set {set_clause} where custom_credit_id=:custom_credit_id"
+        # recs=[{'1': self.inputs['arrival_date'], '2': self.inputs['arrival_receipt'], '3': 'ARRIVED', '4': self.inputs['car_number']}]
+
+        with conn.connect() as con:
+            con.execute(text(query), self.inputs)
+            con.commit()
+
     @staticmethod
     def fetch_debit_credit_log():
         conn=production_class.create_connection()
