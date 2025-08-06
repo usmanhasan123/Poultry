@@ -307,6 +307,13 @@ class debit_credit:
         with conn.connect() as con:
             con.execute(text(query), final_input)
             con.commit()
+
+    def update_debit_triggered_by_custom_credit_mf(self):
+        conn=self.create_connection()
+        dff=self.fetch_debit_credit_log()
+        dff=dff[dff['masterfeed_id']==self.inputs['custom_credit_id']]
+        if len(dff)>0:
+            
             
     @staticmethod
     def fetch_debit_credit_log():
