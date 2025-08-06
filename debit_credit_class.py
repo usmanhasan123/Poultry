@@ -333,10 +333,10 @@ class debit_credit:
         final_input={}
         final_input['debit_date']=dff2['credit_date'].iloc[0]
         final_input['debit_description']='Paid by ' + dff2['party'].iloc[0]
-        final_input['debit_amount']=dff2['credit_amount']
+        final_input['debit_amount']=dff2['credit_amount'].iloc[0]
         final_input['party'] = 'Masterfeed'
         final_input['credit_amount'] = 0
-        final_input['masterfeed_id']=dff2['custom_credit_id']
+        final_input['masterfeed_id']=dff2['custom_credit_id'].iloc[0]
         query = "insert into debit_credit_table (debit_date, debit_description, debit_amount, party, credit_amount, masterfeed_id) \
         values (:debit_date, :debit_description, :debit_amount, :party, :credit_amount, :masterfeed_id)"
         with conn.connect() as con:
